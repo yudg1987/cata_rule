@@ -1,0 +1,3 @@
+[submodule "fzxt-config"]
+	path = fzxt-config
+	url = https://git.iflytek.com/ZFBG_FZ_XT/fzxt-config.git

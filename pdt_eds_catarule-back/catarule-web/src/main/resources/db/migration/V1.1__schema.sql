@@ -1,0 +1,2667 @@
+﻿/*
+Navicat Oracle Data Transfer
+Oracle Client Version : 11.1.0.7.0
+
+Source Server         : 10.101.7.28_oracle
+Source Server Version : 120100
+Source Host           : 10.101.7.28:1521
+Source Schema         : ZNBM310
+
+Target Server Type    : ORACLE
+Target Server Version : 120100
+File Encoding         : 65001
+
+Date: 2020-06-16 17:52:41
+*/
+
+
+-- ----------------------------
+-- Table structure for DIC_CASE_ELLE
+-- ----------------------------
+CREATE TABLE  "DIC_CASE_ELLE" (
+"F_TYPE" VARCHAR2(50 BYTE) NULL ,
+"F_TYPE_DESCRIPTION" VARCHAR2(50 BYTE) NULL ,
+"F_CODE" VARCHAR2(50 BYTE) NOT NULL ,
+"F_CODE_DESCRIPTION" VARCHAR2(50 BYTE) NULL ,
+"F_CREATE_TIME" TIMESTAMP(0)  NULL ,
+"F_UPDATE_TIME" TIMESTAMP(0)  NULL ,
+"F_IS_DELETE" NUMBER NULL
+);
+COMMENT ON TABLE  "DIC_CASE_ELLE" IS '案由关联字典表(要素抽取专用)';
+COMMENT ON COLUMN  "DIC_CASE_ELLE"."F_TYPE" IS '抽取文本类型';
+COMMENT ON COLUMN  "DIC_CASE_ELLE"."F_TYPE_DESCRIPTION" IS '抽取文本类型描述';
+COMMENT ON COLUMN  "DIC_CASE_ELLE"."F_CODE" IS '证据代码';
+COMMENT ON COLUMN  "DIC_CASE_ELLE"."F_CODE_DESCRIPTION" IS '证据代码描述';
+COMMENT ON COLUMN  "DIC_CASE_ELLE"."F_CREATE_TIME" IS '创建时间';
+COMMENT ON COLUMN  "DIC_CASE_ELLE"."F_UPDATE_TIME" IS '修改时间';
+COMMENT ON COLUMN  "DIC_CASE_ELLE"."F_IS_DELETE" IS '0:未删除1:已删除';
+
+-- ----------------------------
+-- Table structure for DIC_EVIDENCE_TYPE
+-- ----------------------------
+CREATE TABLE  "DIC_EVIDENCE_TYPE" (
+"CODE" VARCHAR2(60 BYTE) NOT NULL ,
+"NAME" VARCHAR2(300 BYTE) NULL ,
+"LVL" NUMBER NULL ,
+"PARENET_CODE" VARCHAR2(60 BYTE) NULL ,
+"DESCRIPT" VARCHAR2(300 BYTE) NULL ,
+"SEQ" NUMBER NULL ,
+"CREATE_TIME" TIMESTAMP(0)  DEFAULT SYSDATE  NULL ,
+"UPDATE_TIME" TIMESTAMP(0)  DEFAULT SYSDATE  NULL ,
+"IS_DISPLAY" NUMBER(1) DEFAULT 0  NULL ,
+"EXPORTED" NUMBER DEFAULT 0  NULL ,
+"IS_DELETE" NUMBER DEFAULT 0  NULL
+);
+COMMENT ON TABLE  "DIC_EVIDENCE_TYPE" IS '证据类型';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."CODE" IS '编号';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."NAME" IS '名称';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."LVL" IS '等级';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."PARENET_CODE" IS '父编号';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."DESCRIPT" IS '描述';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."SEQ" IS '序号';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."CREATE_TIME" IS '创建时间';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."UPDATE_TIME" IS '修改时间';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."IS_DISPLAY" IS '证据指引树节点中是否显示(0.不显示，1.显示)';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."EXPORTED" IS '是否导出 0：未导出 1：导出';
+COMMENT ON COLUMN  "DIC_EVIDENCE_TYPE"."IS_DELETE" IS '是否删除 0：未删除 1：删除';
+
+-- ----------------------------
+-- Table structure for ED_CASE_TYPE
+-- ----------------------------
+CREATE TABLE  "ED_CASE_TYPE" (
+"ID" NUMBER(10) NOT NULL ,
+"CODE" VARCHAR2(150 BYTE) NULL ,
+"NAME" VARCHAR2(150 BYTE) NULL ,
+"THIRD_CODE" VARCHAR2(150 BYTE) NULL
+);
+COMMENT ON COLUMN  "ED_CASE_TYPE"."CODE" IS '类型编码（如‘00’ 两位表示一个级别）';
+COMMENT ON COLUMN  "ED_CASE_TYPE"."NAME" IS '案件类型名';
+COMMENT ON COLUMN  "ED_CASE_TYPE"."THIRD_CODE" IS '三方案件类型';
+
+-- ----------------------------
+-- Table structure for ED_CATALOGUE
+-- ----------------------------
+CREATE TABLE  "ED_CATALOGUE" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"DOSSIER_ID" VARCHAR2(255 BYTE) NOT NULL ,
+"TYPE" NUMBER(10) NOT NULL ,
+"RESPONSIBLER" VARCHAR2(255 BYTE) NULL ,
+"DOCUMENT_NO" VARCHAR2(255 BYTE) NULL ,
+"DOCUMENT_DATE" VARCHAR2(255 BYTE) NULL ,
+"ROW_CODE" VARCHAR2(255 BYTE) NOT NULL ,
+"SEPARATE_CODE" VARCHAR2(255 BYTE) NOT NULL ,
+"REMARK" VARCHAR2(255 BYTE) NULL
+);
+
+-- ----------------------------
+-- Table structure for ED_CONFIG
+-- ----------------------------
+CREATE TABLE  "ED_CONFIG" (
+"ID" NUMBER(10) NOT NULL ,
+"NAME" VARCHAR2(192 BYTE) NULL ,
+"CONTENT" VARCHAR2(1536 BYTE) NULL ,
+"DES" VARCHAR2(1536 BYTE) NULL
+);
+COMMENT ON COLUMN  "ED_CONFIG"."NAME" IS '配置项类型';
+COMMENT ON COLUMN  "ED_CONFIG"."CONTENT" IS '系统配置内容';
+COMMENT ON COLUMN  "ED_CONFIG"."DES" IS '配置项描述';
+
+-- ----------------------------
+-- Table structure for ED_COURT
+-- ----------------------------
+CREATE TABLE  "ED_COURT" (
+"ID" NUMBER(10) NOT NULL ,
+"CODE" VARCHAR2(765 BYTE) NULL ,
+"HIGHER_CODE" VARCHAR2(765 BYTE) NULL ,
+"GRADE_CODE" VARCHAR2(765 BYTE) NULL ,
+"COURT_NAME" VARCHAR2(765 BYTE) NULL ,
+"NICK_NAME" VARCHAR2(765 BYTE) NULL
+);
+COMMENT ON COLUMN  "ED_COURT"."ID" IS '主键';
+COMMENT ON COLUMN  "ED_COURT"."CODE" IS '代码';
+COMMENT ON COLUMN  "ED_COURT"."HIGHER_CODE" IS '上级代码';
+COMMENT ON COLUMN  "ED_COURT"."GRADE_CODE" IS '分级码';
+COMMENT ON COLUMN  "ED_COURT"."COURT_NAME" IS '名称';
+COMMENT ON COLUMN  "ED_COURT"."NICK_NAME" IS '代字';
+
+-- ----------------------------
+-- Table structure for ED_COURT_AREA
+-- ----------------------------
+CREATE TABLE  "ED_COURT_AREA" (
+"ID" NUMBER(10) NOT NULL ,
+"COURT_NAME" VARCHAR2(765 BYTE) NOT NULL
+);
+COMMENT ON COLUMN  "ED_COURT_AREA"."ID" IS '主键';
+COMMENT ON COLUMN  "ED_COURT_AREA"."COURT_NAME" IS '法院名称';
+
+-- ----------------------------
+-- Table structure for ED_DELETE_FDFS
+-- ----------------------------
+CREATE TABLE  "ED_DELETE_FDFS" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"DOSSIER_ID" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"IMAGE_ID" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"IMAGE_PATH" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"OCR_PATH" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"CONT_PATH" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"ELLE_PATH" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"DPDF_PATH" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"CREATE_TIME" TIMESTAMP(0)  NULL
+);
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."DOSSIER_ID" IS '卷宗id';
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."IMAGE_ID" IS '图片id';
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."IMAGE_PATH" IS '对应的fastdfs地址';
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."OCR_PATH" IS 'ocr_res对应地址';
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."CONT_PATH" IS 'cont对应地址';
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."ELLE_PATH" IS 'elle对应地址';
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."DPDF_PATH" IS '双层pdf地址';
+COMMENT ON COLUMN  "ED_DELETE_FDFS"."CREATE_TIME" IS '创建时间';
+
+-- ----------------------------
+-- Table structure for ED_DIC_FOLDER
+-- ----------------------------
+CREATE TABLE  "ED_DIC_FOLDER" (
+"ID" NUMBER(10) NOT NULL ,
+"NAME" VARCHAR2(384 BYTE) NULL ,
+"SORT" NUMBER(10) NULL ,
+"DIC_LEVEL" NUMBER(10) NULL ,
+"PARENT_CODE" VARCHAR2(384 BYTE) NULL ,
+"CASE_TYPE" VARCHAR2(192 BYTE) NULL ,
+"DOSSIER_ID" NUMBER(10) NULL ,
+"CODE" VARCHAR2(765 BYTE) NULL ,
+"ARCHIVE_DEPT" NUMBER(10) DEFAULT NULL  NULL ,
+"IS_DEFAULT" NUMBER(10) NULL ,
+"VERSION" NUMBER(10) NULL
+);
+
+-- ----------------------------
+-- Table structure for ED_DIC_FOLDER_MAPPING
+-- ----------------------------
+CREATE TABLE  "ED_DIC_FOLDER_MAPPING" (
+"ID" NUMBER(10) NOT NULL ,
+"MAPING_NAME" VARCHAR2(765 BYTE) NULL ,
+"FOLDER_NAME" VARCHAR2(765 BYTE) NULL ,
+"IS_MAIN" NUMBER(10) DEFAULT 1  NULL ,
+"CASE_TYPE" VARCHAR2(300 BYTE) NULL ,
+"SORT" NUMBER(10) DEFAULT NULL  NULL
+);
+COMMENT ON COLUMN  "ED_DIC_FOLDER_MAPPING"."MAPING_NAME" IS '抽象标题';
+COMMENT ON COLUMN  "ED_DIC_FOLDER_MAPPING"."FOLDER_NAME" IS '文件夹名称';
+COMMENT ON COLUMN  "ED_DIC_FOLDER_MAPPING"."IS_MAIN" IS '是否为正卷规则（1:是；0:否），0表示为副卷规则';
+COMMENT ON COLUMN  "ED_DIC_FOLDER_MAPPING"."CASE_TYPE" IS '案件类型';
+COMMENT ON COLUMN  "ED_DIC_FOLDER_MAPPING"."SORT" IS '映射到同一目录规则下的顺序';
+
+-- ----------------------------
+-- Table structure for ED_DICTIONARY
+-- ----------------------------
+CREATE TABLE  "ED_DICTIONARY" (
+"ID" NUMBER(10) NOT NULL ,
+"CODE" VARCHAR2(192 BYTE) NULL ,
+"NAME" VARCHAR2(765 BYTE) NULL ,
+"SORT" NUMBER(10) NULL ,
+"LEVEL" NUMBER(10) NULL ,
+"PARENT_CODE" VARCHAR2(192 BYTE) NULL ,
+"EXTEND" VARCHAR2(765 BYTE) NULL ,
+"REMARK" VARCHAR2(765 BYTE) NULL
+);
+COMMENT ON COLUMN  "ED_DICTIONARY"."CODE" IS '字典编码 唯一键';
+COMMENT ON COLUMN  "ED_DICTIONARY"."NAME" IS '字典名称';
+COMMENT ON COLUMN  "ED_DICTIONARY"."SORT" IS '排序';
+COMMENT ON COLUMN  "ED_DICTIONARY"."LEVEL" IS '层级';
+COMMENT ON COLUMN  "ED_DICTIONARY"."PARENT_CODE" IS '父编码';
+COMMENT ON COLUMN  "ED_DICTIONARY"."EXTEND" IS '扩展字段';
+COMMENT ON COLUMN  "ED_DICTIONARY"."REMARK" IS '系统字典表';
+
+-- ----------------------------
+-- Table structure for ED_DOSSIER
+-- ----------------------------
+CREATE TABLE  "ED_DOSSIER" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"DOSSIER_NO" VARCHAR2(765 BYTE) NULL ,
+"COMMIT_TIME" TIMESTAMP(0)  NULL ,
+"UPDATE_TIME" TIMESTAMP(0)  NULL ,
+"CREATED_BY" VARCHAR2(192 BYTE) NULL ,
+"UPDATED_BY" VARCHAR2(192 BYTE) NULL ,
+"CATALOG_STATUS" NUMBER(10) NULL ,
+"OPERATOR" VARCHAR2(192 BYTE) NULL ,
+"DOSSIER_NAME" VARCHAR2(765 BYTE) NULL ,
+"CREATE_TYPE" NUMBER(10) NULL ,
+"CALLBACK" VARCHAR2(1536 BYTE) NULL ,
+"IS_DELETED" NUMBER(10) DEFAULT 0  NULL ,
+"CASE_TYPE" VARCHAR2(192 BYTE) NULL ,
+"CREATE_TIME" TIMESTAMP(0)  NULL ,
+"CASE_NO" VARCHAR2(765 BYTE) NULL ,
+"LITIGANT" VARCHAR2(1500 BYTE) NULL ,
+"CASE_CAUSE" VARCHAR2(765 BYTE) NULL ,
+"SKIP_CATALOG" NUMBER(10) DEFAULT 0  NULL ,
+"BATCH_NO" NUMBER(10) NULL ,
+"DIC_VERSION" NUMBER(10) NULL ,
+"COMPANY" VARCHAR2(64 BYTE) NULL
+);
+COMMENT ON COLUMN  "ED_DOSSIER"."DOSSIER_NO" IS '收案号 唯一键';
+COMMENT ON COLUMN  "ED_DOSSIER"."COMMIT_TIME" IS '提交时间';
+COMMENT ON COLUMN  "ED_DOSSIER"."UPDATE_TIME" IS '更新时间';
+COMMENT ON COLUMN  "ED_DOSSIER"."CREATED_BY" IS '创建人';
+COMMENT ON COLUMN  "ED_DOSSIER"."UPDATED_BY" IS '更新人';
+COMMENT ON COLUMN  "ED_DOSSIER"."CATALOG_STATUS" IS '任务状态 1、等待处理；2、处理中；3、已完成；4、处理失败';
+COMMENT ON COLUMN  "ED_DOSSIER"."OPERATOR" IS '经办人';
+COMMENT ON COLUMN  "ED_DOSSIER"."DOSSIER_NAME" IS '收案号如果被urlencode,这个是解码后的明文';
+COMMENT ON COLUMN  "ED_DOSSIER"."CREATE_TYPE" IS '创建类型 1、扫描；2、接口；3、上传;4、不编目展示编目结果；5、蝴蝶页扫描；6、蝴蝶页上传';
+COMMENT ON COLUMN  "ED_DOSSIER"."CALLBACK" IS '回调地址';
+COMMENT ON COLUMN  "ED_DOSSIER"."IS_DELETED" IS '是否删除 0否1是';
+COMMENT ON COLUMN  "ED_DOSSIER"."CASE_TYPE" IS '案件类型code';
+COMMENT ON COLUMN  "ED_DOSSIER"."CREATE_TIME" IS '创建时间';
+COMMENT ON COLUMN  "ED_DOSSIER"."CASE_NO" IS '案件号（立案号）';
+COMMENT ON COLUMN  "ED_DOSSIER"."LITIGANT" IS '当事人';
+COMMENT ON COLUMN  "ED_DOSSIER"."CASE_CAUSE" IS '案由';
+COMMENT ON COLUMN  "ED_DOSSIER"."SKIP_CATALOG" IS '是否跳过编目 0否1是';
+COMMENT ON COLUMN  "ED_DOSSIER"."BATCH_NO" IS '批次号(苏州中院)';
+COMMENT ON COLUMN  "ED_DOSSIER"."DIC_VERSION" IS '目录版本号，与ed_dic_folder中的version字段对应';
+COMMENT ON COLUMN  "ED_DOSSIER"."COMPANY" IS '分局';
+
+-- ----------------------------
+-- Table structure for ED_DOSSIER_HISTORY
+-- ----------------------------
+CREATE TABLE  "ED_DOSSIER_HISTORY" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"DOSSIER_NO" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"STATUS" NUMBER(10) DEFAULT NULL  NULL ,
+"PUSH_DATA" CLOB DEFAULT NULL  NULL ,
+"SOURCE" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"CREATE_TIME" TIMESTAMP(0)  NULL
+);
+COMMENT ON COLUMN  "ED_DOSSIER_HISTORY"."DOSSIER_NO" IS '材料号';
+COMMENT ON COLUMN  "ED_DOSSIER_HISTORY"."STATUS" IS 'dossier_no的状态：未处理（0），已处理（1）';
+COMMENT ON COLUMN  "ED_DOSSIER_HISTORY"."PUSH_DATA" IS '数据';
+COMMENT ON COLUMN  "ED_DOSSIER_HISTORY"."SOURCE" IS '来源';
+COMMENT ON COLUMN  "ED_DOSSIER_HISTORY"."CREATE_TIME" IS '创建时间';
+
+-- ----------------------------
+-- Table structure for ED_DOSSIER_SEPARATE
+-- ----------------------------
+CREATE TABLE  "ED_DOSSIER_SEPARATE" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"NAME" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"SORT" NUMBER(16,3) DEFAULT NULL  NULL ,
+"DOSSIER_ID" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"CODE" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"CREATE_TIME" TIMESTAMP(0)  NULL ,
+"IS_DEFAULT" NUMBER(10) NULL ,
+"DISPLAY_SORT" NUMBER(5) NULL
+);
+COMMENT ON COLUMN  "ED_DOSSIER_SEPARATE"."NAME" IS '卷名称';
+COMMENT ON COLUMN  "ED_DOSSIER_SEPARATE"."SORT" IS '卷顺序';
+COMMENT ON COLUMN  "ED_DOSSIER_SEPARATE"."DOSSIER_ID" IS '卷宗id';
+COMMENT ON COLUMN  "ED_DOSSIER_SEPARATE"."CODE" IS '卷名称编码';
+COMMENT ON COLUMN  "ED_DOSSIER_SEPARATE"."CREATE_TIME" IS '创建时间';
+COMMENT ON COLUMN  "ED_DOSSIER_SEPARATE"."IS_DEFAULT" IS '该卷是否为初始化默认卷';
+
+-- ----------------------------
+-- Table structure for ED_DOSSIER_TEMP
+-- ----------------------------
+CREATE TABLE  "ED_DOSSIER_TEMP" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"DOSSIER_NO" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"STATUS" NUMBER(10) DEFAULT NULL  NULL ,
+"PUSH_DATA" CLOB DEFAULT NULL  NULL ,
+"SOURCE" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"CREATE_TIME" TIMESTAMP(0)  NULL
+);
+COMMENT ON COLUMN  "ED_DOSSIER_TEMP"."DOSSIER_NO" IS '材料号';
+COMMENT ON COLUMN  "ED_DOSSIER_TEMP"."STATUS" IS 'dossier_no的状态：未处理（0），已处理（1）';
+COMMENT ON COLUMN  "ED_DOSSIER_TEMP"."PUSH_DATA" IS '数据';
+COMMENT ON COLUMN  "ED_DOSSIER_TEMP"."SOURCE" IS '来源';
+COMMENT ON COLUMN  "ED_DOSSIER_TEMP"."CREATE_TIME" IS '创建时间';
+
+-- ----------------------------
+-- Table structure for ED_EVIDENCE_GROUP_RULE
+-- ----------------------------
+CREATE TABLE  "ED_EVIDENCE_GROUP_RULE" (
+"ID" NUMBER(11) NOT NULL ,
+"EVIDENCE_NAME" VARCHAR2(255 BYTE) NULL ,
+"RULES" VARCHAR2(255 BYTE) NULL ,
+"IS_LEFT" NUMBER(11) NULL ,
+"IS_SWTICH" NUMBER(11) NULL ,
+"SORT" NUMBER(11) NULL
+);
+COMMENT ON TABLE  "ED_EVIDENCE_GROUP_RULE" IS '证据组合规则表';
+COMMENT ON COLUMN  "ED_EVIDENCE_GROUP_RULE"."ID" IS 'ID';
+COMMENT ON COLUMN  "ED_EVIDENCE_GROUP_RULE"."EVIDENCE_NAME" IS '组合证据名称';
+COMMENT ON COLUMN  "ED_EVIDENCE_GROUP_RULE"."RULES" IS '规则描述';
+COMMENT ON COLUMN  "ED_EVIDENCE_GROUP_RULE"."IS_LEFT" IS '组合规则在目标证据的左边还是右边';
+COMMENT ON COLUMN  "ED_EVIDENCE_GROUP_RULE"."IS_SWTICH" IS '是否打开开关';
+COMMENT ON COLUMN  "ED_EVIDENCE_GROUP_RULE"."SORT" IS '同一个evidence_name内部的优先级排序';
+
+-- ----------------------------
+-- Table structure for ED_FILE
+-- ----------------------------
+CREATE TABLE  "ED_FILE" (
+"ID" VARCHAR2(765 BYTE) NOT NULL ,
+"DOSSIER_ID" VARCHAR2(255 BYTE) NULL ,
+"NAME" VARCHAR2(1536 BYTE) NULL ,
+"MANUAL_NAME" VARCHAR2(1536 BYTE) NULL ,
+"OCR_SELECT_NAME" VARCHAR2(765 BYTE) NULL ,
+"CONT_NAME" VARCHAR2(765 BYTE) NULL ,
+"FORMAT" VARCHAR2(48 BYTE) NULL ,
+"PATH" VARCHAR2(765 BYTE) NULL ,
+"TYPE" NUMBER(10) NULL ,
+"IS_OCR" NUMBER(10) NULL ,
+"PARENT_CODE" VARCHAR2(192 BYTE) NULL ,
+"PARENT_ID" VARCHAR2(765 BYTE) NULL ,
+"SORT" NUMBER(16,4) NULL ,
+"FILE_NO" NUMBER(10) NULL ,
+"MANUAL_FILE_NO" NUMBER(10) NULL ,
+"IMAGE_ID" VARCHAR2(192 BYTE) NULL ,
+"IMAGE_PATH" VARCHAR2(1536 BYTE) NULL ,
+"IMAGE_SORT" NUMBER(10) NULL ,
+"OCR_RES" VARCHAR2(765 BYTE) NULL ,
+"OCR_TEXT" CLOB NULL ,
+"CONT_RES" VARCHAR2(765 BYTE) NULL ,
+"ELLE_RES" VARCHAR2(765 BYTE) NULL ,
+"FILE_SIZE" NUMBER(10) NULL ,
+"OCR_TIME" NUMBER(10) NULL ,
+"WIDTH" NUMBER(10) NULL ,
+"HEIGHT" NUMBER(10) NULL ,
+"IS_UPDATE" NUMBER(10) NULL ,
+"CREATE_TIME" TIMESTAMP(0)  NULL ,
+"UPDATE_TIME" TIMESTAMP(0)  NULL ,
+"ROTATE" NUMBER(10) DEFAULT '0'  NULL ,
+"COM_PATH" VARCHAR2(765 BYTE) NULL ,
+"BATCH_NO" NUMBER(10) DEFAULT '1'  NULL ,
+"BIES" VARCHAR2(30 BYTE) NULL ,
+"OCR_SELECTED_JSON" CLOB NULL ,
+"IS_BUTTERFLY" NUMBER(10) NULL ,
+"CAN_EDIT" NUMBER(10) DEFAULT '0'  NULL ,
+"SOURCE_ID" VARCHAR2(255 BYTE) NULL ,
+"IS_BLANK" NUMBER(10) DEFAULT '0'  NULL ,
+"IS_DELETE" NUMBER(10) DEFAULT '0'  NULL ,
+"LITIGANT_ATTRIBUTE" VARCHAR2(255 BYTE) NULL ,
+"PDF_PATH" VARCHAR2(255 BYTE) NULL ,
+"LITIGANT_NAME" VARCHAR2(255 BYTE) NULL ,
+"SEPARATE_CODE" VARCHAR2(255 BYTE) NULL ,
+"IS_AUTO" NUMBER(10) NULL ,
+"IS_CATA" NUMBER(10) NULL ,
+"IS_UNKNOWN" NUMBER(10) DEFAULT '0'  NULL ,
+"IS_NEW" NUMBER(10) NULL ,
+"IS_THIRD" NUMBER(11) NULL ,
+"CHECK_PAGE" NUMBER(11) NULL ,
+"WRIT_NO" VARCHAR2(100 BYTE) NULL ,
+"WRIT_GEN_TIME" TIMESTAMP(6)  NULL ,
+"RESPONSIBLER" VARCHAR2(100 BYTE) NULL
+);
+COMMENT ON COLUMN  "ED_FILE"."IS_NEW" IS '是否为新证据0：否，1：是';
+COMMENT ON COLUMN  "ED_FILE"."IS_THIRD" IS '是否为第三方推送0：否，1：是';
+COMMENT ON COLUMN  "ED_FILE"."CHECK_PAGE" IS '图片解析的页码';
+
+-- ----------------------------
+-- Table structure for ED_FILE_DELETE
+-- ----------------------------
+CREATE TABLE  "ED_FILE_DELETE" (
+"ID" NVARCHAR2(255) NOT NULL ,
+"DOSSIER_ID" VARCHAR2(255 BYTE) NULL ,
+"WJ_ID" NVARCHAR2(64) NULL ,
+"OP_TIME" DATE NULL ,
+"TYPE" NUMBER(11) NULL
+);
+COMMENT ON COLUMN  "ED_FILE_DELETE"."DOSSIER_ID" IS '任务id';
+COMMENT ON COLUMN  "ED_FILE_DELETE"."WJ_ID" IS '文件id';
+COMMENT ON COLUMN  "ED_FILE_DELETE"."OP_TIME" IS '删除时间';
+COMMENT ON COLUMN  "ED_FILE_DELETE"."TYPE" IS '1文件2文件夹3修改文件夹';
+
+-- ----------------------------
+-- Table structure for ED_HOT_WORD
+-- ----------------------------
+CREATE TABLE  "ED_HOT_WORD" (
+"ID" NVARCHAR2(255) NOT NULL ,
+"CONTENT" NVARCHAR2(600) NULL ,
+"HOT_INDEX" NUMBER(11) NULL ,
+"CREATE_TIME" DATE NULL ,
+"IP" NVARCHAR2(255) NULL
+);
+COMMENT ON COLUMN  "ED_HOT_WORD"."CREATE_TIME" IS '操作时间';
+COMMENT ON COLUMN  "ED_HOT_WORD"."IP" IS '用户ip';
+
+-- ----------------------------
+-- Table structure for ED_PERSON_ATTRIBUTE
+-- ----------------------------
+CREATE TABLE  "ED_PERSON_ATTRIBUTE" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"DOSSIER_ID" VARCHAR2(255 BYTE) NOT NULL ,
+"VICTIM" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"SUSPECT" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"WITNESS" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL
+);
+COMMENT ON COLUMN  "ED_PERSON_ATTRIBUTE"."VICTIM" IS '受害人';
+COMMENT ON COLUMN  "ED_PERSON_ATTRIBUTE"."SUSPECT" IS '嫌疑人';
+COMMENT ON COLUMN  "ED_PERSON_ATTRIBUTE"."WITNESS" IS '证人';
+
+-- ----------------------------
+-- Table structure for ED_SEPARATE_TEMPLATE
+-- ----------------------------
+CREATE TABLE  "ED_SEPARATE_TEMPLATE" (
+"ID" NUMBER(10) NOT NULL ,
+"CODE" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"NAME" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"SORT" NUMBER(10) DEFAULT NULL  NULL ,
+"CASE_TYPE" VARCHAR2(255 BYTE) DEFAULT 'NULL'  NULL ,
+"IS_DEFAULT" NUMBER(10) DEFAULT NULL  NULL ,
+"DISPLAY_SORT" NUMBER(5) NULL
+);
+COMMENT ON COLUMN  "ED_SEPARATE_TEMPLATE"."CODE" IS '编码';
+COMMENT ON COLUMN  "ED_SEPARATE_TEMPLATE"."NAME" IS '分册名称';
+COMMENT ON COLUMN  "ED_SEPARATE_TEMPLATE"."SORT" IS '同一案件类型下卷的顺序';
+COMMENT ON COLUMN  "ED_SEPARATE_TEMPLATE"."CASE_TYPE" IS '案件类型';
+COMMENT ON COLUMN  "ED_SEPARATE_TEMPLATE"."IS_DEFAULT" IS '是否为默认卷';
+
+-- ----------------------------
+-- Table structure for ED_USER
+-- ----------------------------
+CREATE TABLE  "ED_USER" (
+"ID" VARCHAR2(255 BYTE) NOT NULL ,
+"USERNAME" VARCHAR2(765 BYTE) NULL ,
+"PWD" VARCHAR2(765 BYTE) NULL
+);
+COMMENT ON COLUMN  "ED_USER"."USERNAME" IS '用户名';
+COMMENT ON COLUMN  "ED_USER"."PWD" IS '密码';
+
+-- ----------------------------
+-- Table structure for JZ_DATA_RECORD
+-- ----------------------------
+CREATE TABLE  "JZ_DATA_RECORD" (
+"ID" VARCHAR2(765 BYTE) NULL ,
+"DOSSIER_NO" VARCHAR2(765 BYTE) NULL ,
+"DOSSIER_ID" VARCHAR2(255 BYTE) NULL ,
+"PID" VARCHAR2(765 BYTE) NULL ,
+"FILE_ID" VARCHAR2(765 BYTE) NULL ,
+"PARENT_CODE" VARCHAR2(192 BYTE) NULL ,
+"IS_DELETE" NUMBER(10) NULL
+);
+
+-- ----------------------------
+-- Indexes structure for table DIC_CASE_ELLE
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table DIC_CASE_ELLE
+-- ----------------------------
+ALTER TABLE  "DIC_CASE_ELLE" ADD CHECK ("F_CODE" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table DIC_CASE_ELLE
+-- ----------------------------
+ALTER TABLE  "DIC_CASE_ELLE" ADD PRIMARY KEY ("F_CODE");
+
+-- ----------------------------
+-- Indexes structure for table DIC_EVIDENCE_TYPE
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table DIC_EVIDENCE_TYPE
+-- ----------------------------
+ALTER TABLE  "DIC_EVIDENCE_TYPE" ADD CHECK ("CODE" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table DIC_EVIDENCE_TYPE
+-- ----------------------------
+ALTER TABLE  "DIC_EVIDENCE_TYPE" ADD PRIMARY KEY ("CODE");
+
+-- ----------------------------
+-- Indexes structure for table ED_CASE_TYPE
+-- ----------------------------
+
+-- ----------------------------
+-- Uniques structure for table ED_CASE_TYPE
+-- ----------------------------
+ALTER TABLE  "ED_CASE_TYPE" ADD UNIQUE ("THIRD_CODE");
+
+-- ----------------------------
+-- Checks structure for table ED_CASE_TYPE
+-- ----------------------------
+ALTER TABLE  "ED_CASE_TYPE" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_CASE_TYPE
+-- ----------------------------
+ALTER TABLE  "ED_CASE_TYPE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_CATALOGUE
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_CATALOGUE
+-- ----------------------------
+ALTER TABLE  "ED_CATALOGUE" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE  "ED_CATALOGUE" ADD CHECK ("DOSSIER_ID" IS NOT NULL);
+ALTER TABLE  "ED_CATALOGUE" ADD CHECK ("TYPE" IS NOT NULL);
+ALTER TABLE  "ED_CATALOGUE" ADD CHECK ("ROW_CODE" IS NOT NULL);
+ALTER TABLE  "ED_CATALOGUE" ADD CHECK ("SEPARATE_CODE" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_CATALOGUE
+-- ----------------------------
+ALTER TABLE  "ED_CATALOGUE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_CONFIG
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_CONFIG
+-- ----------------------------
+ALTER TABLE  "ED_CONFIG" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_CONFIG
+-- ----------------------------
+ALTER TABLE  "ED_CONFIG" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_COURT
+-- ----------------------------
+CREATE INDEX  "INDEX_COURT"
+ON  "ED_COURT" ("COURT_NAME" ASC);
+CREATE INDEX  "INDEX_NICK_NAME"
+ON  "ED_COURT" ("NICK_NAME" ASC);
+
+-- ----------------------------
+-- Checks structure for table ED_COURT
+-- ----------------------------
+ALTER TABLE  "ED_COURT" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_COURT
+-- ----------------------------
+ALTER TABLE  "ED_COURT" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_COURT_AREA
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_COURT_AREA
+-- ----------------------------
+ALTER TABLE  "ED_COURT_AREA" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE  "ED_COURT_AREA" ADD CHECK ("COURT_NAME" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_COURT_AREA
+-- ----------------------------
+ALTER TABLE  "ED_COURT_AREA" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_DELETE_FDFS
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_DELETE_FDFS
+-- ----------------------------
+ALTER TABLE  "ED_DELETE_FDFS" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_DELETE_FDFS
+-- ----------------------------
+ALTER TABLE  "ED_DELETE_FDFS" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_DIC_FOLDER
+-- ----------------------------
+CREATE INDEX  "INDEX374896931717272"
+ON  "ED_DIC_FOLDER" ("CASE_TYPE" ASC);
+CREATE INDEX  "INDEX374896969735347"
+ON  "ED_DIC_FOLDER" ("NAME" ASC);
+
+-- ----------------------------
+-- Checks structure for table ED_DIC_FOLDER
+-- ----------------------------
+ALTER TABLE  "ED_DIC_FOLDER" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_DIC_FOLDER
+-- ----------------------------
+ALTER TABLE  "ED_DIC_FOLDER" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_DIC_FOLDER_MAPPING
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_DIC_FOLDER_MAPPING
+-- ----------------------------
+ALTER TABLE  "ED_DIC_FOLDER_MAPPING" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_DIC_FOLDER_MAPPING
+-- ----------------------------
+ALTER TABLE  "ED_DIC_FOLDER_MAPPING" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_DICTIONARY
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_DICTIONARY
+-- ----------------------------
+ALTER TABLE  "ED_DICTIONARY" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_DICTIONARY
+-- ----------------------------
+ALTER TABLE  "ED_DICTIONARY" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_DOSSIER
+-- ----------------------------
+CREATE INDEX  "DOSSIER_NO_INDEX"
+ON  "ED_DOSSIER" ("DOSSIER_NO" ASC);
+
+-- ----------------------------
+-- Checks structure for table ED_DOSSIER
+-- ----------------------------
+ALTER TABLE  "ED_DOSSIER" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_DOSSIER
+-- ----------------------------
+ALTER TABLE  "ED_DOSSIER" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_DOSSIER_HISTORY
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_DOSSIER_HISTORY
+-- ----------------------------
+ALTER TABLE  "ED_DOSSIER_HISTORY" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_DOSSIER_HISTORY
+-- ----------------------------
+ALTER TABLE  "ED_DOSSIER_HISTORY" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_DOSSIER_SEPARATE
+-- ----------------------------
+CREATE INDEX  "INDEX_SEPARATE_DOSSIERID_CODE"
+ON  "ED_DOSSIER_SEPARATE" ("DOSSIER_ID" ASC);
+
+-- ----------------------------
+-- Checks structure for table ED_DOSSIER_SEPARATE
+-- ----------------------------
+ALTER TABLE  "ED_DOSSIER_SEPARATE" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_DOSSIER_SEPARATE
+-- ----------------------------
+ALTER TABLE  "ED_DOSSIER_SEPARATE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table ED_DOSSIER_TEMP
+-- ----------------------------
+ALTER TABLE  "ED_DOSSIER_TEMP" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Indexes structure for table ED_EVIDENCE_GROUP_RULE
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_EVIDENCE_GROUP_RULE
+-- ----------------------------
+ALTER TABLE  "ED_EVIDENCE_GROUP_RULE" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_EVIDENCE_GROUP_RULE
+-- ----------------------------
+ALTER TABLE  "ED_EVIDENCE_GROUP_RULE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_FILE
+-- ----------------------------
+CREATE INDEX  "INDEX_EF_PARENT_ID"
+ON  "ED_FILE" ("PARENT_ID" ASC);
+
+-- ----------------------------
+-- Checks structure for table ED_FILE
+-- ----------------------------
+ALTER TABLE  "ED_FILE" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_FILE
+-- ----------------------------
+ALTER TABLE  "ED_FILE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_FILE_DELETE
+-- ----------------------------
+CREATE INDEX  "index_wjId"
+ON  "ED_FILE_DELETE" ("WJ_ID" ASC);
+
+-- ----------------------------
+-- Checks structure for table ED_FILE_DELETE
+-- ----------------------------
+ALTER TABLE  "ED_FILE_DELETE" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE  "ED_FILE_DELETE" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE  "ED_FILE_DELETE" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_FILE_DELETE
+-- ----------------------------
+ALTER TABLE  "ED_FILE_DELETE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table ED_HOT_WORD
+-- ----------------------------
+ALTER TABLE  "ED_HOT_WORD" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE  "ED_HOT_WORD" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE  "ED_HOT_WORD" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Indexes structure for table ED_PERSON_ATTRIBUTE
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_PERSON_ATTRIBUTE
+-- ----------------------------
+ALTER TABLE  "ED_PERSON_ATTRIBUTE" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE  "ED_PERSON_ATTRIBUTE" ADD CHECK ("DOSSIER_ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_PERSON_ATTRIBUTE
+-- ----------------------------
+ALTER TABLE  "ED_PERSON_ATTRIBUTE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_SEPARATE_TEMPLATE
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_SEPARATE_TEMPLATE
+-- ----------------------------
+ALTER TABLE  "ED_SEPARATE_TEMPLATE" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_SEPARATE_TEMPLATE
+-- ----------------------------
+ALTER TABLE  "ED_SEPARATE_TEMPLATE" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table ED_USER
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table ED_USER
+-- ----------------------------
+ALTER TABLE  "ED_USER" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table ED_USER
+-- ----------------------------
+ALTER TABLE  "ED_USER" ADD PRIMARY KEY ("ID");
+
+
+
+-- 插入数据DIC_CASE_ELLE：
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('BRBL', '辨认笔录', '220702', '辨认笔录', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('DNAJD', 'DNA鉴定', '220614', '上海市公安局物证鉴定中心法庭科学DNA鉴定书', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('DNAJD', 'DNA鉴定', '2209222', 'DNA鉴定书', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('DNAJD', 'DNA鉴定', '220602', '法庭科学DNA鉴定意见', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('DNAJD', 'DNA鉴定', '220604', '法庭科学DNA鉴定报告', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('DNAJD', 'DNA鉴定', '220605', '法庭科学DNA鉴定书', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('JSJD', '精神鉴定', '220615', '精神疾病司法鉴定意见书', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('JSJD', '精神鉴定', '220603', '精神疾病鉴定意见', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('SJBG', '尸检报告', '220927', '解剖尸体通知书', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('SJBG', '尸检报告', '220601', '法医学尸体检验鉴定书', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('XKBL', '现勘笔录', '220701', '现场勘验笔录', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('XKBL', '现勘笔录', '220706', '现场勘验、检查、辨认笔录', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('XWBL', '讯问笔录、询问笔录公用', '220301', '询问笔录', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('XWBL', '讯问笔录、询问笔录公用', '220401', '询问笔录', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+INSERT INTO DIC_CASE_ELLE ("F_TYPE", "F_TYPE_DESCRIPTION", "F_CODE", "F_CODE_DESCRIPTION", "F_CREATE_TIME", "F_UPDATE_TIME", "F_IS_DELETE") VALUES ('XWBL', '讯问笔录、询问笔录公用', '220501', '讯问笔录', TO_TIMESTAMP(' 2018-04-11 00:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0');
+
+-- 插入数据DIC_EVIDENCE_TYPE
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209408', '不予变更强制措施通知书', '2', '2209', '不予变更强制措施通知书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209409', '没收保证金决定书', '2', '2209', '没收保证金决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209410', '没收保证金通知书回执', '2', '2209', '没收保证金通知书回执', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209411', '退还保证金决定书', '2', '2209', '退还保证金决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209412', '退还保证金通知书回执', '2', '2209', '退还保证金通知书回执', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209413', '不立案理由说明书', '2', '2209', '不立案理由说明书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209414', '回避决定书', '2', '2209', '回避决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209415', '驳回申请回避决定书', '2', '2209', '驳回申请回避决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209416', '刑事复议决定书', '2', '2209', '刑事复议决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209417', '会见犯罪嫌疑人申请表', '2', '2209', '会见犯罪嫌疑人申请表', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209418', '准予会见犯罪嫌疑人决定书', '2', '2209', '准予会见犯罪嫌疑人决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209419', '不准予会见犯罪嫌疑人决定书', '2', '2209', '不准予会见犯罪嫌疑人决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209420', '补充侦查报告书', '2', '2209', '补充侦查报告书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209421', '复议回复', '2', '2209', '复议回复', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209422', '复核回复', '2', '2209', '复核回复', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209423', '提请批准延长侦查羁押期限意见书', '2', '2209', '提请批准延长侦查羁押期限意见书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209424', '变更强制措施申请', '2', '2209', '变更强制措施申请', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209425', '不立案理由通知书', '2', '2209', '不立案理由通知书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209426', '回避决定书', '2', '2209', '回避决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209427', '退回补充侦查决定书', '2', '2209', '退回补充侦查决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209428', '补充侦查事项', '2', '2209', '补充侦查事项', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209429', '补充侦查提纲', '2', '2209', '补充侦查提纲', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209430', '复核决定书', '2', '2209', '复核决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209431', '不予释放强制措施通知书', '2', '2209', '不予释放强制措施通知书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220502', '询问/讯问笔录', '2', '2205', '询问/讯问笔录', '1', TO_TIMESTAMP(' 2018-10-17 17:48:32', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209363', '补充侦查', '2', '2209', '补充侦查', '363', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209362', '退回补充侦查函', '2', '2209', '退回补充侦查函', '462', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209361', '保证书', '2', '2209', '保证书', '361', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209360', '保外就医决定', '2', '2209', '保外就医决定', '360', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209359', '取保候审', '2', '2209', '取保候审', '359', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209358', '查封物品清单', '2', '2209', '查封物品清单', '358', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209357', '查封令', '2', '2209', '查封令', '357', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209356', '扣押物品清单', '2', '2209', '扣押物品清单', '356', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209355', '搜查勘验笔录', '2', '2209', '搜查勘验笔录', '355', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209354', '对家属通知书', '2', '2209', '对家属通知书', '354', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209353', '自行逮捕决定', '2', '2209', '自行逮捕决定', '353', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209352', '向检察院送达同意适用简易程序函及送达回证', '2', '2209', '向检察院送达同意适用简易程序函及送达回证', '352', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209351', '向辩护人送达起诉书副本送达回证', '2', '2209', '向辩护人送达起诉书副本送达回证', '351', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209350', '起诉书副本送达回证', '2', '2209', '起诉书副本送达回证', '350', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209349', '送达起诉书副本笔录', '2', '2209', '送达起诉书副本笔录', '349', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209348', '证人名单', '2', '2209', '证人名单', '348', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209347', '自诉状', '2', '2209', '自诉状', '347', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209346', '起诉书', '2', '2209', '起诉书', '346', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209345', '审判流程管理情况', '2', '2209', '审判流程管理情况', '345', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209344', '审判流程管理信息表', '2', '2209', '审判流程管理信息表', '344', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209343', '卷内目录', '2', '2209', '卷内目录', '343', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209379', '证人证词', '2', '2209', '证人证词', '379', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209378', '辩护词', '2', '2209', '辩护词', '378', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209377', '公诉词', '2', '2209', '公诉词', '377', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209376', '庭审笔录', '2', '2209', '庭审笔录', '376', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209375', '出庭通知书', '2', '2209', '出庭通知书', '375', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209374', '传票', '2', '2209', '传票', '374', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209373', '开庭提押票', '2', '2209', '开庭提押票', '373', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209372', '开庭公告', '2', '2209', '开庭公告', '372', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209371', '延长审限审批表', '2', '2209', '延长审限审批表', '371', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209370', '揭发问题', '2', '2209', '揭发问题', '370', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209369', '坦白交代', '2', '2209', '坦白交代', '369', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209368', '证物鉴定结论', '2', '2209', '证物鉴定结论', '368', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209367', '赃物鉴定结论', '2', '2209', '赃物鉴定结论', '367', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209402', '评议笔录', '2', '2209', '评议笔录', '402', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209401', '审理报告', '2', '2209', '审理报告', '401', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209394', '执行通知书', '2', '2209', '执行通知书', '394', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209393', '退卷函', '2', '2209', '退卷函', '393', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209392', '移送函（稿）', '2', '2209', '移送函（稿）', '392', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209391', '抗诉书', '2', '2209', '抗诉书', '391', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209390', '司法建议书', '2', '2209', '司法建议书', '390', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209389', '裁定书送达回证', '2', '2209', '裁定书送达回证', '389', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209388', '判决书送达回证', '2', '2209', '判决书送达回证', '388', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209387', '宣判笔录', '2', '2209', '宣判笔录', '387', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209386', '协议书', '2', '2209', '协议书', '386', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209385', '调解书', '2', '2209', '调解书', '385', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209384', '裁定书', '2', '2209', '裁定书', '384', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209383', '判决书', '2', '2209', '判决书', '383', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209382', '宣判公告', '2', '2209', '宣判公告', '382', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209381', '被告人最后陈述', '2', '2209', '被告人最后陈述', '381', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209400', '卷底', '2', '2209', '卷底', '400', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209399', '备考表', '2', '2209', '备考表', '399', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209398', '退卷函(公安)', '2', '2209', '退卷函(公安)', '398', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209397', '证物移送清单', '2', '2209', '证物移送清单', '397', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209396', '赃物移送清单', '2', '2209', '赃物移送清单', '396', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209395', '释放证回执', '2', '2209', '释放证回执', '395', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220706', '现场勘验、检查、辨认笔录', '2', '2207', '现场勘验、检查、辨认笔录', '6', TO_TIMESTAMP(' 2017-05-20 13:17:23', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220707', '复验复查笔录', '2', '2207', '复验复查笔录', '7', TO_TIMESTAMP(' 2017-07-05 16:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220708', '当场盘问、检查笔录', '2', '2207', '当场盘问、检查笔录', '8', TO_TIMESTAMP(' 2017-07-05 19:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220801', '电子数据检验笔录', '2', '2208', '电子数据检验笔录', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220802', '电子数据清单', '2', '2208', '电子数据清单', '2', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220803', '视听资料说明（原件）', '2', '2208', '视听资料说明（原件）', '3', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220804', '视听资料说明（复印件）', '2', '2208', '视听资料说明（复印件）', '4', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220805', '电子数据检验报告', '2', '2208', '电子数据检验报告', '5', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220806', '网上支付凭证', '2', '2208', '网上支付凭证', NULL, TO_TIMESTAMP(' 2017-05-20 13:11:41', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220807', '手机支付凭证', '2', '2208', '手机支付凭证', NULL, TO_TIMESTAMP(' 2017-05-20 13:11:41', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2208100', '聊天记录', '2', '2208', '聊天记录', '101', TO_TIMESTAMP(' 2017-06-05 21:38:27', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2208101', '校验报告', '2', '2208', '校验报告', '101', TO_TIMESTAMP(' 2017-06-05 22:12:12', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202101', '发还清单', '2', '2202', '发还清单', '3', TO_TIMESTAMP(' 2017-06-05 22:38:29', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2208103', '量刑情节', '2', '2208', '量刑情节', '103', TO_TIMESTAMP(' 2017-06-05 22:38:29', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220818', '出入境记录（涉境外犯罪）', '2', '2208', '出入境记录（涉境外犯罪）', NULL, TO_TIMESTAMP(' 2017-05-20 13:15:20', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220819', '电子数据鉴定意见', '2', '2208', '电子数据鉴定意见', '1', TO_TIMESTAMP(' 2017-05-21 11:30:47', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220820', '互联网数据（QQ聊天记录、网页截图、电子邮件、网上视频截图）', '2', '2208', '互联网数据（QQ聊天记录、网页截图、电子邮件、网上视频截图）', '1', TO_TIMESTAMP(' 2017-05-21 16:38:37', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220911', '拘传证', '2', '2209', '拘传证', '3', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209278', '呈请停止执行行政拘留报告书', '2', '2209', '呈请停止执行行政拘留报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209279', '呈请延长拘传报告书', '2', '2209', '呈请延长拘传报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220928', '鉴定聘请书', '2', '2209', '鉴定聘请书', '13', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209280', '呈请延长传唤报告书', '2', '2209', '呈请延长传唤报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209281', '呈请案件移送报告书', '2', '2209', '呈请案件移送报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209282', '呈请变更强制措施报告书', '2', '2209', '呈请变更强制措施报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209283', '呈请发函报告书', '2', '2209', '呈请发函报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209284', '呈请发协查函报告书', '2', '2209', '呈请发协查函报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220930', '释放通知书', '2', '2209', '释放通知书', '16', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220931', '释放证明书', '2', '2209', '释放证明书', '17', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220932', '拘留通知书', '2', '2209', '拘留通知书', '18', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209324', '针对特殊时间、地点的情况说明', '2', '2209', '针对特殊时间、地点的情况说明', '324', TO_TIMESTAMP(' 2017-06-12 19:16:54', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209325', '维修凭证及发票', '2', '2209', '维修凭证及发票', '325', TO_TIMESTAMP(' 2017-06-12 19:19:32', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209326', 'IP日志', '2', '2209', 'IP日志', '326', TO_TIMESTAMP(' 2017-06-12 20:28:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209327', 'IP地址登录信息', '2', '2209', 'IP地址登录信息', '327', TO_TIMESTAMP(' 2017-06-12 20:28:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209328', 'IP轨迹比对表', '2', '2209', 'IP轨迹比对表', '328', TO_TIMESTAMP(' 2017-06-12 20:28:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209329', '网络聊天、微信、短信聊天记录及截屏照片', '2', '2209', '网络聊天、微信、短信聊天记录及截屏照片', '329', TO_TIMESTAMP(' 2017-06-12 20:48:42', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220933', '提取笔录', '2', '2209', '提取笔录', '33', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209330', '交易记录', '2', '2209', '交易记录', '330', TO_TIMESTAMP(' 2017-06-12 20:50:54', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209331', '通讯记录', '2', '2209', '通讯记录', '331', TO_TIMESTAMP(' 2017-06-12 21:27:03', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209332', '人身检查笔录', '2', '2209', '人身检查笔录', '332', TO_TIMESTAMP(' 2017-06-12 23:03:46', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209333', '物证检验报告', '2', '2209', '物证检验报告', '333', TO_TIMESTAMP(' 2017-06-12 23:08:16', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209334', '销售凭证', '2', '2209', '销售凭证', '334', TO_TIMESTAMP(' 2017-06-12 23:09:06', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209335', '损伤伤残鉴定意见书', '2', '2209', '损伤伤残鉴定意见书', '335', TO_TIMESTAMP(' 2017-06-12 23:13:29', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209336', '民事判决书', '2', '2209', '民事判决书', '336', TO_TIMESTAMP(' 2017-06-12 23:20:58', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209337', '民事调解书', '2', '2209', '民事调解书', '337', TO_TIMESTAMP(' 2017-06-12 23:20:58', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220954', '提供法律援助通知书', '2', '2209', '提供法律援助通知书', '54', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220956', '价格认定不予受理通知书', '2', '2209', '价格认定不予受理通知书', '56', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202102', '接受证据材料清单', '2', '2202', '接受证据材料清单', '4', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220958', '上海市公安局随案移送清单', '2', '2209', '上海市公安局随案移送清单', '58', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220959', '案件移送起诉告知书', '2', '2209', '案件移送起诉告知书', '59', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220960', '公函', '2', '2209', '公函', '60', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220961', '回复函', '2', '2209', '回复函', '61', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220962', '在逃人员登记/撤销表', '2', '2209', '在逃人员登记/撤销表', '62', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220963', '犯罪嫌疑人基本情况', '2', '2209', '犯罪嫌疑人基本情况', '63', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220964', '事件单', '2', '2209', '事件单', '64', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220965', '上海市公安局提讯提解证', '2', '2209', '上海市公安局提讯提解证', '65', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220966', '法律援助公函', '2', '2209', '法律援助公函', '66', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220967', '接受指定辩护函', '2', '2209', '接受指定辩护函', '67', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220968', '辩护意见', '2', '2209', '辩护意见', '68', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220969', '居民死亡确认书', '2', '2209', '居民死亡确认书', '69', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220970', '上海市公安局案（事）接报回执单', '2', '2209', '上海市公安局案（事）接报回执单', '70', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220711', '提取痕迹、物证登记表', '2', '2207', '提取痕迹、物证登记表', '5', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220972', '减刑、假释裁定书', '2', '2209', '减刑、假释裁定书', NULL, TO_TIMESTAMP(' 2017-05-20 13:25:27', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220973', '缓刑执行通知书', '2', '2209', '缓刑执行通知书', NULL, TO_TIMESTAMP(' 2017-05-20 13:25:27', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220974', '跨区协作申请表', '2', '2209', '跨区协作申请表', '1', TO_TIMESTAMP(' 2017-05-21 14:52:47', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220975', '案件移送情况告知书', '2', '2209', '案件移送情况告知书', '1', TO_TIMESTAMP(' 2017-05-21 14:53:14', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220976', '违法犯罪嫌疑人审查流程登记表', '2', '2209', '违法犯罪嫌疑人审查流程登记表', '1', TO_TIMESTAMP(' 2017-05-21 14:53:46', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220201', '户籍资料', '2', '2202', '户籍资料', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220202', '户籍证明', '2', '2202', '户籍证明', '2', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220203', '常住人口基本信息表', '2', '2202', '常住人口基本信息表', '3', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220204', '在逃人员信息登记表', '2', '2202', '在逃人员信息登记表', '4', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209341', '受案登记表', '2', '2209', '受案登记表', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220206', '案件接报回执单', '2', '2202', '案件接报回执单', '6', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220207', '医院救治相关记录', '2', '2202', '医院救治相关记录', '7', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220208', '院前急救病历', '2', '2202', '院前急救病历', '8', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220209', '入监体检表', '2', '2202', '入监体检表', '9', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220210', '毒品尿样检测报告单', '2', '2202', '毒品尿样检测报告单', '10', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202106', '单位信息材料', '2', '2202', '单位信息材料', '1', TO_TIMESTAMP(' 2017-06-05 20:32:51', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202107', '作案工具相关材料', '2', '2202', '作案工具相关材料', '3', TO_TIMESTAMP(' 2017-06-05 21:35:21', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220211', '验伤通知书', '2', '2202', '验伤通知书', '11', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220212', '案发经过/抓获经过', '2', '2202', '案发经过/抓获经过', '12', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209342', '受案回执', '2', '2209', '受案回执', '2', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220214', '接受刑事案件登记表', '2', '2202', '接受刑事案件登记表', '14', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220215', '登记保存清单', '2', '2202', '登记保存清单', '2', TO_TIMESTAMP(' 2017-07-05 16:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220216', '情况说明', '2', '2202', '情况说明', '16', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220217', '工作情况', '2', '2202', '工作情况', '17', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220218', '抓获经过', '2', '2202', '抓获经过', '18', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220219', '案发经过', '2', '2202', '案发经过', '19', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220220', '解除查封清单', '2', '2202', '解除查封清单', '5', TO_TIMESTAMP(' 2017-07-05 16:00:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220221', '逮捕家属通知书挂号信凭证', '2', '2202', '逮捕家属通知书挂号信凭证', '21', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220222', '刑事拘留家属通知书挂号信凭证', '2', '2202', '刑事拘留家属通知书挂号信凭证', '22', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220223', '协查函', '2', '2202', '协查函', '23', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209338', '书证照片（书信、日记等）', '2', '2209', '书证照片（书信、日记等）', '338', TO_TIMESTAMP(' 2017-06-12 23:22:37', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209339', '关于检举情况的说明', '2', '2209', '关于检举情况的说明', '339', TO_TIMESTAMP(' 2017-06-12 23:31:11', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220934', '立案告知书', '2', '2209', '立案告知书', '19', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209340', '查证材料（有罪供述、强制措施材料）', '2', '2209', '查证材料（有罪供述、强制措施材料）', '340', TO_TIMESTAMP(' 2017-06-14 14:44:52', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220935', '立案决定书', '2', '2209', '立案决定书', '20', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220936', '不予立案通知书', '2', '2209', '不予立案通知书', '21', TO_TIMESTAMP(' 2017-07-05 19:22:56', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220937', '换押证', '2', '2209', '换押证', '37', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220938', '其他', '2', '2209', '其他', '38', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220939', '提讯提解证', '2', '2209', '提讯提解证', '39', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220940', '冻结财产通知书', '2', '2209', '冻结财产通知书', '40', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220941', '被取保候审人义务告知书', '2', '2209', '被取保候审人义务告知书', '41', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220942', '延长拘留期限通知书', '2', '2209', '延长拘留期限通知书', '42', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220943', '变更羁押期限通知书', '2', '2209', '变更羁押期限通知书', '22', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220944', '不批准逮捕决定书', '2', '2209', '不批准逮捕决定书', '44', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220945', '收缴/追缴物品清单', '2', '2209', '收缴/追缴物品清单', '45', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220946', '随身财物代保管清单', '2', '2209', '随身财物代保管清单', '46', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220947', '取保候审保证书', '2', '2209', '取保候审保证书', '47', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220948', '批准延长侦查羁押期限决定书', '2', '2209', '批准延长侦查羁押期限决定书', '48', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220224', '告知书', '2', '2202', '告知书', '24', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220225', '鉴定说明', '2', '2202', '鉴定说明', '25', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220226', '刑事判决书', '2', '2202', '刑事判决书', '26', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220227', '起诉意见书', '2', '2202', '起诉意见书', '27', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220228', '刑事裁定书', '2', '2202', '刑事裁定书', '28', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220229', '行政处罚决定书', '2', '2202', '行政处罚决定书', '29', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220230', '谅解书', '2', '2202', '谅解书', '30', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220231', '违法犯罪嫌疑人员初查工作项目表', '2', '2202', '违法犯罪嫌疑人员初查工作项目表', '31', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220232', '犯罪嫌疑人名单', '2', '2202', '犯罪嫌疑人名单', '32', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220233', '违法犯罪嫌疑人名单', '2', '2202', '违法犯罪嫌疑人名单', '33', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220234', '公安业务档案卡片详细信息', '2', '2202', '公安业务档案卡片详细信息', '34', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220235', '押解涉案嫌疑人审批表', '2', '2202', '押解涉案嫌疑人审批表', '35', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220236', '犯罪嫌疑人诉讼权利义务告知书', '2', '2202', '犯罪嫌疑人诉讼权利义务告知书', '36', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220237', '营业执照', '2', '2202', '营业执照', '37', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220238', '组织机构代码证', '2', '2202', '组织机构代码证', '38', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220239', '工商登记材料', '2', '2202', '工商登记材料', '39', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220240', '劳动合同', '2', '2202', '劳动合同', '40', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220241', '任职证明', '2', '2202', '任职证明', '41', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220949', '延长侦查羁押期限通知书', '2', '2209', '延长侦查羁押期限通知书', '49', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202104', '随案移送清单', '2', '2202', '随案移送清单', '7', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220952', '通知书', '2', '2209', '通知书', '52', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220953', '移送案件通知书', '2', '2209', '移送案件通知书', '53', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220242', '残疾证明', '2', '2202', '残疾证明', '42', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220243', '孤寡证明', '2', '2202', '孤寡证明', '43', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220244', '丧失劳动能力证明', '2', '2202', '丧失劳动能力证明', '44', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220245', '医院证明', '2', '2202', '医院证明', '45', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220246', '病史记录', '2', '2202', '病史记录', '46', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220247', '收入证明', '2', '2202', '收入证明', '47', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220248', '学校证明', '2', '2202', '学校证明', '48', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220249', '踩点记录、走访记录', '2', '2202', '踩点记录、走访记录', '49', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220250', '公安情况说明', '2', '2202', '公安情况说明', '50', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220251', '针对特殊时期的情况说明', '2', '2202', '针对特殊时期的情况说明', '51', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220252', '电信及水电燃油气账单', '2', '2202', '电信及水电燃油气账单', '52', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220253', '自来水账单', '2', '2202', '自来水账单', '53', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220254', '电气账单', '2', '2202', '电气账单', '54', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220255', '燃气账单', '2', '2202', '燃气账单', '55', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220256', '电力账单', '2', '2202', '电力账单', '56', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220257', '被害单位出具被盗财物价值说明', '2', '2202', '被害单位出具被盗财物价值说明', '57', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220258', '行业机构或专业人士出具的情况说明', '2', '2202', '行业机构或专业人士出具的情况说明', '58', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220259', '未成年人调查报告', '2', '2202', '未成年人调查报告', '59', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220260', '收条', '2', '2202', '收条', '60', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220261', '发票', '2', '2202', '发票', '61', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220262', '购物发票', '2', '2202', '购物发票', '62', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220263', '银行交易明细', '2', '2202', '银行交易明细', '63', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220988', '传讯通知书', '2', '2209', '传讯通知书', '21', TO_TIMESTAMP(' 2018-12-10 11:09:15', 'SYYYY-MM-DD HH24:MI:SS:'), TO_TIMESTAMP(' 2018-12-10 11:09:15', 'SYYYY-MM-DD HH24:MI:SS:'), '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220821', '手机信息数据（手机短信记录、手机通话记录、微信聊天记录、手机截图等）', '2', '2208', '手机数据（手机短信记录、手机通话记录、微信聊天记录、手机录音、手机截图、手机照片）', '1', TO_TIMESTAMP(' 2017-05-21 16:38:11', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209285', '呈请函查报告书', '2', '2209', '呈请函查报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209286', '呈请鉴定结论告知报告书', '2', '2209', '呈请鉴定结论告知报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209287', '呈请聘请价格鉴定报告书', '2', '2209', '呈请聘请价格鉴定报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209288', '呈请释放报告书', '2', '2209', '呈请释放报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209289', '案发、归案信息登记表', '2', '2209', '案发、归案信息登记表', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220929', '传唤证', '2', '2209', '传唤证', '25', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209290', '呈请拘传报告书', '2', '2209', '呈请拘传报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209291', '呈请发还报告书', '2', '2209', '呈请发还报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209292', '嫌疑人身体状况检查登记表', '2', '2209', '嫌疑人身体状况检查登记表', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209293', '被审查对象体表检查登记表', '2', '2209', '被审查对象体表检查登记表', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209294', '刑满释放人员通知书', '2', '2209', '刑满释放人员通知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209295', '案（事）件接报回执单', '2', '2209', '案（事）件接报回执单', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209110', '呈请提请批准逮捕报告书', '2', '2209', '呈请提请批准逮捕报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:01:29', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209111', '呈请调取证据报告书', '2', '2209', '呈请调取证据报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:01:39', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209112', '呈请协查报告书', '2', '2209', '呈请协查报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:01:53', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209113', '呈请刑事拘留报告书', '2', '2209', '呈请刑事拘留报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:02:05', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209114', '呈请延长拘留期限报告书', '2', '2209', '呈请延长拘留期限报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:02:15', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209115', '呈请侦查报告书', '2', '2209', '呈请侦查报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:02:29', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209116', '呈请侦查终结报告书', '2', '2209', '呈请侦查终结报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:02:41', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220912', '拘传报告书', '2', '2209', '拘传报告书', '12', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209120', '特殊身份证明', '2', '2209', '特殊身份证明', '120', TO_TIMESTAMP(' 2017-06-05 20:44:41', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209121', '财物损失证明', '2', '2209', '财物损失证明', '121', TO_TIMESTAMP(' 2017-06-05 20:50:28', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220913', '拘传票', '2', '2209', '拘传票', '13', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220914', '取保候审决定书', '2', '2209', '取保候审决定书', '9', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220915', '监视居住决定书', '2', '2209', '监视居住决定书', '7', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220916', '监视居住通知书', '2', '2209', '监视居住通知书', '16', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220917', '呈请拘留报告书', '2', '2209', '呈请拘留报告书', '17', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220918', '拘留证', '2', '2209', '拘留证', '4', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220919', '提请批准逮捕书', '2', '2209', '提请批准逮捕书', '19', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220920', '批准逮捕决定书', '2', '2209', '批准逮捕决定书', '20', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220921', '逮捕证', '2', '2209', '逮捕证', '5', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209217', '侦破经过', '2', '2209', '侦破经过', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209218', '针对特殊地点的情况说明', '2', '2209', '针对特殊地点的情况说明', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209219', '骨龄鉴定书', '2', '2209', '骨龄鉴定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220922', '逮捕通知书', '2', '2209', '逮捕通知书', '10', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209220', '物品照片（被告人遗留物）', '2', '2209', '物品照片（被告人遗留物）', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209221', '声像鉴定书', '2', '2209', '声像鉴定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209222', 'DNA鉴定书', '2', '2209', 'DNA鉴定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209223', '脚印鉴定书', '2', '2209', '脚印鉴定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209225', '计算机司法鉴定意见', '2', '2209', '计算机司法鉴定意见', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220712', '侦查实验笔录', '2', '2207', '侦查实验笔录', '9', TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209227', '远程勘验笔录', '2', '2209', '远程勘验笔录', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209228', '通讯语音', '2', '2209', '通讯语音', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209229', '手机轨迹、GPS轨迹', '2', '2209', '手机轨迹、GPS轨迹', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220923', '协助查询财产通知书', '2', '2209', '协助查询财产通知书', '11', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209230', 'IP日志、IP轨迹比对表、IP地址登录信息', '2', '2209', 'IP日志、IP轨迹比对表、IP地址登录信息', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209231', '网安情况说明', '2', '2209', '网安情况说明', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209232', '网络账户信息', '2', '2209', '网络账户信息', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209233', '网上银行交易明细', '2', '2209', '网上银行交易明细', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209234', '网络信息数据（QQ聊天记录、网络截图、电子邮件、IP地址登录信息等）', '2', '2209', '网络聊天、微信聊天记录及截屏照片', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209235', '银行明细', '2', '2209', '银行明细', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209236', '消费记录及发行单位数额说明', '2', '2209', '消费记录及发行单位数额说明', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209237', '进货单、提货单、入库单、库存盘点记录', '2', '2209', '进货单、提货单、入库单、库存盘点记录', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209238', '称量结果说明', '2', '2209', '称量结果说明', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209239', '外汇牌价', '2', '2209', '外汇牌价', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220924', '协助冻结财产通知书', '2', '2209', '协助冻结财产通知书', '12', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209240', '电信及水电燃油气账单、检查单、罚单', '2', '2209', '电信及水电燃油气账单、检查单、罚单', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209241', '检验报告', '2', '2209', '检验报告', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209243', '微信、短信记录及截屏照片', '2', '2209', '微信、短信记录及截屏照片', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209244', '接受证据清单', '2', '2209', '接受证据清单', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209245', '支付平台转账、交易记录', '2', '2209', '支付平台转账、交易记录', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209246', '赃款赃物发还清单', '2', '2209', '赃款赃物发还清单', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209247', '移送审查起诉告知书', '2', '2209', '移送审查起诉告知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209248', '跨区域办案请求协作发布单', '2', '2209', '跨区域办案请求协作发布单', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209249', '逮捕通知书 ', '2', '2209', '逮捕通知书 ', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220925', '协助解除冻结财产通知书', '2', '2209', '协助解除冻结财产通知书', '25', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209250', '停止执行行政拘留家属通知书', '2', '2209', '停止执行行政拘留家属通知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209251', '停止执行行政拘留决定书', '2', '2209', '停止执行行政拘留决定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209252', '破案告知书', '2', '2209', '破案告知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209253', '拘留通知书 ', '2', '2209', '拘留通知书 ', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209254', '建议停止执行拘留通知书', '2', '2209', '建议停止执行拘留通知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209255', '行政拘留家属通知书', '2', '2209', '行政拘留家属通知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209256', '取保候审保证书 ', '2', '2209', '取保候审保证书 ', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209257', '收取保证金通知书', '2', '2209', '收取保证金通知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209258', '执法办案场所办案区使用登记表', '2', '2209', '执法办案场所办案区使用登记表', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209259', '延长传唤报告', '2', '2209', '延长传唤报告', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220926', '鉴定意见通知书', '2', '2209', '鉴定意见通知书', '15', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209260', '延长拘留期限报告书', '2', '2209', '延长拘留期限报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209261', '被审查对象提标检查登记表', '2', '2209', '被审查对象提标检查登记表', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209262', '被审查对象体检表检查登记表', '2', '2209', '被审查对象体检表检查登记表', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209263', '不批准逮捕案件补充侦查提纲', '2', '2209', '不批准逮捕案件补充侦查提纲', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209264', '不批准逮捕理由说明书', '2', '2209', '不批准逮捕理由说明书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209265', '不批捕理由说明书', '2', '2209', '不批捕理由说明书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209266', '不起诉决定书', '2', '2209', '不起诉决定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209267', '撤销行政处理决定书', '2', '2209', '撤销行政处理决定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209268', '逮捕决定书', '2', '2209', '逮捕决定书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209269', '逮捕书', '2', '2209', '逮捕书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220927', '解剖尸体通知书', '2', '2209', '解剖尸体通知书', '14', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209270', '呈请鉴定报告书', '2', '2209', '呈请鉴定报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209271', '呈请解除强制隔离戒毒报告书', '2', '2209', '呈请解除强制隔离戒毒报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209272', '呈请强制隔离戒毒报告书', '2', '2209', '呈请强制隔离戒毒报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209273', '呈请破案报告书', '2', '2209', '呈请破案报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209274', '呈请取保候审报告书', '2', '2209', '呈请取保候审报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209275', '合适成年人参与刑事诉讼通知书', '2', '2209', '合适成年人参与刑事诉讼通知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209276', '呈请提供法律援助报告书', '2', '2209', '呈请提供法律援助报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209277', '呈请调取报告书', '2', '2209', '呈请调取报告书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209296', '侦查终结告知书', '2', '2209', '侦查终结告知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209297', '执法公开告知书', '2', '2209', '执法公开告知书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209298', '视听资料说明书', '2', '2209', '视听资料说明书', NULL, TO_TIMESTAMP(' 2017-05-25 15:10:08', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220901', '搜查证', '2', '2209', '搜查证', '6', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220710', '搜查笔录', '2', '2207', '搜查笔录', '4', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220903', '扣押决定书', '2', '2209', '扣押决定书', '3', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220709', '扣押笔录', '2', '2207', '扣押笔录', '3', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202103', '扣押清单', '2', '2202', '扣押清单', '6', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220906', '查封决定书', '2', '2209', '查封决定书', '23', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220907', '查封笔录', '2', '2209', '查封笔录', '7', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202100', '查封清单', '2', '2202', '查封清单', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220909', '调取证据通知书', '2', '2209', '调取证据通知书', '9', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202105', '调取证据清单', '2', '2202', '调取证据清单', '8', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209101', '律师事务所函', '2', '2209', '律师事务所函', '1', TO_TIMESTAMP(' 2017-05-21 10:50:29', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209102', '律师资格证书', '2', '2209', '律师资格证书', '1', TO_TIMESTAMP(' 2017-05-21 10:50:29', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209103', '临时羁押证明书', '2', '2209', '临时羁押证明书', '1', TO_TIMESTAMP(' 2017-05-21 10:53:50', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209104', '指定居所监视居住通知书', '2', '2209', '指定居所监视居住通知书', '8', TO_TIMESTAMP(' 2017-05-21 10:56:38', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209105', '呈请查询财产报告书', '2', '2209', '呈请查询财产报告书', '1', TO_TIMESTAMP(' 2017-05-21 14:59:32', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209106', '呈请传唤报告书', '2', '2209', '呈请传唤报告书', '1', TO_TIMESTAMP(' 2017-05-21 14:59:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209107', '呈请扣押报告书', '2', '2209', '呈请扣押报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:00:28', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209108', '呈请立案报告书', '2', '2209', '呈请立案报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:00:50', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209109', '呈请搜查报告书', '2', '2209', '呈请搜查报告书', '1', TO_TIMESTAMP(' 2017-05-21 15:01:13', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220264', '银行转账记录', '2', '2202', '银行转账记录', '64', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220265', '支付平台交易记录', '2', '2202', '支付平台交易记录', '65', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220266', '作案工具来源凭证', '2', '2202', '作案工具来源凭证', '66', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220267', '销赃凭证', '2', '2202', '销赃凭证', '67', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220268', '维修凭证', '2', '2202', '维修凭证', '68', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220269', '记账凭证', '2', '2202', '记账凭证', '69', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220270', '作案人员作案特征信息采集表', '2', '2202', '作案人员作案特征信息采集表', '70', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220271', '报案材料', '2', '2202', '报案材料', '71', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220272', '110接警单', '2', '2202', '110接警单', '72', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220273', '电信账单', '2', '2202', '电信账单', '73', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220274', '取保候审保证人资格审查表', '2', '2202', '取保候审保证人资格审查表', '74', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220275', '收据（收取保证金）', '2', '2202', '收据（收取保证金）', '75', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220276', '银行流水回执', '2', '2202', '银行流水回执', '76', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220277', '银行冻结回执', '2', '2202', '银行冻结回执', '77', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220278', '银行解除冻结回执', '2', '2202', '银行解除冻结回执', '78', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220279', '身份证复印件', '2', '2202', '身份证复印件', NULL, TO_TIMESTAMP(' 2017-05-20 13:04:07', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220281', '房屋、设备租赁协议', '2', '2202', '房屋、设备租赁协议', NULL, TO_TIMESTAMP(' 2017-05-20 13:15:44', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220282', '话术单', '2', '2202', '话术单', NULL, TO_TIMESTAMP(' 2017-05-20 13:20:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220283', '诈骗剧本', '2', '2202', '诈骗剧本', NULL, TO_TIMESTAMP(' 2017-05-20 13:20:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220284', '培训材料', '2', '2202', '培训材料', NULL, TO_TIMESTAMP(' 2017-05-20 13:20:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220285', '接听、拨打电话信息登记表', '2', '2202', '接听、拨打电话信息登记表', NULL, TO_TIMESTAMP(' 2017-05-20 13:20:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220286', '薪资材料', '2', '2202', '薪资材料', NULL, TO_TIMESTAMP(' 2017-05-20 13:20:00', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220287', '业绩清单', '2', '2202', '业绩清单', NULL, TO_TIMESTAMP(' 2017-05-20 13:20:01', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220288', '汇款凭证', '2', '2202', '汇款凭证', NULL, TO_TIMESTAMP(' 2017-05-20 13:20:01', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220289', '立功证明材料', '2', '2202', '立功证明材料', NULL, TO_TIMESTAMP(' 2017-05-20 13:25:04', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220290', '退赔凭证', '2', '2202', '退赔凭证', NULL, TO_TIMESTAMP(' 2017-05-20 13:25:27', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220291', '刑事判决书或裁定书', '2', '2202', '刑事判决书或裁定书', '1', TO_TIMESTAMP(' 2017-05-21 13:55:33', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220292', '检查单或罚单', '2', '2202', '检查单或罚单', '1', TO_TIMESTAMP(' 2017-05-21 14:07:36', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220293', '出生证明', '2', '2202', '出生证明', '1', TO_TIMESTAMP(' 2017-05-21 14:11:17', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220294', '残疾证或诊断证明', '2', '2202', '残疾证或诊断证明', '1', TO_TIMESTAMP(' 2017-05-21 14:11:43', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220295', '拨打、接听电话信息登记表', '2', '2202', '拨打、接听电话信息登记表', '1', TO_TIMESTAMP(' 2017-05-21 14:12:44', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220296', '培训资料', '2', '2202', '培训资料', '1', TO_TIMESTAMP(' 2017-05-21 14:13:45', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220297', '诈骗数据', '2', '2202', '诈骗数据', '1', TO_TIMESTAMP(' 2017-05-21 14:14:21', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220298', '死亡证明', '2', '2202', '死亡证明', '1', TO_TIMESTAMP(' 2017-05-21 14:16:16', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220299', '随身财物保管清单', '2', '2202', '随身财物保管清单', '1', TO_TIMESTAMP(' 2017-05-21 14:25:14', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220301', '询问笔录', '2', '2203', '询问笔录', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220401', '询问笔录', '2', '2204', '询问笔录', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220402', '询问通知书', '2', '2204', '询问通知书', '1', TO_TIMESTAMP(' 2017-05-21 13:47:56', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220403', '证人诉讼权利义务告知书', '2', '2204', '证人诉讼权利义务告知书', '1', TO_TIMESTAMP(' 2017-05-21 13:47:56', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220404', '被害人诉讼权利义务告知书', '2', '2204', '被害人诉讼权利义务告知书', '1', TO_TIMESTAMP(' 2017-05-21 13:47:56', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220501', '讯问笔录', '2', '2205', '讯问笔录', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220601', '法医学尸体检验鉴定书', '2', '2206', '法医学尸体检验鉴定书', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220602', '法庭科学DNA鉴定意见', '2', '2206', '法庭科学DNA鉴定意见', '2', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220603', '精神疾病鉴定意见', '2', '2206', '精神疾病鉴定意见', '3', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220604', '法庭科学DNA鉴定报告', '2', '2206', '法庭科学DNA鉴定报告', '4', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220605', '法庭科学DNA鉴定书', '2', '2206', '法庭科学DNA鉴定书', '5', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220606', '上海市公安局物证鉴定中心鉴定书', '2', '2206', '上海市公安局物证鉴定中心鉴定书', '6', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220607', '手印鉴定书', '2', '2206', '手印鉴定书', '7', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220608', '足印鉴定书', '2', '2206', '足印鉴定书', '8', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220609', '指纹鉴定书', '2', '2206', '指纹鉴定书', '9', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220610', '物证鉴定中心检验报告', '2', '2206', '物证鉴定中心检验报告', '10', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2206100', '掌印鉴定书', '2', '2206', '掌印鉴定书', '101', TO_TIMESTAMP(' 2017-06-05 21:55:45', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220611', '价格认定协助书', '2', '2206', '价格认定协助书', '11', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220612', '价格认定标的明细表', '2', '2206', '价格认定标的明细表', '12', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220613', '价格认定结论书', '2', '2206', '价格认定结论书', '13', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220614', '上海市公安局物证鉴定中心法庭科学DNA鉴定书', '2', '2206', '上海市公安局物证鉴定中心法庭科学DNA鉴定书', '14', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220615', '精神疾病司法鉴定意见书', '2', '2206', '精神疾病司法鉴定意见书', '15', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220616', '鞋印鉴定书', '2', '2206', '鞋印鉴定书', '1', TO_TIMESTAMP(' 2017-05-21 11:28:17', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220617', '掌纹鉴定书', '2', '2206', '掌纹鉴定书', '1', TO_TIMESTAMP(' 2017-05-21 11:28:54', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220618', '足迹鉴定书', '2', '2206', '足迹鉴定书', '1', TO_TIMESTAMP(' 2017-05-21 11:29:27', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220701', '现场勘验笔录', '2', '2207', '现场勘验笔录', '1', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220702', '辨认笔录', '2', '2207', '辨认笔录', '2', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220703', '人身安全检查笔录', '2', '2207', '人身安全检查笔录', '3', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220704', '检查笔录', '2', '2207', '检查笔录', '6', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220705', '辨认照片说明', '2', '2207', '辨认照片说明', '5', TO_TIMESTAMP(' 2017-05-18 17:35:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202108', '宣传资料', '2', '2202', '宣传资料', '108', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202109', '行政处罚材料', '2', '2202', '行政处罚材料', '109', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202110', '工商资料', '2', '2202', '工商资料', '110', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202111', '经营场所租赁合同', '2', '2202', '经营场所租赁合同', '111', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202112', '房屋租赁合同', '2', '2202', '房屋租赁合同', '112', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202113', '公司章程', '2', '2202', '公司章程', '113', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202114', '房产、车辆、存款、股票、期货等信息', '2', '2202', '房产、车辆、存款、股票、期货等信息', '114', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2202115', '相关协议书合同', '2', '2202', '相关协议书合同', '115', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2206101', '监管部门书面意见', '2', '2206', '监管部门书面意见', '101', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2206102', '司法会计鉴定意见书', '2', '2206', '司法会计鉴定意见书', '102', TO_TIMESTAMP(' 2017-09-01 16:12:26', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209380', '对附带民事部分的调解', '2', '2209', '对附带民事部分的调解', '380', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209366', '调查取证材料', '2', '2209', '调查取证材料', '366', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209365', '调查笔录', '2', '2209', '调查笔录', '365', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209364', '撤诉书', '2', '2209', '撤诉书', '364', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220977', '退卷函(检察院)', '2', '2209', '退卷函(检察院)', '398', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220978', '法庭科学DNA检验鉴定报告', '2', '2206', '法庭科学DNA检验鉴定报告', '4', TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220405', '询问/讯一笔录', '2', '2203', '询问笔录', '1', TO_TIMESTAMP(' 2018-07-19 16:50:55', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('220406', '询问/讯笔录', '2', '2203', '询问笔录', '1', TO_TIMESTAMP(' 2018-07-19 16:50:55', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '1', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209403', '要求复议意见书', '2', '2209', '要求复议意见书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209404', '复议决定书', '2', '2209', '复议决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209405', '提请复核意见书', '2', '2209', '提请复核意见书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209406', '不批准延长侦查羁押期限决定书', '2', '2209', '不批准延长侦查羁押期限决定书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+INSERT INTO "DIC_EVIDENCE_TYPE" ("CODE", "NAME", "LVL", "PARENET_CODE", "DESCRIPT", "SEQ", "CREATE_TIME", "UPDATE_TIME", "IS_DISPLAY", "EXPORTED", "IS_DELETE") VALUES ('2209407', '批准延长侦查羁押期限意见书', '2', '2209', '批准延长侦查羁押期限意见书', NULL, TO_TIMESTAMP(' 2017-11-15 21:35:49', 'SYYYY-MM-DD HH24:MI:SS:'), NULL, '0', '0', '0');
+
+
+
+-- 插入数据ED_USER
+insert into  "ED_USER" ("ID","USERNAME","PWD") values ('1', 'znbm', 'E10ADC3949BA59ABBE56E057F20F883E');
+insert into  "ED_USER" ("ID","USERNAME","PWD") values ('2', 'Ifly123!', '098F6BCD4621D373CADE4E832627B4F6');
+insert into  "ED_USER" ("ID","USERNAME","PWD") values ('3', 'test', '060FA58AF1F9899D61EBF821DBC214E4');
+insert into  "ED_USER" ("ID","USERNAME","PWD") values ('4', 'znbm111', 'E10ADC3949BA59ABBE56E057F20F883E');
+
+
+
+
+
+
+INSERT INTO ED_DIC_FOLDER VALUES (11111, '公安卷宗目录', 1000, 1, NULL, '01', NULL, '10000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11112, '诉讼文书卷', 1200, 2, '10000', '01', NULL, '11000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11113, '卷宗封面', 1210, 3, '11000', '01', NULL, '11010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11114, '封面附件', 1220, 3, '11000', '01', NULL, '11020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11115, '卷内目录', 1230, 3, '11000', '01', NULL, '11030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11116, '接处警登记表', 1240, 3, '11000', '01', NULL, '11040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11117, '受案登记表', 1250, 3, '11000', '01', NULL, '11050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11118, '受案回执', 1260, 3, '11000', '01', NULL, '11060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11119, '指定管辖决定书', 1270, 3, '11000', '01', NULL, '11070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11120, '立案/不立案决定书', 1280, 3, '11000', '01', NULL, '11080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11121, '立案告知书', 1290, 3, '11000', '01', NULL, '11090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11122, '移送案件通知书', 1300, 3, '11000', '01', NULL, '11100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11123, '人民检察院通知立案书', 1310, 3, '11000', '01', NULL, '11110', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11124, '控制下交付报告书', 1320, 3, '11000', '01', NULL, '11120', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11125, '隐匿身份侦查报告书', 1330, 3, '11000', '01', NULL, '11130', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11126, '传唤证', 1340, 3, '11000', '01', NULL, '11140', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11127, '传唤通知书', 1350, 3, '11000', '01', NULL, '11150', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11128, '拘传证', 1360, 3, '11000', '01', NULL, '11160', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11129, '拘留证', 1370, 3, '11000', '01', NULL, '11170', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11130, '拘留通知书', 1380, 3, '11000', '01', NULL, '11180', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11131, '变更羁押期限通知书', 1390, 3, '11000', '01', NULL, '11190', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11132, '提请批准逮捕书', 1400, 3, '11000', '01', NULL, '11200', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11133, '批准/不批准逮捕决定书', 1410, 3, '11000', '01', NULL, '11210', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11134, '逮捕证', 1420, 3, '11000', '01', NULL, '11220', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11135, '逮捕家属通知书', 1430, 3, '11000', '01', NULL, '11230', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11136, '提请批准延长侦查羁押期限意见书', 1440, 3, '11000', '01', NULL, '11240', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11137, '批准/不批准延长侦查羁押期限决定书', 1450, 3, '11000', '01', NULL, '11250', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11138, '延长侦查羁押期限通知书', 1460, 3, '11000', '01', NULL, '11260', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11139, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不批捕)', 1470, 3, '11000', '01', NULL, '11270', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11140, '重新计算侦查羁押期限通知书', 1480, 3, '11000', '01', NULL, '11280', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11141, '变更强制措施申请', 1490, 3, '11000', '01', NULL, '11290', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11142, '变更强制措施通知书', 1500, 3, '11000', '01', NULL, '11300', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11143, '不予释放/变更强制措施通知书', 1510, 3, '11000', '01', NULL, '11310', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11144, '释放通知书', 1520, 3, '11000', '01', NULL, '11320', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11145, '释放证明书', 1530, 3, '11000', '01', NULL, '11330', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11146, '取保候审决定书、取保候审保证书', 1540, 3, '11000', '01', NULL, '11340', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11147, '保证人资格审查表', 1550, 3, '11000', '01', NULL, '11350', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11148, '对保证人罚款决定书', 1560, 3, '11000', '01', NULL, '11360', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11149, '对保证人罚款复核决定书', 1570, 3, '11000', '01', NULL, '11370', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11150, '收取保证金通知书', 1580, 3, '11000', '01', NULL, '11380', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11151, '退还保证金决定书、退还保证金通知书', 1590, 3, '11000', '01', NULL, '11390', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11152, '没收保证金决定书、没收保证金通知书', 1600, 3, '11000', '01', NULL, '11400', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11153, '没收保证金复核决定书', 1610, 3, '11000', '01', NULL, '11410', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11154, '责令具结悔过决定书', 1620, 3, '11000', '01', NULL, '11420', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11155, '悔过书', 1630, 3, '11000', '01', NULL, '11430', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11156, '解除取保候审决定书', 1640, 3, '11000', '01', NULL, '11440', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11157, '监视居住决定书', 1650, 3, '11000', '01', NULL, '11450', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11158, '解除监视居住决定书', 1660, 3, '11000', '01', NULL, '11460', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11159, '律师辩护意见', 1670, 3, '11000', '01', NULL, '11470', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11160, '准予/不准予会见涉密案件在押犯罪嫌疑人决定书', 1680, 3, '11000', '01', NULL, '11480', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11161, '提供法律援助通知书', 1690, 3, '11000', '01', NULL, '11490', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11162, '采取技术侦查措施决定书', 1700, 3, '11000', '01', NULL, '11500', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11163, '执行技术侦查措施通知书', 1710, 3, '11000', '01', NULL, '11510', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11164, '延长技术侦查措施期限决定书', 1720, 3, '11000', '01', NULL, '11520', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11165, '解除技术侦查措施决定书', 1730, 3, '11000', '01', NULL, '11530', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11166, '回避/驳回申请回避决定书', 1740, 3, '11000', '01', NULL, '11540', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11167, '刑事复议申请记录', 1750, 3, '11000', '01', NULL, '11550', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11168, '不予受理刑事复议/复核申请决定书', 1760, 3, '11000', '01', NULL, '11560', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11169, '刑事复议/复核申请补充材料通知书', 1770, 3, '11000', '01', NULL, '11570', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11170, '中止刑事复议/复核通知书', 1780, 3, '11000', '01', NULL, '11580', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11171, '延长刑事复议/复核期限通知书', 1790, 3, '11000', '01', NULL, '11590', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11172, '终止刑事复议/复核程序通知书', 1800, 3, '11000', '01', NULL, '11600', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11173, '刑事复议决定书', 1810, 3, '11000', '01', NULL, '11610', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11174, '刑事复核决定书', 1820, 3, '11000', '01', NULL, '11620', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11175, '解剖尸体通知书', 1830, 3, '11000', '01', NULL, '11630', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11176, '终止侦查报告书/决定书', 1840, 3, '11000', '01', NULL, '11640', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11177, '撤销案件报告书/决定书', 1850, 3, '11000', '01', NULL, '11650', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11178, '死亡通知书', 1860, 3, '11000', '01', NULL, '11660', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11179, '移送审查起诉告知书', 1870, 3, '11000', '01', NULL, '11670', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11180, '起诉意见书', 1880, 3, '11000', '01', NULL, '11680', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11181, '起诉/不起诉决定书', 1890, 3, '11000', '01', NULL, '11690', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11182, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不起诉)', 1900, 3, '11000', '01', NULL, '11700', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11183, '入所健康检查表', 1910, 3, '11000', '01', NULL, '11710', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11184, '换押证', 1920, 3, '11000', '01', NULL, '11720', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11185, '附带民事诉讼诉状', 1930, 3, '11000', '01', NULL, '11730', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11186, '附证物袋', 1940, 3, '11000', '01', NULL, '11740', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11187, '其他材料', 1950, 3, '11000', '01', NULL, 'default-11750', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11188, '卷宗封底', 1960, 3, '11000', '01', NULL, '11760', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11189, '诉讼证据卷', 1300, 2, '10000', '01', NULL, '12000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11190, '卷宗封面', 1970, 3, '12000', '01', NULL, '12010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11191, '封面附件', 1980, 3, '12000', '01', NULL, '12020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11192, '卷内目录', 1990, 3, '12000', '01', NULL, '12030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11193, '案件来源材料', 2000, 3, '12000', '01', NULL, '12040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11194, '犯罪嫌疑人正侧面照片', 2010, 3, '12000', '01', NULL, '12050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11195, '户籍/身份信息资料', 2020, 3, '12000', '01', NULL, '12060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11196, '单位主体材料', 2030, 3, '12000', '01', NULL, '12070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11197, '犯罪嫌疑人抓获经过/到案情况说明', 2040, 3, '12000', '01', NULL, '12080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11198, '继续盘问通知书', 2050, 3, '12000', '01', NULL, '12090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11199, '延长继续盘问时限审批表', 2060, 3, '12000', '01', NULL, '12100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11200, '当场/继续盘问笔录', 2070, 3, '12000', '01', NULL, '12110', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11201, '提讯提解证', 2080, 3, '12000', '01', NULL, '12120', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11202, '传讯通知书', 2090, 3, '12000', '01', NULL, '12130', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11203, '犯罪嫌疑人的供述与辩解', 2100, 3, '12000', '01', NULL, '12140', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11204, '犯罪嫌疑人辨认笔录', 2110, 3, '12000', '01', NULL, '12150', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11205, '指认现场笔录及照片', 2120, 3, '12000', '01', NULL, '12160', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11206, '未成年犯罪嫌疑人社会调查报告', 2130, 3, '12000', '01', NULL, '12170', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11207, '询问通知书', 2140, 3, '12000', '01', NULL, '12180', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11208, '被害人陈述', 2150, 3, '12000', '01', NULL, '12190', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11209, '被害人辨认笔录', 2160, 3, '12000', '01', NULL, '12200', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11210, '证人证言', 2170, 3, '12000', '01', NULL, '12210', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11211, '证人辨认笔录', 2180, 3, '12000', '01', NULL, '12220', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11212, '人身检查笔录', 2190, 3, '12000', '01', NULL, '12230', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11213, '搜查证', 2200, 3, '12000', '01', NULL, '12240', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11214, '搜查笔录', 2210, 3, '12000', '01', NULL, '12250', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11215, '物证照片及制作、保存说明', 2220, 3, '12000', '01', NULL, '12260', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11216, '书证或书证副本及制作说明', 2230, 3, '12000', '01', NULL, '12270', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11217, '视听资料及制作说明', 2240, 3, '12000', '01', NULL, '12280', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11218, '电子数据提取及制作说明', 2250, 3, '12000', '01', NULL, '12290', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11219, '扣押决定书', 2260, 3, '12000', '01', NULL, '12300', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11220, '扣押/发还清单', 2270, 3, '12000', '01', NULL, '12310', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11221, '扣押笔录', 2280, 3, '12000', '01', NULL, '12320', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11222, '随案移送清单', 2290, 3, '12000', '01', NULL, '12330', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11223, '销毁清单', 2300, 3, '12000', '01', NULL, '12340', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11224, '扣押/解除扣押邮件/电报通知书', 2310, 3, '12000', '01', NULL, '12350', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11225, '提取/检查笔录', 2320, 3, '12000', '01', NULL, '12360', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11226, '查封决定书', 2330, 3, '12000', '01', NULL, '12370', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11227, '查封笔录/清单', 2340, 3, '12000', '01', NULL, '12380', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11228, '协助查询/冻结/解除冻结财产通知书', 2350, 3, '12000', '01', NULL, '12390', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11229, '协助查封/解除查封通知书回执', 2360, 3, '12000', '01', NULL, '12400', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11230, '调取证据通知书、调取证据清单', 2370, 3, '12000', '01', NULL, '12410', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11231, '接受证据材料清单', 2380, 3, '12000', '01', NULL, '12420', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11232, '鉴定聘请书', 2390, 3, '12000', '01', NULL, '12430', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11233, '鉴定意见书、鉴定意见告知书', 2400, 3, '12000', '01', NULL, '12440', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11234, '现场勘验笔录', 2410, 3, '12000', '01', NULL, '12450', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11235, '现场勘验（复验）笔录', 2420, 3, '12000', '01', NULL, '12460', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11236, '侦查实验笔录', 2430, 3, '12000', '01', NULL, '12470', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11237, '适格见证人身份信息', 2440, 3, '12000', '01', NULL, '12480', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11238, '犯罪嫌疑人自首/立功证明材料', 2450, 3, '12000', '01', NULL, '12490', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11239, '犯罪嫌疑人前科材料', 2460, 3, '12000', '01', NULL, '12500', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11240, '刑事和解材料', 2470, 3, '12000', '01', NULL, '12510', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11241, '同案另案处理材料', 2480, 3, '12000', '01', NULL, '12520', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11242, '其他法定的加重、从重、减轻、从轻或免除处罚情节的证据材料', 2490, 3, '12000', '01', NULL, '12530', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11243, '附带民事诉讼材料', 2500, 3, '12000', '01', NULL, '12540', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11244, '附证物袋', 2510, 3, '12000', '01', NULL, '12550', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11245, '其他材料', 2520, 3, '12000', '01', NULL, '12560', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11246, '卷宗封底', 2530, 3, '12000', '01', NULL, '12570', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11247, '补充侦查卷', 1400, 2, '10000', '01', NULL, '13000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11248, '卷宗封面', 2540, 3, '13000', '01', NULL, '13010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11249, '封面附件', 2550, 3, '13000', '01', NULL, '13020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11250, '卷内目录', 2560, 3, '13000', '01', NULL, '13030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11251, '补充侦查决定书', 2570, 3, '13000', '01', NULL, '13040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11252, '补充侦查提纲', 2580, 3, '13000', '01', NULL, '13050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11253, '补充侦查报告书', 2590, 3, '13000', '01', NULL, '13060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11254, '补充侦查的文书、证据材料', 2600, 3, '13000', '01', NULL, '13070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11255, '换押证', 2610, 3, '13000', '01', NULL, '13080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11256, '其他材料', 2620, 3, '13000', '01', NULL, '13090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11257, '卷宗封底', 2630, 3, '13000', '01', NULL, '13100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11258, '侦查工作卷', 1500, 2, '10000', '01', NULL, '14000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11259, '卷宗封面', 2640, 3, '14000', '01', NULL, '14010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11260, '封面附件', 2650, 3, '14000', '01', NULL, '14020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11261, '卷内目录', 2660, 3, '14000', '01', NULL, '14030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11262, '侦查终结报告书', 2670, 3, '14000', '01', NULL, '14040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11263, '起诉意见书', 2680, 3, '14000', '01', NULL, '14050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11264, '起诉/不起诉决定书副本', 2690, 3, '14000', '01', NULL, '14060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11265, '判决/裁定书副本', 2700, 3, '14000', '01', NULL, '14070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11266, '继续盘问（留置）审批表', 2710, 3, '14000', '01', NULL, '14080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11267, '延长继续盘问（留置）审批表', 2720, 3, '14000', '01', NULL, '14090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11268, '呈请立案/不予立案报告书', 2730, 3, '14000', '01', NULL, '14100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11269, '协查通报', 2740, 3, '14000', '01', NULL, '14110', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11270, '通缉/撤销通缉令', 2750, 3, '14000', '01', NULL, '14120', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11271, '呈请拘留报告书', 2760, 3, '14000', '01', NULL, '14130', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11272, '呈请传唤报告书', 2770, 3, '14000', '01', NULL, '14140', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11273, '呈请拘传报告书', 2780, 3, '14000', '01', NULL, '14150', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11274, '变更羁押期限/呈请延长拘留期限报告书', 2790, 3, '14000', '01', NULL, '14160', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11275, '呈请提请批准逮捕报告书/呈请逮捕报告书', 2800, 3, '14000', '01', NULL, '14170', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11276, '呈请要求复议报告书', 2810, 3, '14000', '01', NULL, '14180', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11277, '呈请提请复核报告书', 2820, 3, '14000', '01', NULL, '14190', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11278, '呈请重新计算侦查羁押期限报告书', 2830, 3, '14000', '01', NULL, '14200', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11279, '呈请延长侦查羁押期限报告书', 2840, 3, '14000', '01', NULL, '14210', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11280, '呈请变更强制措施报告书', 2850, 3, '14000', '01', NULL, '14220', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11281, '呈请取保候审报告书', 2860, 3, '14000', '01', NULL, '14230', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11282, '呈请解除取保候审报告书', 2870, 3, '14000', '01', NULL, '14240', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11283, '呈请退还保证金报告书', 2880, 3, '14000', '01', NULL, '14250', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11284, '呈请没收保证金报告书', 2890, 3, '14000', '01', NULL, '14260', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11285, '呈请具结悔过报告书', 2900, 3, '14000', '01', NULL, '14270', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11286, '呈请对保证人罚款报告书', 2910, 3, '14000', '01', NULL, '14280', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11287, '呈请监视居住报告书', 2920, 3, '14000', '01', NULL, '14290', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11288, '呈请解除监视居住报告书', 2930, 3, '14000', '01', NULL, '14300', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11289, '呈请调取证据报告书', 2940, 3, '14000', '01', NULL, '14310', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11290, '现场勘查原始登记表', 2950, 3, '14000', '01', NULL, '14320', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11291, '呈请复验、复查报告书', 2960, 3, '14000', '01', NULL, '14330', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11292, '呈请检查报告书', 2970, 3, '14000', '01', NULL, '14340', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11293, '呈请侦查实验报告书', 2980, 3, '14000', '01', NULL, '14350', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11294, '呈请搜查报告书', 2990, 3, '14000', '01', NULL, '14360', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11295, '呈请扣押报告书', 3000, 3, '14000', '01', NULL, '14370', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11296, '呈请解除扣押报告书', 3010, 3, '14000', '01', NULL, '14380', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11297, '呈请查询存款/汇款报告书', 3020, 3, '14000', '01', NULL, '14390', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11298, '呈请冻结存款/汇款报告书', 3030, 3, '14000', '01', NULL, '14400', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11299, '呈请解除冻结存款/汇款报告书', 3040, 3, '14000', '01', NULL, '14410', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11300, '呈请鉴定报告书', 3050, 3, '14000', '01', NULL, '14420', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11301, '呈请辨认报告书', 3060, 3, '14000', '01', NULL, '14430', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11302, '呈请回避/驳回回避报告书', 3070, 3, '14000', '01', NULL, '14440', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11303, '涉密案件聘请律师申请表', 3080, 3, '14000', '01', NULL, '14450', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11304, '会见涉密案件在押犯罪嫌疑人申请表', 3090, 3, '14000', '01', NULL, '14460', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11305, '讯问计划', 3100, 3, '14000', '01', NULL, '14470', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11306, '案件汇报提纲', 3110, 3, '14000', '01', NULL, '14480', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11307, '调查计划', 3120, 3, '14000', '01', NULL, '14490', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11308, '换押证', 3130, 3, '14000', '01', NULL, '14500', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11309, '检察机关在审查逮捕时回流的文书', 3140, 3, '14000', '01', NULL, '14510', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11310, '调取证据报告书', 3150, 3, '14000', '01', NULL, '14520', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11311, '呈请破案报告书', 3160, 3, '14000', '01', NULL, '14530', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11312, '侦查记录', 3170, 3, '14000', '01', NULL, '14540', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11313, '侦查计划、案件讨论记录', 3180, 3, '14000', '01', NULL, '14550', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11314, '其他材料', 3190, 3, '14000', '01', NULL, '14560', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11315, '附证物袋', 3200, 3, '14000', '01', NULL, '14570', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11316, '卷宗封底', 3210, 3, '14000', '01', NULL, '14580', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11317, '公安卷宗目录', 200, 1, NULL, '03', NULL, '100000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11318, '行政处罚卷', 2200, 2, '100000', '03', NULL, '21000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11319, '卷宗封面', 3220, 3, '21000', '03', NULL, '21010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11320, '封面附件', 3230, 3, '21000', '03', NULL, '21015', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11321, '卷内目录', 3240, 3, '21000', '03', NULL, '21020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11322, '行政处罚决定书、报告书', 3250, 3, '21000', '03', NULL, '21030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11323, '吊销证照', 3260, 3, '21000', '03', NULL, '21040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11324, '没收违法所得非法财务清单', 3270, 3, '21000', '03', NULL, '21050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11325, '收缴/追缴物品清单', 3280, 3, '21000', '03', NULL, '21060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11326, '罚没财物收据', 3290, 3, '21000', '03', NULL, '21070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11327, '行政拘留家属通知书', 3300, 3, '21000', '03', NULL, '21080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11328, '责令通知书', 3310, 3, '21000', '03', NULL, '21090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11329, '治安调解协议书', 3320, 3, '21000', '03', NULL, '21100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11330, '不予行政处罚决定书', 3330, 3, '21000', '03', NULL, '21110', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11331, '不予调查处理告知书', 3340, 3, '21000', '03', NULL, '21120', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11332, '终止案件调查决定书', 3350, 3, '21000', '03', NULL, '21130', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11333, '劳动教养法律文书（原）', 3360, 3, '21000', '03', NULL, '21140', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11334, '收容教育/延长收容教育决定书', 3370, 3, '21000', '03', NULL, '21150', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11335, '提前解除收容教育决定书', 3380, 3, '21000', '03', NULL, '21160', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11336, '解除收容教育证明书', 3390, 3, '21000', '03', NULL, '21170', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11337, '强制戒毒/延长强制戒毒决定书', 3400, 3, '21000', '03', NULL, '21180', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11338, '提前解除强制隔离戒毒决定书', 3410, 3, '21000', '03', NULL, '21190', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11339, '解除强制戒毒证明书', 3420, 3, '21000', '03', NULL, '21200', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11340, '限期戒毒审批表', 3430, 3, '21000', '03', NULL, '21210', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11341, '限期戒毒通知书', 3440, 3, '21000', '03', NULL, '21220', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11342, '社区戒毒/社区康复决定书', 3450, 3, '21000', '03', NULL, '21230', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11343, '解除社区戒毒/社区康复通知书', 3460, 3, '21000', '03', NULL, '21240', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11344, '遣送出境决定书', 3470, 3, '21000', '03', NULL, '21250', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11345, '驱逐出境决定书', 3480, 3, '21000', '03', NULL, '21260', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11346, '限期出境决定书', 3490, 3, '21000', '03', NULL, '21270', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11347, '受案登记表', 3500, 3, '21000', '03', NULL, '21280', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11348, '接受证据清单', 3510, 3, '21000', '03', NULL, '21290', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11349, '移送案件通知书', 3520, 3, '21000', '03', NULL, '21300', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11350, '撤销案件决定书', 3530, 3, '21000', '03', NULL, '21310', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11351, '指定管辖决定书', 3540, 3, '21000', '03', NULL, '21320', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11352, '其它证明案件来源有关材料', 3550, 3, '21000', '03', NULL, '21330', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11353, '受案回执', 3560, 3, '21000', '03', NULL, '21340', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11354, '延长治安案件办案期限报告书', 3570, 3, '21000', '03', NULL, '21350', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11355, '回避申请', 3580, 3, '21000', '03', NULL, '21360', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11356, '回避/驳回申请回避决定', 3590, 3, '21000', '03', NULL, '21370', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11357, '不服驳回申请决定的复议申请材料', 3600, 3, '21000', '03', NULL, '21380', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11358, '当场盘问、检查/继续盘问笔录和讯问笔录', 3610, 3, '21000', '03', NULL, '21390', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11359, '继续盘问通知书', 3620, 3, '21000', '03', NULL, '21400', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11360, '传唤证', 3630, 3, '21000', '03', NULL, '21410', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11361, '传唤家属通知书', 3640, 3, '21000', '03', NULL, '21420', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11362, '拘留审查/延长拘留审查决定书', 3650, 3, '21000', '03', NULL, '21430', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11363, '解除拘留审查决定书', 3660, 3, '21000', '03', NULL, '21440', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11364, '限制活动范围决定书', 3670, 3, '21000', '03', NULL, '21450', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11365, '翻译人员聘请通知书、聘书', 3680, 3, '21000', '03', NULL, '21460', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11366, '违法嫌疑人陈述、申辩', 3690, 3, '21000', '03', NULL, '21470', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11367, '违法嫌疑人辨认笔录', 3700, 3, '21000', '03', NULL, '21480', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11368, '被害人陈述', 3710, 3, '21000', '03', NULL, '21490', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11369, '被害人辨认笔录', 3720, 3, '21000', '03', NULL, '21500', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11370, '证人证言', 3730, 3, '21000', '03', NULL, '21510', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11371, '证人辨认笔录', 3740, 3, '21000', '03', NULL, '21520', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11372, '检查证', 3750, 3, '21000', '03', NULL, '21530', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11373, '检查笔录', 3760, 3, '21000', '03', NULL, '21540', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11374, '提取笔录', 3770, 3, '21000', '03', NULL, '21550', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11375, '勘验笔录', 3780, 3, '21000', '03', NULL, '21560', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11376, '现场笔录', 3790, 3, '21000', '03', NULL, '21570', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11377, '证据保全决定书', 3800, 3, '21000', '03', NULL, '21580', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11378, '证据保全清单及照片', 3810, 3, '21000', '03', NULL, '21590', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11379, '调取证据通知书', 3820, 3, '21000', '03', NULL, '21600', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11380, '调取证据清单', 3830, 3, '21000', '03', NULL, '21610', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11381, '鉴定聘请书', 3840, 3, '21000', '03', NULL, '21620', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11382, '鉴定检测机构及鉴定人员资质证明', 3850, 3, '21000', '03', NULL, '21630', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11383, '鉴定意见', 3860, 3, '21000', '03', NULL, '21640', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11384, '鉴定意见告知书', 3870, 3, '21000', '03', NULL, '21650', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11385, '行政处罚告知笔录', 3880, 3, '21000', '03', NULL, '21660', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11386, '行政处罚告知后复核的相关文书材料', 3890, 3, '21000', '03', NULL, '21670', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11387, '听证申请书', 3900, 3, '21000', '03', NULL, '21680', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11388, '举行听证通知书', 3910, 3, '21000', '03', NULL, '21690', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11389, '不予受理听证通知书', 3920, 3, '21000', '03', NULL, '21700', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11390, '听证笔录', 3930, 3, '21000', '03', NULL, '21710', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11391, '听证报告书', 3940, 3, '21000', '03', NULL, '21720', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11392, '调解笔录', 3950, 3, '21000', '03', NULL, '21730', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11393, '书证', 3960, 3, '21000', '03', NULL, '21740', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11394, '获取视听资料/电子数据的情况说明', 3970, 3, '21000', '03', NULL, '21750', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11395, '物证', 3980, 3, '21000', '03', NULL, '21760', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11396, '抓获/到案情况说明', 3990, 3, '21000', '03', NULL, '21770', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11397, '缴赃/追缴情况说明', 4000, 3, '21000', '03', NULL, '21780', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11398, '继续调查情况说明', 4010, 3, '21000', '03', NULL, '21790', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11399, '执行回执', 4020, 3, '21000', '03', NULL, '21800', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11400, '暂缓执行行政拘留申请书', 4030, 3, '21000', '03', NULL, '21810', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11401, '担保人保证书', 4040, 3, '21000', '03', NULL, '21820', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11402, '收取/退还保证金通知书', 4050, 3, '21000', '03', NULL, '21830', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11403, '没收保证金决定书', 4060, 3, '21000', '03', NULL, '21840', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11404, '暂缓执行行政拘留决定书', 4070, 3, '21000', '03', NULL, '21850', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11405, '暂缓执行行政拘留通知书', 4080, 3, '21000', '03', NULL, '21860', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11406, '恢复执行行政拘留决定书', 4090, 3, '21000', '03', NULL, '21870', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11407, '行政强制执行决定书', 4100, 3, '21000', '03', NULL, '21880', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11408, '代履行决定书', 4110, 3, '21000', '03', NULL, '21890', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11409, '强制执行申请书', 4120, 3, '21000', '03', NULL, '21900', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11410, '送达回执', 4130, 3, '21000', '03', NULL, '21910', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11411, '被处罚人身份证明材料', 4140, 3, '21000', '03', NULL, '21920', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11412, '被处罚人违法犯罪记录材料', 4150, 3, '21000', '03', NULL, '21930', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11413, '被处罚人依法从重/从轻/减轻/不予处罚证明材料', 4160, 3, '21000', '03', NULL, '21940', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11414, '被处罚单位的复印件', 4170, 3, '21000', '03', NULL, '21950', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11415, '行政判决书', 4180, 3, '21000', '03', NULL, '21960', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11416, '行政裁定书', 4190, 3, '21000', '03', NULL, '21970', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11417, '其他材料', 4200, 3, '21000', '03', NULL, '21980', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11418, '卷宗封底', 4210, 3, '21000', '03', NULL, '21990', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11419, '刑事案件卷', 2300, 2, '100000', '03', NULL, '22000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11420, '卷宗封面', 4220, 3, '22000', '03', NULL, '22010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11421, '封面附件', 4230, 3, '22000', '03', NULL, '22020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11422, '卷内目录', 4240, 3, '22000', '03', NULL, '22030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11423, '接处警登记表', 4250, 3, '22000', '03', NULL, '22040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11424, '立案/不立案决定书', 4260, 3, '22000', '03', NULL, '22050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11425, '立案告知书', 4270, 3, '22000', '03', NULL, '22060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11426, '人民检察院通知立案书', 4280, 3, '22000', '03', NULL, '22070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11427, '控制下交付报告书', 4290, 3, '22000', '03', NULL, '22080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11428, '隐匿身份侦查报告书', 4300, 3, '22000', '03', NULL, '22090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11429, '传唤通知书', 4310, 3, '22000', '03', NULL, '22100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11430, '拘传证', 4320, 3, '22000', '03', NULL, '22110', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11431, '拘留证', 4330, 3, '22000', '03', NULL, '22120', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11432, '拘留通知书', 4340, 3, '22000', '03', NULL, '22130', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11433, '变更羁押期限通知书', 4350, 3, '22000', '03', NULL, '22140', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11434, '提请批准逮捕书', 4360, 3, '22000', '03', NULL, '22150', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11435, '批准/不批准逮捕决定书', 4370, 3, '22000', '03', NULL, '22160', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11436, '逮捕证', 4380, 3, '22000', '03', NULL, '22170', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11437, '逮捕家属通知书', 4390, 3, '22000', '03', NULL, '22180', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11438, '提请批准延长侦查羁押期限意见书', 4400, 3, '22000', '03', NULL, '22190', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11439, '批准/不批准延长侦查羁押期限决定书', 4410, 3, '22000', '03', NULL, '22200', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11440, '延长侦查羁押期限通知书', 4420, 3, '22000', '03', NULL, '22210', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11441, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不批捕)', 4430, 3, '22000', '03', NULL, '22220', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11442, '重新计算侦查羁押期限通知书', 4440, 3, '22000', '03', NULL, '22230', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11443, '变更强制措施申请', 4450, 3, '22000', '03', NULL, '22240', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11444, '变更强制措施通知书', 4460, 3, '22000', '03', NULL, '22250', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11445, '不予释放/变更强制措施通知书', 4470, 3, '22000', '03', NULL, '22260', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11446, '释放通知书', 4480, 3, '22000', '03', NULL, '22270', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11447, '释放证明书', 4490, 3, '22000', '03', NULL, '22280', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11448, '取保候审决定书、取保候审保证书', 4500, 3, '22000', '03', NULL, '22290', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11449, '保证人资格审查表', 4510, 3, '22000', '03', NULL, '22300', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11450, '对保证人罚款决定书', 4520, 3, '22000', '03', NULL, '22310', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11451, '对保证人罚款复核决定书', 4530, 3, '22000', '03', NULL, '22320', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11452, '收取保证金通知书', 4540, 3, '22000', '03', NULL, '22330', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11453, '退还保证金决定书、退还保证金通知书', 4550, 3, '22000', '03', NULL, '22340', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11454, '没收保证金决定书、没收保证金通知书', 4560, 3, '22000', '03', NULL, '22350', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11455, '没收保证金复核决定书', 4570, 3, '22000', '03', NULL, '22360', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11456, '责令具结悔过决定书', 4580, 3, '22000', '03', NULL, '22370', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11457, '悔过书', 4590, 3, '22000', '03', NULL, '22380', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11458, '解除取保候审决定书', 4600, 3, '22000', '03', NULL, '22390', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11459, '监视居住决定书', 4610, 3, '22000', '03', NULL, '22400', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11460, '解除监视居住决定书', 4620, 3, '22000', '03', NULL, '22410', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11461, '律师辩护意见', 4630, 3, '22000', '03', NULL, '22420', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11462, '准予/不准予会见涉密案件在押犯罪嫌疑人决定书', 4640, 3, '22000', '03', NULL, '22430', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11463, '提供法律援助通知书', 4650, 3, '22000', '03', NULL, '22440', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11464, '采取技术侦查措施决定书', 4660, 3, '22000', '03', NULL, '22450', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11465, '执行技术侦查措施通知书', 4670, 3, '22000', '03', NULL, '22460', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11466, '延长技术侦查措施期限决定书', 4680, 3, '22000', '03', NULL, '22470', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11467, '解除技术侦查措施决定书', 4690, 3, '22000', '03', NULL, '22480', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11468, '回避/驳回申请回避决定书', 4700, 3, '22000', '03', NULL, '22490', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11469, '刑事复议申请记录', 4710, 3, '22000', '03', NULL, '22500', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11470, '不予受理刑事复议/复核申请决定书', 4720, 3, '22000', '03', NULL, '22510', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11471, '刑事复议/复核申请补充材料通知书', 4730, 3, '22000', '03', NULL, '22520', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11472, '中止刑事复议/复核通知书', 4740, 3, '22000', '03', NULL, '22530', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11473, '延长刑事复议/复核期限通知书', 4750, 3, '22000', '03', NULL, '22540', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11474, '终止刑事复议/复核程序通知书', 4760, 3, '22000', '03', NULL, '22550', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11475, '刑事复议决定书', 4770, 3, '22000', '03', NULL, '22560', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11476, '刑事复核决定书', 4780, 3, '22000', '03', NULL, '22570', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11477, '解剖尸体通知书', 4790, 3, '22000', '03', NULL, '22580', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11478, '终止侦查报告书/决定书', 4800, 3, '22000', '03', NULL, '22590', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11479, '撤销案件报告书/决定书', 4810, 3, '22000', '03', NULL, '22600', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11480, '死亡通知书', 4820, 3, '22000', '03', NULL, '22610', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11481, '移送审查起诉告知书', 4830, 3, '22000', '03', NULL, '22620', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11482, '起诉意见书', 4840, 3, '22000', '03', NULL, '22630', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11483, '起诉/不起诉决定书', 4850, 3, '22000', '03', NULL, '22640', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11484, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不起诉)', 4860, 3, '22000', '03', NULL, '22650', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11485, '入所健康检查表', 4870, 3, '22000', '03', NULL, '22660', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11486, '换押证', 4880, 3, '22000', '03', NULL, '22670', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11487, '附带民事诉讼诉状', 4890, 3, '22000', '03', NULL, '22680', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11488, '案件来源材料', 4900, 3, '22000', '03', NULL, '22690', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11489, '犯罪嫌疑人正侧面照片', 4910, 3, '22000', '03', NULL, '22700', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11490, '户籍/身份信息资料', 4920, 3, '22000', '03', NULL, '22710', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11491, '单位主体材料', 4930, 3, '22000', '03', NULL, '22720', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11492, '犯罪嫌疑人抓获经过/到案情况说明', 4940, 3, '22000', '03', NULL, '22730', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11493, '延长继续盘问时限审批表', 4950, 3, '22000', '03', NULL, '22740', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11494, '当场/继续盘问笔录、检查笔录', 4960, 3, '22000', '03', NULL, '22750', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11495, '提讯提解证', 4970, 3, '22000', '03', NULL, '22760', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11496, '传讯通知书', 4980, 3, '22000', '03', NULL, '22770', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11497, '指认现场笔录及照片', 4990, 3, '22000', '03', NULL, '22780', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11498, '未成年犯罪嫌疑人社会调查报告', 5000, 3, '22000', '03', NULL, '22790', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11499, '询问通知书', 5010, 3, '22000', '03', NULL, '22800', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11500, '人身检查笔录', 5020, 3, '22000', '03', NULL, '22810', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11501, '搜查证', 5030, 3, '22000', '03', NULL, '22820', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11502, '搜查笔录', 5040, 3, '22000', '03', NULL, '22830', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11503, '物证照片及制作、保存说明', 5050, 3, '22000', '03', NULL, '22840', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11504, '书证或书证副本及制作说明', 5060, 3, '22000', '03', NULL, '22850', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11505, '视听资料及制作说明', 5070, 3, '22000', '03', NULL, '22860', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11506, '电子数据提取及制作说明', 5080, 3, '22000', '03', NULL, '22870', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11507, '扣押决定书', 5090, 3, '22000', '03', NULL, '22880', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11508, '扣押/发还清单', 5100, 3, '22000', '03', NULL, '22890', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11509, '扣押笔录', 5110, 3, '22000', '03', NULL, '22900', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11510, '随案移送清单', 5120, 3, '22000', '03', NULL, '22910', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11511, '销毁清单', 5130, 3, '22000', '03', NULL, '22920', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11512, '扣押/解除扣押邮件/电报通知书', 5140, 3, '22000', '03', NULL, '22930', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11513, '提取/检查笔录', 5150, 3, '22000', '03', NULL, '22940', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11514, '查封决定书', 5160, 3, '22000', '03', NULL, '22950', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11515, '查封笔录/清单', 5170, 3, '22000', '03', NULL, '22960', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11516, '协助查询/冻结/解除冻结财产通知书', 5180, 3, '22000', '03', NULL, '22970', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11517, '协助查封/解除查封通知书回执', 5190, 3, '22000', '03', NULL, '22980', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11518, '调取证据通知书、调取证据清单', 5200, 3, '22000', '03', NULL, '22981', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11519, '接受证据材料清单', 5210, 3, '22000', '03', NULL, '22982', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11520, '鉴定意见书、鉴定意见告知书', 5220, 3, '22000', '03', NULL, '22983', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11521, '现场勘验笔录', 5230, 3, '22000', '03', NULL, '22984', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11522, '现场勘验（复验）笔录', 5240, 3, '22000', '03', NULL, '22985', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11523, '侦查实验笔录', 5250, 3, '22000', '03', NULL, '22986', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11524, '适格见证人身份信息', 5260, 3, '22000', '03', NULL, '22987', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11525, '犯罪嫌疑人自首/立功证明材料', 5270, 3, '22000', '03', NULL, '22988', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11526, '犯罪嫌疑人前科材料', 5280, 3, '22000', '03', NULL, '22989', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11527, '刑事和解材料', 5290, 3, '22000', '03', NULL, '22990', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11528, '同案另案处理材料', 5300, 3, '22000', '03', NULL, '22991', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11529, '其他法定的加重、从重、减轻、从轻或免除处罚情节的证据材料', 5310, 3, '22000', '03', NULL, '22992', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11530, '附带民事诉讼材料', 5320, 3, '22000', '03', NULL, '22993', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11531, '附证物袋', 5330, 3, '22000', '03', NULL, '22994', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11532, '其他材料', 5340, 3, '22000', '03', NULL, '22995', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11533, '卷宗封底', 5350, 3, '22000', '03', NULL, '22996', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11534, '行政诉讼卷', 2400, 2, '100000', '03', NULL, '23000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11535, '卷宗封面', 5360, 3, '23000', '03', NULL, '23010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11536, '卷内目录', 5370, 3, '23000', '03', NULL, '23020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11537, '行政复议决定书', 5380, 3, '23000', '03', NULL, '23030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11538, '行政复议申请书', 5390, 3, '23000', '03', NULL, '23040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11539, '行政处罚、行政强制措施及其他行政处理决定书', 5400, 3, '23000', '03', NULL, '23050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11540, '授权委托书', 5410, 3, '23000', '03', NULL, '23060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11541, '申请人提供的证据材料', 5420, 3, '23000', '03', NULL, '23070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11542, '行政复议申请处理审批表', 5430, 3, '23000', '03', NULL, '23080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11543, '行政复议申请不予受理决定书或行政复议受理通知书', 5440, 3, '23000', '03', NULL, '23090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11544, '提交行政复议答复通知书', 5450, 3, '23000', '03', NULL, '23100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11545, '被申请人答复书', 5460, 3, '23000', '03', NULL, '23110', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11546, '行政复议中止决定书', 5470, 3, '23000', '03', NULL, '23120', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11547, '行政复议终止决定书', 5480, 3, '23000', '03', NULL, '23130', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11548, '具体行政行为停止执行通知书', 5490, 3, '23000', '03', NULL, '23140', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11549, '行政复议期限延长审批表', 5500, 3, '23000', '03', NULL, '23150', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11550, '行政复议期限延长通知书', 5510, 3, '23000', '03', NULL, '23160', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11551, '复议机关调查材料', 5520, 3, '23000', '03', NULL, '23170', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11552, '行政复议报告', 5530, 3, '23000', '03', NULL, '23180', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11553, '责令履行行政复议决定通知书', 5540, 3, '23000', '03', NULL, '23190', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11554, '其他材料', 5550, 3, '23000', '03', NULL, '23200', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11555, '附证物袋', 5560, 3, '23000', '03', NULL, '23210', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11556, '卷宗封底', 5570, 3, '23000', '03', NULL, '23220', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11557, '行政复议卷', 2500, 2, '100000', '03', NULL, '24000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11558, '卷宗封面', 5580, 3, '24000', '03', NULL, '24010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11559, '卷内目录', 5590, 3, '24000', '03', NULL, '24020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11560, '行政诉讼判决书', 5600, 3, '24000', '03', NULL, '24030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11561, '应诉通知书', 5610, 3, '24000', '03', NULL, '24040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11562, '行政答辩状', 5620, 3, '24000', '03', NULL, '24050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11563, '传票', 5630, 3, '24000', '03', NULL, '24060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11564, '提供法院的证据材料', 5640, 3, '24000', '03', NULL, '24070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11565, '其他材料', 5650, 3, '24000', '03', NULL, '24080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11566, '附证物袋', 5660, 3, '24000', '03', NULL, '24090', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11567, '卷宗封底', 5670, 3, '24000', '03', NULL, '24100', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11568, '公安卷宗目录', 6000, 1, NULL, '010', NULL, '30000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11569, '警情材料', 6002, 2, '30000', '010', NULL, '30001', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11570, '卷宗封面', 6003, 3, '30001', '010', NULL, '31010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11571, '卷内目录', 6004, 3, '30001', '010', NULL, '31020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11572, '报警登记表', 6005, 3, '30001', '010', NULL, '31030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11573, '报警回执', 6006, 3, '30001', '010', NULL, '31040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11574, '询问笔录', 6007, 3, '30001', '010', NULL, '31050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11575, '报警人自述材料', 6008, 3, '30001', '010', NULL, '31060', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11576, '接受证据材料清单', 6009, 3, '30001', '010', NULL, '31070', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11577, '其他材料', 6010, 3, '30001', '010', NULL, '31080', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11578, '刑事案卷材料', 5351, 3, '22000', '03', NULL, '22997', 1, 1, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11579, '公安卷宗目录', 100, 1, NULL, '0100', NULL, '10000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11580, '侦查措施文书及证据材料、照片', 1052, 2, '10000', '0100', NULL, '20052', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11581, '补充侦查阶段强制措施文书', 1051, 2, '10000', '0100', NULL, '20051', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11582, '回复', 1050, 2, '10000', '0100', NULL, '20050', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11583, '提供法庭审判所需证据材料通知书', 1049, 2, '10000', '0100', NULL, '20049', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11584, '换押证', 1048, 2, '10000', '0100', NULL, '20048', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11585, '卷内目录', 1047, 2, '10000', '0100', NULL, '20047', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11586, '侦查措施文书及证据材料、照片', 1046, 2, '10000', '0100', NULL, '20046', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11587, '补充侦查阶段强制措施文书', 1045, 2, '10000', '0100', NULL, '20045', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11588, '补充侦查报告书', 1044, 2, '10000', '0100', NULL, '20044', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11589, '退回补充侦查决定书、补充侦查事项或提纲', 1043, 2, '10000', '0100', NULL, '20043', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11590, '换押证', 1042, 2, '10000', '0100', NULL, '20042', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11591, '卷内目录', 1041, 2, '10000', '0100', NULL, '20041', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11592, '侦查措施文书及证据材料、照片', 1040, 2, '10000', '0100', NULL, '20040', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11593, '补充侦查阶段强制措施文书', 1039, 2, '10000', '0100', NULL, '20039', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11594, '补充侦查报告书', 1038, 2, '10000', '0100', NULL, '20038', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11595, '退回补充侦查决定书、补充侦查事项或提纲', 1037, 2, '10000', '0100', NULL, '20037', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11596, '换押证', 1036, 2, '10000', '0100', NULL, '20036', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11597, '卷内目录', 1035, 2, '10000', '0100', NULL, '20035', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11598, '呈请类文书', 1034, 2, '10000', '0100', NULL, '20034', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11599, '未编目证据', 600, 2, '10000', '0100', NULL, '13000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11600, '其他', 1033, 3, '13000', '0100', NULL, '20033', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11601, '证据材料卷', 500, 2, '10000', '0100', NULL, '12000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11602, '其他需要移送的证据材料', 1032, 3, '12000', '0100', NULL, 'default-20032', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11603, '同案犯罪嫌疑人处理材料', 1031, 3, '12000', '0100', NULL, '20031', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11604, '赔偿谅解相关材料', 1030, 3, '12000', '0100', NULL, '20030', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11605, '犯罪嫌疑人量刑材料', 1029, 3, '12000', '0100', NULL, '20029', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11606, '现场查勘证据', 1028, 3, '12000', '0100', NULL, '20028', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11607, '涉案财物信息', 1026, 3, '12000', '0100', NULL, '20026', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11608, '检验、鉴定相关文书', 1025, 3, '12000', '0100', NULL, '20025', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11609, '扣押、查封材料', 1024, 3, '12000', '0100', NULL, '20024', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11610, '物证、书证、视听证据', 1023, 3, '12000', '0100', NULL, '20023', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11611, '检查、提取、采集', 1022, 3, '12000', '0100', NULL, '20022', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11612, '被害人/证人证言材料', 1021, 3, '12000', '0100', NULL, '20021', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11613, '未成年犯罪嫌疑人社会调查报告', 1020, 3, '12000', '0100', NULL, '20020', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11614, '犯罪嫌疑人供述、辩解', 1019, 3, '12000', '0100', NULL, '20019', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11615, '提讯提解证', 1018, 3, '12000', '0100', NULL, '20018', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11616, '盘问记录', 1017, 3, '12000', '0100', NULL, '20017', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11617, '犯罪嫌疑人归案（抓获）情况的说明', 1016, 3, '12000', '0100', NULL, '20016', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11618, '犯罪嫌疑人材料', 1015, 3, '12000', '0100', NULL, '20015', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11619, '案件来源材料', 1014, 3, '12000', '0100', NULL, '20014', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11620, '卷内文书目录', 1013, 3, '12000', '0100', NULL, '20013', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11621, '卷宗封皮', 1012, 3, '12000', '0100', NULL, '20012', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11622, '诉讼文书卷', 400, 2, '10000', '0100', NULL, '11000', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11623, '起诉意见书', 1053, 3, '11000', '0100', NULL, '20053', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11624, '附带民事诉讼材料', 1011, 3, '11000', '0100', NULL, '20011', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11625, '结案后的文书', 1010, 3, '11000', '0100', NULL, '20010', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11626, '告知文书', 1009, 3, '11000', '0100', NULL, '20009', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11627, '律师会见相关文书', 1008, 3, '11000', '0100', NULL, '20008', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11628, '回避相关文书', 1007, 3, '11000', '0100', NULL, '20007', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11629, '技术侦查文书', 1006, 3, '11000', '0100', NULL, '20006', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11630, '强制文书', 1005, 3, '11000', '0100', NULL, '20005', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11631, '立案、管辖文书', 1004, 3, '11000', '0100', NULL, '20004', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11632, '案件来源文书', 1003, 3, '11000', '0100', NULL, '20003', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11633, '卷内文书目录', 1002, 3, '11000', '0100', NULL, '20002', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11634, '卷宗封皮', 1001, 3, '11000', '0100', NULL, '20001', 1, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11635, '检察院卷宗目录', 20000, 1, NULL, '0100', NULL, '20000', 2, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11636, '法院卷宗目录', 30000, 1, NULL, '0100', NULL, '30000', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11637, 'A43 评议笔录', 34500, 2, '30000', '0100', NULL, '32002', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11638, 'A42 审理报告', 34400, 2, '30000', '0100', NULL, '32001', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11639, 'A41 卷底', 34200, 2, '30000', '0100', NULL, '31041', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11640, 'A40 证物袋', 34100, 2, '30000', '0100', NULL, '31040', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11641, 'A39 备考表', 34000, 2, '30000', '0100', NULL, '31039', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11642, 'A38 退卷函(公安、检察卷)', 33900, 2, '30000', '0100', NULL, '31038', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11643, 'A37 赃物、证物移送清单及处理手续材料', 33800, 2, '30000', '0100', NULL, '31037', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11644, 'A36 执行通知书存根和回执(释放证回执)', 33700, 2, '30000', '0100', NULL, '31036', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11645, 'A35 上级法院判决书、裁定书', 33600, 2, '30000', '0100', NULL, '31035', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11646, 'A34 上级法院退卷函', 33500, 2, '30000', '0100', NULL, '31034', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11647, 'A33 上诉案件移送函(稿)', 33400, 2, '30000', '0100', NULL, '31033', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11648, 'B32 抗诉书', 33300, 2, '30000', '0100', NULL, '31032', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11649, 'A31 司法建议书', 33200, 2, '30000', '0100', NULL, '31031', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11650, 'A30 判决书、裁定书送达回证', 33100, 2, '30000', '0100', NULL, '31030', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11651, 'A29 宣判笔录(委托宣判函及宣判笔录)', 33000, 2, '30000', '0100', NULL, '31029', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11652, 'A28 判决书、裁定书正本(刑事附带民事部分的调解书、协议书、裁定书正本)', 32900, 2, '30000', '0100', NULL, '31028', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11653, 'A27 宣判公告、传票、提押票', 32800, 2, '30000', '0100', NULL, '31027', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11654, 'B26 公诉词、辩护词、证人证词、对附带民事部分的调解、被告人最后陈述及庭审后的补充材料', 32700, 2, '30000', '0100', NULL, '31026', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11655, 'A25 庭审笔录', 32600, 2, '30000', '0100', NULL, '31025', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11656, 'A24 开庭提押票、传票、出庭通知及送达回证', 32500, 2, '30000', '0100', NULL, '31024', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11657, 'A23 开庭公告', 32400, 2, '30000', '0100', NULL, '31023', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11658, 'A22 延长审限审批表', 32300, 2, '30000', '0100', NULL, '31022', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11659, 'A21 被告人坦白交代、揭发问题等及查证材料', 32200, 2, '30000', '0100', NULL, '31021', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11660, 'A20 讯问笔录', 32100, 2, '30000', '0100', NULL, '31020', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11661, 'B19 赃、证物鉴定结论', 32000, 2, '30000', '0100', NULL, '31019', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11662, 'A18 调查笔录或调查取证材料', 31900, 2, '30000', '0100', NULL, '31018', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11663, 'B17 撤诉书', 31800, 2, '30000', '0100', NULL, '31017', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11664, 'A16 退回补充侦查函及补充侦查材料', 31700, 2, '30000', '0100', NULL, '31016', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11665, 'A15 取保候审、保外就医决定及保证书', 31600, 2, '30000', '0100', NULL, '31015', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11666, 'A14 查封令、查封物品清单', 31500, 2, '30000', '0100', NULL, '31014', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11667, 'A13 搜查证、搜查勘验笔录及扣押物品清单', 31400, 2, '30000', '0100', NULL, '31013', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11668, 'A12 自行逮捕决定、逮捕证及对家属通知书', 31300, 2, '30000', '0100', NULL, '31012', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11669, 'A11 向检察院送达同意适用简易程序函及送达回证', 31200, 2, '30000', '0100', NULL, '31011', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11670, 'A10 向辩护人送达起诉书副本送达回证', 31100, 2, '30000', '0100', NULL, '31010', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11671, 'C9 聘请、指定、委托辨护人材料', 31000, 2, '30000', '0100', NULL, '31009', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11672, 'A8 起诉书副本送达回证', 30900, 2, '30000', '0100', NULL, '31008', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11673, 'A7 送达起诉书副本笔录', 30800, 2, '30000', '0100', NULL, '31007', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11674, 'B6 换押证', 30700, 2, '30000', '0100', NULL, '31006', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11675, 'B5 起诉书(自诉状)正本及附件(证据目录、证人名单、证据内容、主要证据复印件、检察机关附送的其他材料)', 30600, 2, '30000', '0100', NULL, '31005', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11676, 'A4 审判流程管理情况表', 30500, 2, '30000', '0100', NULL, '31004', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11677, 'A3 立案审查、审判流程管理信息表', 30400, 2, '30000', '0100', NULL, '31003', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11678, 'A2 卷内目录', 30300, 2, '30000', '0100', NULL, '31002', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11679, 'A1 卷宗封面', 30200, 2, '30000', '0100', NULL, '31001', 3, NULL, 1);
+INSERT INTO ED_DIC_FOLDER VALUES (11680, '公安卷宗目录', 1000, 1, NULL, '01', NULL, '10000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11681, '诉讼文书卷', 1200, 2, '10000', '01', NULL, '11000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11682, '卷宗封面', 1210, 3, '11000', '01', NULL, '11010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11683, '封面附件', 1220, 3, '11000', '01', NULL, '11020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11684, '卷内目录', 1230, 3, '11000', '01', NULL, '11030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11685, '接处警登记表', 1240, 3, '11000', '01', NULL, '11040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11686, '受案登记表', 1250, 3, '11000', '01', NULL, '11050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11687, '受案回执', 1260, 3, '11000', '01', NULL, '11060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11688, '指定管辖决定书', 1270, 3, '11000', '01', NULL, '11070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11689, '公检法司安', 1280, 3, '11000', '01', NULL, '11080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11690, '立案告知书', 1290, 3, '11000', '01', NULL, '11090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11691, '移送案件通知书', 1300, 3, '11000', '01', NULL, '11100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11692, '人民检察院通知立案书', 1310, 3, '11000', '01', NULL, '11110', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11693, '控制下交付报告书', 1320, 3, '11000', '01', NULL, '11120', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11694, '隐匿身份侦查报告书', 1330, 3, '11000', '01', NULL, '11130', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11695, '传唤证', 1340, 3, '11000', '01', NULL, '11140', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11696, '传唤通知书', 1350, 3, '11000', '01', NULL, '11150', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11697, '拘传证', 1360, 3, '11000', '01', NULL, '11160', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11698, '拘留证', 1370, 3, '11000', '01', NULL, '11170', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11699, '拘留通知书', 1380, 3, '11000', '01', NULL, '11180', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11700, '变更羁押期限通知书', 1390, 3, '11000', '01', NULL, '11190', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11701, '提请批准逮捕书', 1400, 3, '11000', '01', NULL, '11200', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11702, '批准/不批准逮捕决定书', 1410, 3, '11000', '01', NULL, '11210', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11703, '逮捕证', 1420, 3, '11000', '01', NULL, '11220', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11704, '逮捕家属通知书', 1430, 3, '11000', '01', NULL, '11230', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11705, '提请批准延长侦查羁押期限意见书', 1440, 3, '11000', '01', NULL, '11240', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11706, '批准/不批准延长侦查羁押期限决定书', 1450, 3, '11000', '01', NULL, '11250', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11707, '延长侦查羁押期限通知书', 1460, 3, '11000', '01', NULL, '11260', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11708, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不批捕)', 1470, 3, '11000', '01', NULL, '11270', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11709, '重新计算侦查羁押期限通知书', 1480, 3, '11000', '01', NULL, '11280', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11710, '变更强制措施申请', 1490, 3, '11000', '01', NULL, '11290', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11711, '变更强制措施通知书', 1500, 3, '11000', '01', NULL, '11300', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11712, '不予释放/变更强制措施通知书', 1510, 3, '11000', '01', NULL, '11310', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11713, '释放通知书', 1520, 3, '11000', '01', NULL, '11320', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11714, '释放证明书', 1530, 3, '11000', '01', NULL, '11330', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11715, '取保候审决定书、取保候审保证书', 1540, 3, '11000', '01', NULL, '11340', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11716, '保证人资格审查表', 1550, 3, '11000', '01', NULL, '11350', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11717, '对保证人罚款决定书', 1560, 3, '11000', '01', NULL, '11360', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11718, '对保证人罚款复核决定书', 1570, 3, '11000', '01', NULL, '11370', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11719, '收取保证金通知书', 1580, 3, '11000', '01', NULL, '11380', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11720, '退还保证金决定书、退还保证金通知书', 1590, 3, '11000', '01', NULL, '11390', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11721, '没收保证金决定书、没收保证金通知书', 1600, 3, '11000', '01', NULL, '11400', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11722, '没收保证金复核决定书', 1610, 3, '11000', '01', NULL, '11410', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11723, '责令具结悔过决定书', 1620, 3, '11000', '01', NULL, '11420', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11724, '悔过书', 1630, 3, '11000', '01', NULL, '11430', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11725, '解除取保候审决定书', 1640, 3, '11000', '01', NULL, '11440', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11726, '监视居住决定书', 1650, 3, '11000', '01', NULL, '11450', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11727, '解除监视居住决定书', 1660, 3, '11000', '01', NULL, '11460', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11728, '律师辩护意见', 1670, 3, '11000', '01', NULL, '11470', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11729, '准予/不准予会见涉密案件在押犯罪嫌疑人决定书', 1680, 3, '11000', '01', NULL, '11480', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11730, '提供法律援助通知书', 1690, 3, '11000', '01', NULL, '11490', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11731, '采取技术侦查措施决定书', 1700, 3, '11000', '01', NULL, '11500', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11732, '执行技术侦查措施通知书', 1710, 3, '11000', '01', NULL, '11510', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11733, '延长技术侦查措施期限决定书', 1720, 3, '11000', '01', NULL, '11520', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11734, '解除技术侦查措施决定书', 1730, 3, '11000', '01', NULL, '11530', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11735, '回避/驳回申请回避决定书', 1740, 3, '11000', '01', NULL, '11540', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11736, '刑事复议申请记录', 1750, 3, '11000', '01', NULL, '11550', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11737, '不予受理刑事复议/复核申请决定书', 1760, 3, '11000', '01', NULL, '11560', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11738, '刑事复议/复核申请补充材料通知书', 1770, 3, '11000', '01', NULL, '11570', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11739, '中止刑事复议/复核通知书', 1780, 3, '11000', '01', NULL, '11580', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11740, '延长刑事复议/复核期限通知书', 1790, 3, '11000', '01', NULL, '11590', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11741, '终止刑事复议/复核程序通知书', 1800, 3, '11000', '01', NULL, '11600', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11742, '刑事复议决定书', 1810, 3, '11000', '01', NULL, '11610', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11743, '刑事复核决定书', 1820, 3, '11000', '01', NULL, '11620', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11744, '解剖尸体通知书', 1830, 3, '11000', '01', NULL, '11630', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11745, '终止侦查报告书/决定书', 1840, 3, '11000', '01', NULL, '11640', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11746, '撤销案件报告书/决定书', 1850, 3, '11000', '01', NULL, '11650', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11747, '死亡通知书', 1860, 3, '11000', '01', NULL, '11660', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11748, '移送审查起诉告知书', 1870, 3, '11000', '01', NULL, '11670', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11749, '起诉意见书', 1880, 3, '11000', '01', NULL, '11680', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11750, '起诉/不起诉决定书', 1890, 3, '11000', '01', NULL, '11690', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11751, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不起诉)', 1900, 3, '11000', '01', NULL, '11700', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11752, '入所健康检查表', 1910, 3, '11000', '01', NULL, '11710', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11753, '换押证', 1920, 3, '11000', '01', NULL, '11720', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11754, '附带民事诉讼诉状', 1930, 3, '11000', '01', NULL, '11730', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11755, '附证物袋', 1940, 3, '11000', '01', NULL, '11740', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11756, '其他材料', 1950, 3, '11000', '01', NULL, 'default-11750', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11757, '卷宗封底', 1960, 3, '11000', '01', NULL, '11760', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11758, '诉讼证据卷', 1300, 2, '10000', '01', NULL, '12000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11759, '卷宗封面', 1970, 3, '12000', '01', NULL, '12010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11760, '封面附件', 1980, 3, '12000', '01', NULL, '12020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11761, '卷内目录', 1990, 3, '12000', '01', NULL, '12030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11762, '案件来源材料', 2000, 3, '12000', '01', NULL, '12040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11763, '犯罪嫌疑人正侧面照片', 2010, 3, '12000', '01', NULL, '12050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11764, '户籍/身份信息资料', 2020, 3, '12000', '01', NULL, '12060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11765, '单位主体材料', 2030, 3, '12000', '01', NULL, '12070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11766, '犯罪嫌疑人抓获经过/到案情况说明', 2040, 3, '12000', '01', NULL, '12080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11767, '继续盘问通知书', 2050, 3, '12000', '01', NULL, '12090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11768, '延长继续盘问时限审批表', 2060, 3, '12000', '01', NULL, '12100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11769, '当场/继续盘问笔录', 2070, 3, '12000', '01', NULL, '12110', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11770, '提讯提解证', 2080, 3, '12000', '01', NULL, '12120', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11771, '传讯通知书', 2090, 3, '12000', '01', NULL, '12130', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11772, '犯罪嫌疑人的供述与辩解', 2100, 3, '12000', '01', NULL, '12140', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11773, '犯罪嫌疑人辨认笔录', 2110, 3, '12000', '01', NULL, '12150', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11774, '指认现场笔录及照片', 2120, 3, '12000', '01', NULL, '12160', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11775, '未成年犯罪嫌疑人社会调查报告', 2130, 3, '12000', '01', NULL, '12170', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11776, '询问通知书', 2140, 3, '12000', '01', NULL, '12180', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11777, '被害人陈述', 2150, 3, '12000', '01', NULL, '12190', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11778, '被害人辨认笔录', 2160, 3, '12000', '01', NULL, '12200', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11779, '证人证言', 2170, 3, '12000', '01', NULL, '12210', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11780, '证人辨认笔录', 2180, 3, '12000', '01', NULL, '12220', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11781, '人身检查笔录', 2190, 3, '12000', '01', NULL, '12230', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11782, '搜查证', 2200, 3, '12000', '01', NULL, '12240', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11783, '搜查笔录', 2210, 3, '12000', '01', NULL, '12250', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11784, '物证照片及制作、保存说明', 2220, 3, '12000', '01', NULL, '12260', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11785, '书证或书证副本及制作说明', 2230, 3, '12000', '01', NULL, '12270', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11786, '视听资料及制作说明', 2240, 3, '12000', '01', NULL, '12280', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11787, '电子数据提取及制作说明', 2250, 3, '12000', '01', NULL, '12290', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11788, '扣押决定书', 2260, 3, '12000', '01', NULL, '12300', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11789, '扣押/发还清单', 2270, 3, '12000', '01', NULL, '12310', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11790, '扣押笔录', 2280, 3, '12000', '01', NULL, '12320', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11791, '随案移送清单', 2290, 3, '12000', '01', NULL, '12330', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11792, '销毁清单', 2300, 3, '12000', '01', NULL, '12340', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11793, '扣押/解除扣押邮件/电报通知书', 2310, 3, '12000', '01', NULL, '12350', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11794, '提取/检查笔录', 2320, 3, '12000', '01', NULL, '12360', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11795, '查封决定书', 2330, 3, '12000', '01', NULL, '12370', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11796, '查封笔录/清单', 2340, 3, '12000', '01', NULL, '12380', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11797, '协助查询/冻结/解除冻结财产通知书', 2350, 3, '12000', '01', NULL, '12390', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11798, '协助查封/解除查封通知书回执', 2360, 3, '12000', '01', NULL, '12400', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11799, '调取证据通知书、调取证据清单', 2370, 3, '12000', '01', NULL, '12410', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11800, '接受证据材料清单', 2380, 3, '12000', '01', NULL, '12420', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11801, '鉴定聘请书', 2390, 3, '12000', '01', NULL, '12430', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11802, '鉴定意见书、鉴定意见告知书', 2400, 3, '12000', '01', NULL, '12440', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11803, '现场勘验笔录', 2410, 3, '12000', '01', NULL, '12450', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11804, '现场勘验（复验）笔录', 2420, 3, '12000', '01', NULL, '12460', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11805, '侦查实验笔录', 2430, 3, '12000', '01', NULL, '12470', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11806, '适格见证人身份信息', 2440, 3, '12000', '01', NULL, '12480', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11807, '犯罪嫌疑人自首/立功证明材料', 2450, 3, '12000', '01', NULL, '12490', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11808, '犯罪嫌疑人前科材料', 2460, 3, '12000', '01', NULL, '12500', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11809, '刑事和解材料', 2470, 3, '12000', '01', NULL, '12510', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11810, '同案另案处理材料', 2480, 3, '12000', '01', NULL, '12520', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11811, '其他法定的加重、从重、减轻、从轻或免除处罚情节的证据材料', 2490, 3, '12000', '01', NULL, '12530', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11812, '附带民事诉讼材料', 2500, 3, '12000', '01', NULL, '12540', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11813, '附证物袋', 2510, 3, '12000', '01', NULL, '12550', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11814, '其他材料', 2520, 3, '12000', '01', NULL, '12560', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11815, '卷宗封底', 2530, 3, '12000', '01', NULL, '12570', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11816, '补充侦查卷', 1400, 2, '10000', '01', NULL, '13000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11817, '卷宗封面', 2540, 3, '13000', '01', NULL, '13010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11818, '封面附件', 2550, 3, '13000', '01', NULL, '13020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11819, '卷内目录', 2560, 3, '13000', '01', NULL, '13030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11820, '补充侦查决定书', 2570, 3, '13000', '01', NULL, '13040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11821, '补充侦查提纲', 2580, 3, '13000', '01', NULL, '13050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11822, '补充侦查报告书', 2590, 3, '13000', '01', NULL, '13060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11823, '补充侦查的文书、证据材料', 2600, 3, '13000', '01', NULL, '13070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11824, '换押证', 2610, 3, '13000', '01', NULL, '13080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11825, '其他材料', 2620, 3, '13000', '01', NULL, '13090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11826, '卷宗封底', 2630, 3, '13000', '01', NULL, '13100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11827, '侦查工作卷', 1500, 2, '10000', '01', NULL, '14000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11828, '卷宗封面', 2640, 3, '14000', '01', NULL, '14010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11829, '封面附件', 2650, 3, '14000', '01', NULL, '14020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11830, '卷内目录', 2660, 3, '14000', '01', NULL, '14030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11831, '侦查终结报告书', 2670, 3, '14000', '01', NULL, '14040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11832, '起诉意见书', 2680, 3, '14000', '01', NULL, '14050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11833, '起诉/不起诉决定书副本', 2690, 3, '14000', '01', NULL, '14060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11834, '判决/裁定书副本', 2700, 3, '14000', '01', NULL, '14070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11835, '继续盘问（留置）审批表', 2710, 3, '14000', '01', NULL, '14080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11836, '延长继续盘问（留置）审批表', 2720, 3, '14000', '01', NULL, '14090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11837, '呈请立案/不予立案报告书', 2730, 3, '14000', '01', NULL, '14100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11838, '协查通报', 2740, 3, '14000', '01', NULL, '14110', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11839, '通缉/撤销通缉令', 2750, 3, '14000', '01', NULL, '14120', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11840, '呈请拘留报告书', 2760, 3, '14000', '01', NULL, '14130', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11841, '呈请传唤报告书', 2770, 3, '14000', '01', NULL, '14140', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11842, '呈请拘传报告书', 2780, 3, '14000', '01', NULL, '14150', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11843, '变更羁押期限/呈请延长拘留期限报告书', 2790, 3, '14000', '01', NULL, '14160', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11844, '呈请提请批准逮捕报告书/呈请逮捕报告书', 2800, 3, '14000', '01', NULL, '14170', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11845, '呈请要求复议报告书', 2810, 3, '14000', '01', NULL, '14180', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11846, '呈请提请复核报告书', 2820, 3, '14000', '01', NULL, '14190', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11847, '呈请重新计算侦查羁押期限报告书', 2830, 3, '14000', '01', NULL, '14200', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11848, '呈请延长侦查羁押期限报告书', 2840, 3, '14000', '01', NULL, '14210', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11849, '呈请变更强制措施报告书', 2850, 3, '14000', '01', NULL, '14220', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11850, '呈请取保候审报告书', 2860, 3, '14000', '01', NULL, '14230', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11851, '呈请解除取保候审报告书', 2870, 3, '14000', '01', NULL, '14240', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11852, '呈请退还保证金报告书', 2880, 3, '14000', '01', NULL, '14250', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11853, '呈请没收保证金报告书', 2890, 3, '14000', '01', NULL, '14260', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11854, '呈请具结悔过报告书', 2900, 3, '14000', '01', NULL, '14270', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11855, '呈请对保证人罚款报告书', 2910, 3, '14000', '01', NULL, '14280', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11856, '呈请监视居住报告书', 2920, 3, '14000', '01', NULL, '14290', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11857, '呈请解除监视居住报告书', 2930, 3, '14000', '01', NULL, '14300', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11858, '呈请调取证据报告书', 2940, 3, '14000', '01', NULL, '14310', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11859, '现场勘查原始登记表', 2950, 3, '14000', '01', NULL, '14320', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11860, '呈请复验、复查报告书', 2960, 3, '14000', '01', NULL, '14330', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11861, '呈请检查报告书', 2970, 3, '14000', '01', NULL, '14340', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11862, '呈请侦查实验报告书', 2980, 3, '14000', '01', NULL, '14350', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11863, '呈请搜查报告书', 2990, 3, '14000', '01', NULL, '14360', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11864, '呈请扣押报告书', 3000, 3, '14000', '01', NULL, '14370', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11865, '呈请解除扣押报告书', 3010, 3, '14000', '01', NULL, '14380', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11866, '呈请查询存款/汇款报告书', 3020, 3, '14000', '01', NULL, '14390', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11867, '呈请冻结存款/汇款报告书', 3030, 3, '14000', '01', NULL, '14400', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11868, '呈请解除冻结存款/汇款报告书', 3040, 3, '14000', '01', NULL, '14410', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11869, '呈请鉴定报告书', 3050, 3, '14000', '01', NULL, '14420', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11870, '呈请辨认报告书', 3060, 3, '14000', '01', NULL, '14430', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11871, '呈请回避/驳回回避报告书', 3070, 3, '14000', '01', NULL, '14440', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11872, '涉密案件聘请律师申请表', 3080, 3, '14000', '01', NULL, '14450', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11873, '会见涉密案件在押犯罪嫌疑人申请表', 3090, 3, '14000', '01', NULL, '14460', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11874, '讯问计划', 3100, 3, '14000', '01', NULL, '14470', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11875, '案件汇报提纲', 3110, 3, '14000', '01', NULL, '14480', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11876, '调查计划', 3120, 3, '14000', '01', NULL, '14490', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11877, '换押证', 3130, 3, '14000', '01', NULL, '14500', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11878, '检察机关在审查逮捕时回流的文书', 3140, 3, '14000', '01', NULL, '14510', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11879, '调取证据报告书', 3150, 3, '14000', '01', NULL, '14520', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11880, '呈请破案报告书', 3160, 3, '14000', '01', NULL, '14530', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11881, '侦查记录', 3170, 3, '14000', '01', NULL, '14540', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11882, '侦查计划、案件讨论记录', 3180, 3, '14000', '01', NULL, '14550', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11883, '其他材料', 3190, 3, '14000', '01', NULL, '14560', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11884, '附证物袋', 3200, 3, '14000', '01', NULL, '14570', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11885, '卷宗封底', 3210, 3, '14000', '01', NULL, '14580', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11886, '公安卷宗目录', 200, 1, NULL, '03', NULL, '100000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11887, '行政处罚卷', 2200, 2, '100000', '03', NULL, '21000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11888, '卷宗封面', 3220, 3, '21000', '03', NULL, '21010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11889, '封面附件', 3230, 3, '21000', '03', NULL, '21015', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11890, '卷内目录', 3240, 3, '21000', '03', NULL, '21020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11891, '行政处罚决定书、报告书', 3250, 3, '21000', '03', NULL, '21030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11892, '吊销证照', 3260, 3, '21000', '03', NULL, '21040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11893, '没收违法所得非法财务清单', 3270, 3, '21000', '03', NULL, '21050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11894, '收缴/追缴物品清单', 3280, 3, '21000', '03', NULL, '21060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11895, '罚没财物收据', 3290, 3, '21000', '03', NULL, '21070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11896, '行政拘留家属通知书', 3300, 3, '21000', '03', NULL, '21080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11897, '责令通知书', 3310, 3, '21000', '03', NULL, '21090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11898, '治安调解协议书', 3320, 3, '21000', '03', NULL, '21100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11899, '不予行政处罚决定书', 3330, 3, '21000', '03', NULL, '21110', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11900, '不予调查处理告知书', 3340, 3, '21000', '03', NULL, '21120', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11901, '终止案件调查决定书', 3350, 3, '21000', '03', NULL, '21130', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11902, '劳动教养法律文书（原）', 3360, 3, '21000', '03', NULL, '21140', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11903, '收容教育/延长收容教育决定书', 3370, 3, '21000', '03', NULL, '21150', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11904, '提前解除收容教育决定书', 3380, 3, '21000', '03', NULL, '21160', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11905, '解除收容教育证明书', 3390, 3, '21000', '03', NULL, '21170', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11906, '强制戒毒/延长强制戒毒决定书', 3400, 3, '21000', '03', NULL, '21180', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11907, '提前解除强制隔离戒毒决定书', 3410, 3, '21000', '03', NULL, '21190', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11908, '解除强制戒毒证明书', 3420, 3, '21000', '03', NULL, '21200', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11909, '限期戒毒审批表', 3430, 3, '21000', '03', NULL, '21210', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11910, '限期戒毒通知书', 3440, 3, '21000', '03', NULL, '21220', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11911, '社区戒毒/社区康复决定书', 3450, 3, '21000', '03', NULL, '21230', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11912, '解除社区戒毒/社区康复通知书', 3460, 3, '21000', '03', NULL, '21240', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11913, '遣送出境决定书', 3470, 3, '21000', '03', NULL, '21250', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11914, '驱逐出境决定书', 3480, 3, '21000', '03', NULL, '21260', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11915, '限期出境决定书', 3490, 3, '21000', '03', NULL, '21270', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11916, '受案登记表', 3500, 3, '21000', '03', NULL, '21280', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11917, '接受证据清单', 3510, 3, '21000', '03', NULL, '21290', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11918, '移送案件通知书', 3520, 3, '21000', '03', NULL, '21300', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11919, '撤销案件决定书', 3530, 3, '21000', '03', NULL, '21310', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11920, '指定管辖决定书', 3540, 3, '21000', '03', NULL, '21320', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11921, '其它证明案件来源有关材料', 3550, 3, '21000', '03', NULL, '21330', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11922, '受案回执', 3560, 3, '21000', '03', NULL, '21340', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11923, '延长治安案件办案期限报告书', 3570, 3, '21000', '03', NULL, '21350', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11924, '回避申请', 3580, 3, '21000', '03', NULL, '21360', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11925, '回避/驳回申请回避决定', 3590, 3, '21000', '03', NULL, '21370', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11926, '不服驳回申请决定的复议申请材料', 3600, 3, '21000', '03', NULL, '21380', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11927, '当场盘问、检查/继续盘问笔录和讯问笔录', 3610, 3, '21000', '03', NULL, '21390', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11928, '继续盘问通知书', 3620, 3, '21000', '03', NULL, '21400', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11929, '传唤证', 3630, 3, '21000', '03', NULL, '21410', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11930, '传唤家属通知书', 3640, 3, '21000', '03', NULL, '21420', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11931, '拘留审查/延长拘留审查决定书', 3650, 3, '21000', '03', NULL, '21430', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11932, '解除拘留审查决定书', 3660, 3, '21000', '03', NULL, '21440', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11933, '限制活动范围决定书', 3670, 3, '21000', '03', NULL, '21450', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11934, '翻译人员聘请通知书、聘书', 3680, 3, '21000', '03', NULL, '21460', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11935, '违法嫌疑人陈述、申辩', 3690, 3, '21000', '03', NULL, '21470', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11936, '违法嫌疑人辨认笔录', 3700, 3, '21000', '03', NULL, '21480', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11937, '被害人陈述', 3710, 3, '21000', '03', NULL, '21490', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11938, '被害人辨认笔录', 3720, 3, '21000', '03', NULL, '21500', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11939, '证人证言', 3730, 3, '21000', '03', NULL, '21510', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11940, '证人辨认笔录', 3740, 3, '21000', '03', NULL, '21520', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11941, '检查证', 3750, 3, '21000', '03', NULL, '21530', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11942, '检查笔录', 3760, 3, '21000', '03', NULL, '21540', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11943, '提取笔录', 3770, 3, '21000', '03', NULL, '21550', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11944, '勘验笔录', 3780, 3, '21000', '03', NULL, '21560', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11945, '现场笔录', 3790, 3, '21000', '03', NULL, '21570', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11946, '证据保全决定书', 3800, 3, '21000', '03', NULL, '21580', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11947, '证据保全清单及照片', 3810, 3, '21000', '03', NULL, '21590', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11948, '调取证据通知书', 3820, 3, '21000', '03', NULL, '21600', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11949, '调取证据清单', 3830, 3, '21000', '03', NULL, '21610', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11950, '鉴定聘请书', 3840, 3, '21000', '03', NULL, '21620', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11951, '鉴定检测机构及鉴定人员资质证明', 3850, 3, '21000', '03', NULL, '21630', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11952, '鉴定意见', 3860, 3, '21000', '03', NULL, '21640', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11953, '鉴定意见告知书', 3870, 3, '21000', '03', NULL, '21650', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11954, '行政处罚告知笔录', 3880, 3, '21000', '03', NULL, '21660', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11955, '行政处罚告知后复核的相关文书材料', 3890, 3, '21000', '03', NULL, '21670', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11956, '听证申请书', 3900, 3, '21000', '03', NULL, '21680', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11957, '举行听证通知书', 3910, 3, '21000', '03', NULL, '21690', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11958, '不予受理听证通知书', 3920, 3, '21000', '03', NULL, '21700', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11959, '听证笔录', 3930, 3, '21000', '03', NULL, '21710', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11960, '听证报告书', 3940, 3, '21000', '03', NULL, '21720', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11961, '调解笔录', 3950, 3, '21000', '03', NULL, '21730', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11962, '书证', 3960, 3, '21000', '03', NULL, '21740', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11963, '获取视听资料/电子数据的情况说明', 3970, 3, '21000', '03', NULL, '21750', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11964, '物证', 3980, 3, '21000', '03', NULL, '21760', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11965, '抓获/到案情况说明', 3990, 3, '21000', '03', NULL, '21770', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11966, '缴赃/追缴情况说明', 4000, 3, '21000', '03', NULL, '21780', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11967, '继续调查情况说明', 4010, 3, '21000', '03', NULL, '21790', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11968, '执行回执', 4020, 3, '21000', '03', NULL, '21800', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11969, '暂缓执行行政拘留申请书', 4030, 3, '21000', '03', NULL, '21810', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11970, '担保人保证书', 4040, 3, '21000', '03', NULL, '21820', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11971, '收取/退还保证金通知书', 4050, 3, '21000', '03', NULL, '21830', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11972, '没收保证金决定书', 4060, 3, '21000', '03', NULL, '21840', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11973, '暂缓执行行政拘留决定书', 4070, 3, '21000', '03', NULL, '21850', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11974, '暂缓执行行政拘留通知书', 4080, 3, '21000', '03', NULL, '21860', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11975, '恢复执行行政拘留决定书', 4090, 3, '21000', '03', NULL, '21870', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11976, '行政强制执行决定书', 4100, 3, '21000', '03', NULL, '21880', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11977, '代履行决定书', 4110, 3, '21000', '03', NULL, '21890', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11978, '强制执行申请书', 4120, 3, '21000', '03', NULL, '21900', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11979, '送达回执', 4130, 3, '21000', '03', NULL, '21910', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11980, '被处罚人身份证明材料', 4140, 3, '21000', '03', NULL, '21920', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11981, '被处罚人违法犯罪记录材料', 4150, 3, '21000', '03', NULL, '21930', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11982, '被处罚人依法从重/从轻/减轻/不予处罚证明材料', 4160, 3, '21000', '03', NULL, '21940', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11983, '被处罚单位的复印件', 4170, 3, '21000', '03', NULL, '21950', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11984, '行政判决书', 4180, 3, '21000', '03', NULL, '21960', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11985, '行政裁定书', 4190, 3, '21000', '03', NULL, '21970', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11986, '其他材料', 4200, 3, '21000', '03', NULL, '21980', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11987, '卷宗封底', 4210, 3, '21000', '03', NULL, '21990', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11988, '刑事案件卷', 2300, 2, '100000', '03', NULL, '22000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11989, '卷宗封面', 4220, 3, '22000', '03', NULL, '22010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11990, '封面附件', 4230, 3, '22000', '03', NULL, '22020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11991, '卷内目录', 4240, 3, '22000', '03', NULL, '22030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11992, '接处警登记表', 4250, 3, '22000', '03', NULL, '22040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11993, '立案/不立案决定书', 4260, 3, '22000', '03', NULL, '22050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11994, '立案告知书', 4270, 3, '22000', '03', NULL, '22060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11995, '人民检察院通知立案书', 4280, 3, '22000', '03', NULL, '22070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11996, '控制下交付报告书', 4290, 3, '22000', '03', NULL, '22080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11997, '隐匿身份侦查报告书', 4300, 3, '22000', '03', NULL, '22090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11998, '传唤通知书', 4310, 3, '22000', '03', NULL, '22100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (11999, '拘传证', 4320, 3, '22000', '03', NULL, '22110', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12000, '拘留证', 4330, 3, '22000', '03', NULL, '22120', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12001, '拘留通知书', 4340, 3, '22000', '03', NULL, '22130', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12002, '变更羁押期限通知书', 4350, 3, '22000', '03', NULL, '22140', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12003, '提请批准逮捕书', 4360, 3, '22000', '03', NULL, '22150', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12004, '批准/不批准逮捕决定书', 4370, 3, '22000', '03', NULL, '22160', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12005, '逮捕证', 4380, 3, '22000', '03', NULL, '22170', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12006, '逮捕家属通知书', 4390, 3, '22000', '03', NULL, '22180', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12007, '提请批准延长侦查羁押期限意见书', 4400, 3, '22000', '03', NULL, '22190', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12008, '批准/不批准延长侦查羁押期限决定书', 4410, 3, '22000', '03', NULL, '22200', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12009, '延长侦查羁押期限通知书', 4420, 3, '22000', '03', NULL, '22210', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12010, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不批捕)', 4430, 3, '22000', '03', NULL, '22220', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12011, '重新计算侦查羁押期限通知书', 4440, 3, '22000', '03', NULL, '22230', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12012, '变更强制措施申请', 4450, 3, '22000', '03', NULL, '22240', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12013, '变更强制措施通知书', 4460, 3, '22000', '03', NULL, '22250', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12014, '不予释放/变更强制措施通知书', 4470, 3, '22000', '03', NULL, '22260', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12015, '释放通知书', 4480, 3, '22000', '03', NULL, '22270', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12016, '释放证明书', 4490, 3, '22000', '03', NULL, '22280', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12017, '取保候审决定书、取保候审保证书', 4500, 3, '22000', '03', NULL, '22290', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12018, '保证人资格审查表', 4510, 3, '22000', '03', NULL, '22300', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12019, '对保证人罚款决定书', 4520, 3, '22000', '03', NULL, '22310', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12020, '对保证人罚款复核决定书', 4530, 3, '22000', '03', NULL, '22320', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12021, '收取保证金通知书', 4540, 3, '22000', '03', NULL, '22330', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12022, '退还保证金决定书、退还保证金通知书', 4550, 3, '22000', '03', NULL, '22340', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12023, '没收保证金决定书、没收保证金通知书', 4560, 3, '22000', '03', NULL, '22350', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12024, '没收保证金复核决定书', 4570, 3, '22000', '03', NULL, '22360', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12025, '责令具结悔过决定书', 4580, 3, '22000', '03', NULL, '22370', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12026, '悔过书', 4590, 3, '22000', '03', NULL, '22380', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12027, '解除取保候审决定书', 4600, 3, '22000', '03', NULL, '22390', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12028, '监视居住决定书', 4610, 3, '22000', '03', NULL, '22400', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12029, '解除监视居住决定书', 4620, 3, '22000', '03', NULL, '22410', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12030, '律师辩护意见', 4630, 3, '22000', '03', NULL, '22420', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12031, '准予/不准予会见涉密案件在押犯罪嫌疑人决定书', 4640, 3, '22000', '03', NULL, '22430', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12032, '提供法律援助通知书', 4650, 3, '22000', '03', NULL, '22440', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12033, '采取技术侦查措施决定书', 4660, 3, '22000', '03', NULL, '22450', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12034, '执行技术侦查措施通知书', 4670, 3, '22000', '03', NULL, '22460', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12035, '延长技术侦查措施期限决定书', 4680, 3, '22000', '03', NULL, '22470', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12036, '解除技术侦查措施决定书', 4690, 3, '22000', '03', NULL, '22480', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12037, '回避/驳回申请回避决定书', 4700, 3, '22000', '03', NULL, '22490', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12038, '刑事复议申请记录', 4710, 3, '22000', '03', NULL, '22500', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12039, '不予受理刑事复议/复核申请决定书', 4720, 3, '22000', '03', NULL, '22510', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12040, '刑事复议/复核申请补充材料通知书', 4730, 3, '22000', '03', NULL, '22520', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12041, '中止刑事复议/复核通知书', 4740, 3, '22000', '03', NULL, '22530', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12042, '延长刑事复议/复核期限通知书', 4750, 3, '22000', '03', NULL, '22540', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12043, '终止刑事复议/复核程序通知书', 4760, 3, '22000', '03', NULL, '22550', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12044, '刑事复议决定书', 4770, 3, '22000', '03', NULL, '22560', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12045, '刑事复核决定书', 4780, 3, '22000', '03', NULL, '22570', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12046, '解剖尸体通知书', 4790, 3, '22000', '03', NULL, '22580', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12047, '终止侦查报告书/决定书', 4800, 3, '22000', '03', NULL, '22590', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12048, '撤销案件报告书/决定书', 4810, 3, '22000', '03', NULL, '22600', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12049, '死亡通知书', 4820, 3, '22000', '03', NULL, '22610', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12050, '移送审查起诉告知书', 4830, 3, '22000', '03', NULL, '22620', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12051, '起诉意见书', 4840, 3, '22000', '03', NULL, '22630', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12052, '起诉/不起诉决定书', 4850, 3, '22000', '03', NULL, '22640', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12053, '要求复议意见书、提请复核意见书、复议决定书、复核决定书(不起诉)', 4860, 3, '22000', '03', NULL, '22650', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12054, '入所健康检查表', 4870, 3, '22000', '03', NULL, '22660', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12055, '换押证', 4880, 3, '22000', '03', NULL, '22670', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12056, '附带民事诉讼诉状', 4890, 3, '22000', '03', NULL, '22680', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12057, '案件来源材料', 4900, 3, '22000', '03', NULL, '22690', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12058, '犯罪嫌疑人正侧面照片', 4910, 3, '22000', '03', NULL, '22700', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12059, '户籍/身份信息资料', 4920, 3, '22000', '03', NULL, '22710', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12060, '单位主体材料', 4930, 3, '22000', '03', NULL, '22720', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12061, '犯罪嫌疑人抓获经过/到案情况说明', 4940, 3, '22000', '03', NULL, '22730', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12062, '延长继续盘问时限审批表', 4950, 3, '22000', '03', NULL, '22740', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12063, '当场/继续盘问笔录、检查笔录', 4960, 3, '22000', '03', NULL, '22750', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12064, '提讯提解证', 4970, 3, '22000', '03', NULL, '22760', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12065, '传讯通知书', 4980, 3, '22000', '03', NULL, '22770', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12066, '指认现场笔录及照片', 4990, 3, '22000', '03', NULL, '22780', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12067, '未成年犯罪嫌疑人社会调查报告', 5000, 3, '22000', '03', NULL, '22790', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12068, '询问通知书', 5010, 3, '22000', '03', NULL, '22800', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12069, '人身检查笔录', 5020, 3, '22000', '03', NULL, '22810', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12070, '搜查证', 5030, 3, '22000', '03', NULL, '22820', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12071, '搜查笔录', 5040, 3, '22000', '03', NULL, '22830', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12072, '物证照片及制作、保存说明', 5050, 3, '22000', '03', NULL, '22840', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12073, '书证或书证副本及制作说明', 5060, 3, '22000', '03', NULL, '22850', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12074, '视听资料及制作说明', 5070, 3, '22000', '03', NULL, '22860', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12075, '电子数据提取及制作说明', 5080, 3, '22000', '03', NULL, '22870', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12076, '扣押决定书', 5090, 3, '22000', '03', NULL, '22880', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12077, '扣押/发还清单', 5100, 3, '22000', '03', NULL, '22890', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12078, '扣押笔录', 5110, 3, '22000', '03', NULL, '22900', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12079, '随案移送清单', 5120, 3, '22000', '03', NULL, '22910', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12080, '销毁清单', 5130, 3, '22000', '03', NULL, '22920', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12081, '扣押/解除扣押邮件/电报通知书', 5140, 3, '22000', '03', NULL, '22930', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12082, '提取/检查笔录', 5150, 3, '22000', '03', NULL, '22940', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12083, '查封决定书', 5160, 3, '22000', '03', NULL, '22950', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12084, '查封笔录/清单', 5170, 3, '22000', '03', NULL, '22960', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12085, '协助查询/冻结/解除冻结财产通知书', 5180, 3, '22000', '03', NULL, '22970', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12086, '协助查封/解除查封通知书回执', 5190, 3, '22000', '03', NULL, '22980', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12087, '调取证据通知书、调取证据清单', 5200, 3, '22000', '03', NULL, '22981', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12088, '接受证据材料清单', 5210, 3, '22000', '03', NULL, '22982', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12089, '鉴定意见书、鉴定意见告知书', 5220, 3, '22000', '03', NULL, '22983', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12090, '现场勘验笔录', 5230, 3, '22000', '03', NULL, '22984', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12091, '现场勘验（复验）笔录', 5240, 3, '22000', '03', NULL, '22985', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12092, '侦查实验笔录', 5250, 3, '22000', '03', NULL, '22986', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12093, '适格见证人身份信息', 5260, 3, '22000', '03', NULL, '22987', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12094, '犯罪嫌疑人自首/立功证明材料', 5270, 3, '22000', '03', NULL, '22988', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12095, '犯罪嫌疑人前科材料', 5280, 3, '22000', '03', NULL, '22989', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12096, '刑事和解材料', 5290, 3, '22000', '03', NULL, '22990', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12097, '同案另案处理材料', 5300, 3, '22000', '03', NULL, '22991', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12098, '其他法定的加重、从重、减轻、从轻或免除处罚情节的证据材料', 5310, 3, '22000', '03', NULL, '22992', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12099, '附带民事诉讼材料', 5320, 3, '22000', '03', NULL, '22993', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12100, '附证物袋', 5330, 3, '22000', '03', NULL, '22994', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12101, '其他材料', 5340, 3, '22000', '03', NULL, '22995', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12102, '卷宗封底', 5350, 3, '22000', '03', NULL, '22996', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12103, '行政诉讼卷', 2400, 2, '100000', '03', NULL, '23000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12104, '卷宗封面', 5360, 3, '23000', '03', NULL, '23010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12105, '卷内目录', 5370, 3, '23000', '03', NULL, '23020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12106, '行政复议决定书', 5380, 3, '23000', '03', NULL, '23030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12107, '行政复议申请书', 5390, 3, '23000', '03', NULL, '23040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12108, '行政处罚、行政强制措施及其他行政处理决定书', 5400, 3, '23000', '03', NULL, '23050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12109, '授权委托书', 5410, 3, '23000', '03', NULL, '23060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12110, '申请人提供的证据材料', 5420, 3, '23000', '03', NULL, '23070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12111, '行政复议申请处理审批表', 5430, 3, '23000', '03', NULL, '23080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12112, '行政复议申请不予受理决定书或行政复议受理通知书', 5440, 3, '23000', '03', NULL, '23090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12113, '提交行政复议答复通知书', 5450, 3, '23000', '03', NULL, '23100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12114, '被申请人答复书', 5460, 3, '23000', '03', NULL, '23110', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12115, '行政复议中止决定书', 5470, 3, '23000', '03', NULL, '23120', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12116, '行政复议终止决定书', 5480, 3, '23000', '03', NULL, '23130', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12117, '具体行政行为停止执行通知书', 5490, 3, '23000', '03', NULL, '23140', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12118, '行政复议期限延长审批表', 5500, 3, '23000', '03', NULL, '23150', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12119, '行政复议期限延长通知书', 5510, 3, '23000', '03', NULL, '23160', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12120, '复议机关调查材料', 5520, 3, '23000', '03', NULL, '23170', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12121, '行政复议报告', 5530, 3, '23000', '03', NULL, '23180', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12122, '责令履行行政复议决定通知书', 5540, 3, '23000', '03', NULL, '23190', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12123, '其他材料', 5550, 3, '23000', '03', NULL, '23200', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12124, '附证物袋', 5560, 3, '23000', '03', NULL, '23210', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12125, '卷宗封底', 5570, 3, '23000', '03', NULL, '23220', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12126, '行政复议卷', 2500, 2, '100000', '03', NULL, '24000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12127, '卷宗封面', 5580, 3, '24000', '03', NULL, '24010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12128, '卷内目录', 5590, 3, '24000', '03', NULL, '24020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12129, '行政诉讼判决书', 5600, 3, '24000', '03', NULL, '24030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12130, '应诉通知书', 5610, 3, '24000', '03', NULL, '24040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12131, '行政答辩状', 5620, 3, '24000', '03', NULL, '24050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12132, '传票', 5630, 3, '24000', '03', NULL, '24060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12133, '提供法院的证据材料', 5640, 3, '24000', '03', NULL, '24070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12134, '其他材料', 5650, 3, '24000', '03', NULL, '24080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12135, '附证物袋', 5660, 3, '24000', '03', NULL, '24090', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12136, '卷宗封底', 5670, 3, '24000', '03', NULL, '24100', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12137, '公安卷宗目录', 6000, 1, NULL, '010', NULL, '30000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12138, '警情材料', 6002, 2, '30000', '010', NULL, '30001', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12139, '卷宗封面', 6003, 3, '30001', '010', NULL, '31010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12140, '卷内目录', 6004, 3, '30001', '010', NULL, '31020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12141, '报警登记表', 6005, 3, '30001', '010', NULL, '31030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12142, '报警回执', 6006, 3, '30001', '010', NULL, '31040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12143, '询问笔录', 6007, 3, '30001', '010', NULL, '31050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12144, '报警人自述材料', 6008, 3, '30001', '010', NULL, '31060', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12145, '接受证据材料清单', 6009, 3, '30001', '010', NULL, '31070', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12146, '其他材料', 6010, 3, '30001', '010', NULL, '31080', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12147, '刑事案卷材料', 5351, 3, '22000', '03', NULL, '22997', 1, 1, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12148, '公安卷宗目录', 100, 1, NULL, '0100', NULL, '10000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12149, '侦查措施文书及证据材料、照片', 1052, 2, '10000', '0100', NULL, '20052', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12150, '补充侦查阶段强制措施文书', 1051, 2, '10000', '0100', NULL, '20051', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12151, '回复', 1050, 2, '10000', '0100', NULL, '20050', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12152, '提供法庭审判所需证据材料通知书', 1049, 2, '10000', '0100', NULL, '20049', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12153, '换押证', 1048, 2, '10000', '0100', NULL, '20048', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12154, '卷内目录', 1047, 2, '10000', '0100', NULL, '20047', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12155, '侦查措施文书及证据材料、照片', 1046, 2, '10000', '0100', NULL, '20046', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12156, '补充侦查阶段强制措施文书', 1045, 2, '10000', '0100', NULL, '20045', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12157, '补充侦查报告书', 1044, 2, '10000', '0100', NULL, '20044', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12158, '退回补充侦查决定书、补充侦查事项或提纲', 1043, 2, '10000', '0100', NULL, '20043', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12159, '换押证', 1042, 2, '10000', '0100', NULL, '20042', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12160, '卷内目录', 1041, 2, '10000', '0100', NULL, '20041', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12161, '侦查措施文书及证据材料、照片', 1040, 2, '10000', '0100', NULL, '20040', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12162, '补充侦查阶段强制措施文书', 1039, 2, '10000', '0100', NULL, '20039', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12163, '补充侦查报告书', 1038, 2, '10000', '0100', NULL, '20038', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12164, '退回补充侦查决定书、补充侦查事项或提纲', 1037, 2, '10000', '0100', NULL, '20037', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12165, '换押证', 1036, 2, '10000', '0100', NULL, '20036', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12166, '卷内目录', 1035, 2, '10000', '0100', NULL, '20035', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12167, '呈请类文书', 1034, 2, '10000', '0100', NULL, '20034', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12168, '未编目证据', 600, 2, '10000', '0100', NULL, '13000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12169, '其他', 1033, 3, '13000', '0100', NULL, '20033', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12170, '证据材料卷', 500, 2, '10000', '0100', NULL, '12000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12171, '其他需要移送的证据材料', 1032, 3, '12000', '0100', NULL, 'default-20032', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12172, '同案犯罪嫌疑人处理材料', 1031, 3, '12000', '0100', NULL, '20031', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12173, '赔偿谅解相关材料', 1030, 3, '12000', '0100', NULL, '20030', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12174, '犯罪嫌疑人量刑材料', 1029, 3, '12000', '0100', NULL, '20029', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12175, '现场查勘证据', 1028, 3, '12000', '0100', NULL, '20028', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12176, '涉案财物信息', 1026, 3, '12000', '0100', NULL, '20026', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12177, '检验、鉴定相关文书', 1025, 3, '12000', '0100', NULL, '20025', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12178, '扣押、查封材料', 1024, 3, '12000', '0100', NULL, '20024', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12179, '物证、书证、视听证据', 1023, 3, '12000', '0100', NULL, '20023', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12180, '检查、提取、采集', 1022, 3, '12000', '0100', NULL, '20022', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12181, '被害人/证人证言材料', 1021, 3, '12000', '0100', NULL, '20021', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12182, '未成年犯罪嫌疑人社会调查报告', 1020, 3, '12000', '0100', NULL, '20020', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12183, '犯罪嫌疑人供述、辩解', 1019, 3, '12000', '0100', NULL, '20019', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12184, '提讯提解证', 1018, 3, '12000', '0100', NULL, '20018', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12185, '盘问记录', 1017, 3, '12000', '0100', NULL, '20017', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12186, '犯罪嫌疑人归案（抓获）情况的说明', 1016, 3, '12000', '0100', NULL, '20016', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12187, '犯罪嫌疑人材料', 1015, 3, '12000', '0100', NULL, '20015', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12188, '案件来源材料', 1014, 3, '12000', '0100', NULL, '20014', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12189, '卷内文书目录', 1013, 3, '12000', '0100', NULL, '20013', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12190, '卷宗封皮', 1012, 3, '12000', '0100', NULL, '20012', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12191, '诉讼文书卷', 400, 2, '10000', '0100', NULL, '11000', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12192, '起诉意见书', 1053, 3, '11000', '0100', NULL, '20053', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12193, '附带民事诉讼材料', 1011, 3, '11000', '0100', NULL, '20011', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12194, '结案后的文书', 1010, 3, '11000', '0100', NULL, '20010', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12195, '告知文书', 1009, 3, '11000', '0100', NULL, '20009', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12196, '律师会见相关文书', 1008, 3, '11000', '0100', NULL, '20008', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12197, '回避相关文书', 1007, 3, '11000', '0100', NULL, '20007', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12198, '技术侦查文书', 1006, 3, '11000', '0100', NULL, '20006', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12199, '强制文书', 1005, 3, '11000', '0100', NULL, '20005', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12200, '立案、管辖文书', 1004, 3, '11000', '0100', NULL, '20004', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12201, '案件来源文书', 1003, 3, '11000', '0100', NULL, '20003', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12202, '卷内文书目录', 1002, 3, '11000', '0100', NULL, '20002', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12203, '卷宗封皮', 1001, 3, '11000', '0100', NULL, '20001', 1, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12204, '检察院卷宗目录', 20000, 1, NULL, '0100', NULL, '20000', 2, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12205, '法院卷宗目录', 30000, 1, NULL, '0100', NULL, '30000', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12206, 'A43 评议笔录', 34500, 2, '30000', '0100', NULL, '32002', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12207, 'A42 审理报告', 34400, 2, '30000', '0100', NULL, '32001', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12208, 'A41 卷底', 34200, 2, '30000', '0100', NULL, '31041', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12209, 'A40 证物袋', 34100, 2, '30000', '0100', NULL, '31040', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12210, 'A39 备考表', 34000, 2, '30000', '0100', NULL, '31039', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12211, 'A38 退卷函(公安、检察卷)', 33900, 2, '30000', '0100', NULL, '31038', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12212, 'A37 赃物、证物移送清单及处理手续材料', 33800, 2, '30000', '0100', NULL, '31037', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12213, 'A36 执行通知书存根和回执(释放证回执)', 33700, 2, '30000', '0100', NULL, '31036', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12214, 'A35 上级法院判决书、裁定书', 33600, 2, '30000', '0100', NULL, '31035', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12215, 'A34 上级法院退卷函', 33500, 2, '30000', '0100', NULL, '31034', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12216, 'A33 上诉案件移送函(稿)', 33400, 2, '30000', '0100', NULL, '31033', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12217, 'B32 抗诉书', 33300, 2, '30000', '0100', NULL, '31032', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12218, 'A31 司法建议书', 33200, 2, '30000', '0100', NULL, '31031', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12219, 'A30 判决书、裁定书送达回证', 33100, 2, '30000', '0100', NULL, '31030', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12220, 'A29 宣判笔录(委托宣判函及宣判笔录)', 33000, 2, '30000', '0100', NULL, '31029', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12221, 'A28 判决书、裁定书正本(刑事附带民事部分的调解书、协议书、裁定书正本)', 32900, 2, '30000', '0100', NULL, '31028', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12222, 'A27 宣判公告、传票、提押票', 32800, 2, '30000', '0100', NULL, '31027', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12223, 'B26 公诉词、辩护词、证人证词、对附带民事部分的调解、被告人最后陈述及庭审后的补充材料', 32700, 2, '30000', '0100', NULL, '31026', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12224, 'A25 庭审笔录', 32600, 2, '30000', '0100', NULL, '31025', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12225, 'A24 开庭提押票、传票、出庭通知及送达回证', 32500, 2, '30000', '0100', NULL, '31024', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12226, 'A23 开庭公告', 32400, 2, '30000', '0100', NULL, '31023', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12227, 'A22 延长审限审批表', 32300, 2, '30000', '0100', NULL, '31022', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12228, 'A21 被告人坦白交代、揭发问题等及查证材料', 32200, 2, '30000', '0100', NULL, '31021', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12229, 'A20 讯问笔录', 32100, 2, '30000', '0100', NULL, '31020', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12230, 'B19 赃、证物鉴定结论', 32000, 2, '30000', '0100', NULL, '31019', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12231, 'A18 调查笔录或调查取证材料', 31900, 2, '30000', '0100', NULL, '31018', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12232, 'B17 撤诉书', 31800, 2, '30000', '0100', NULL, '31017', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12233, 'A16 退回补充侦查函及补充侦查材料', 31700, 2, '30000', '0100', NULL, '31016', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12234, 'A15 取保候审、保外就医决定及保证书', 31600, 2, '30000', '0100', NULL, '31015', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12235, 'A14 查封令、查封物品清单', 31500, 2, '30000', '0100', NULL, '31014', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12236, 'A13 搜查证、搜查勘验笔录及扣押物品清单', 31400, 2, '30000', '0100', NULL, '31013', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12237, 'A12 自行逮捕决定、逮捕证及对家属通知书', 31300, 2, '30000', '0100', NULL, '31012', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12238, 'A11 向检察院送达同意适用简易程序函及送达回证', 31200, 2, '30000', '0100', NULL, '31011', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12239, 'A10 向辩护人送达起诉书副本送达回证', 31100, 2, '30000', '0100', NULL, '31010', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12240, 'C9 聘请、指定、委托辨护人材料', 31000, 2, '30000', '0100', NULL, '31009', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12241, 'A8 起诉书副本送达回证', 30900, 2, '30000', '0100', NULL, '31008', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12242, 'A7 送达起诉书副本笔录', 30800, 2, '30000', '0100', NULL, '31007', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12243, 'B6 换押证', 30700, 2, '30000', '0100', NULL, '31006', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12244, 'B5 起诉书(自诉状)正本及附件(证据目录、证人名单、证据内容、主要证据复印件、检察机关附送的其他材料)', 30600, 2, '30000', '0100', NULL, '31005', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12245, 'A4 审判流程管理情况表', 30500, 2, '30000', '0100', NULL, '31004', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12246, 'A3 立案审查、审判流程管理信息表', 30400, 2, '30000', '0100', NULL, '31003', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12247, 'A2 卷内目录', 30300, 2, '30000', '0100', NULL, '31002', 3, NULL, 2);
+INSERT INTO ED_DIC_FOLDER VALUES (12248, 'A1 卷宗封面', 30200, 2, '30000', '0100', NULL, '31001', 3, NULL, 2);
+
+INSERT INTO ed_case_type VALUES (1, '00', '管辖案件', NULL);
+INSERT INTO ed_case_type VALUES (2, '01', '刑事案件', '11');
+INSERT INTO ed_case_type VALUES (3, '02', '民事案件', NULL);
+INSERT INTO ed_case_type VALUES (4, '03', '行政案件', '10');
+INSERT INTO ed_case_type VALUES (5, '04', '国家赔偿与司法救助案件', NULL);
+INSERT INTO ed_case_type VALUES (6, '05', '区际司法协助案件', NULL);
+INSERT INTO ed_case_type VALUES (7, '06', '国际司法协助案件', NULL);
+INSERT INTO ed_case_type VALUES (8, '07', '司法制裁案件', NULL);
+INSERT INTO ed_case_type VALUES (9, '08', '非诉保全审查案件', NULL);
+INSERT INTO ed_case_type VALUES (10, '09', '执行类案件', NULL);
+INSERT INTO ed_case_type VALUES (11, '010', '警情', '0');
+INSERT INTO ed_case_type VALUES (12, '0000', '刑事管辖案件', NULL);
+INSERT INTO ed_case_type VALUES (13, '0001', '民事管辖案件', NULL);
+INSERT INTO ed_case_type VALUES (14, '0002', '行政管辖案件', NULL);
+INSERT INTO ed_case_type VALUES (15, '0003', '行政赔偿管辖案件', NULL);
+INSERT INTO ed_case_type VALUES (16, '0100', '刑事一审案件[刑初]', NULL);
+INSERT INTO ed_case_type VALUES (17, '0101', '刑事二审案件[刑终]', NULL);
+INSERT INTO ed_case_type VALUES (18, '0102', '刑事审判监督案件', NULL);
+INSERT INTO ed_case_type VALUES (19, '0103', '申请没收违法所得案件[刑没]', NULL);
+INSERT INTO ed_case_type VALUES (20, '0104', '刑事复核案件', NULL);
+INSERT INTO ed_case_type VALUES (21, '0105', '强制医疗案件', NULL);
+INSERT INTO ed_case_type VALUES (22, '0106', '停止执行死刑案件', NULL);
+INSERT INTO ed_case_type VALUES (23, '0107', '刑罚与执行变更案件', NULL);
+INSERT INTO ed_case_type VALUES (24, '0108', '其他刑事案件[刑他]', NULL);
+INSERT INTO ed_case_type VALUES (25, '0200', '民事一审案件[民初]', NULL);
+INSERT INTO ed_case_type VALUES (26, '0201', '民事二审案件[民终]', NULL);
+INSERT INTO ed_case_type VALUES (27, '0202', '民事审判监督案件', NULL);
+INSERT INTO ed_case_type VALUES (28, '0203', '第三人撤销之诉案件[民撤]', NULL);
+INSERT INTO ed_case_type VALUES (29, '0204', '特别程序案件', NULL);
+INSERT INTO ed_case_type VALUES (30, '0205', '催告案件', NULL);
+INSERT INTO ed_case_type VALUES (31, '0206', '督促案件', NULL);
+INSERT INTO ed_case_type VALUES (32, '0207', '破产案件', NULL);
+INSERT INTO ed_case_type VALUES (33, '0208', '强制清算案件[民算]', NULL);
+INSERT INTO ed_case_type VALUES (34, '0209', '其他民事案件[民他]', NULL);
+INSERT INTO ed_case_type VALUES (35, '0300', '行政一审案件[行初]', NULL);
+INSERT INTO ed_case_type VALUES (36, '0301', '行政二审案件[行终]', NULL);
+INSERT INTO ed_case_type VALUES (37, '0302', '行政审判监督案件', NULL);
+INSERT INTO ed_case_type VALUES (38, '0303', '行政非诉审查案件', NULL);
+INSERT INTO ed_case_type VALUES (39, '0304', '其他行政案件[行他]', NULL);
+INSERT INTO ed_case_type VALUES (40, '0400', '行政赔偿案件', NULL);
+INSERT INTO ed_case_type VALUES (41, '0401', '司法赔偿案件', NULL);
+INSERT INTO ed_case_type VALUES (42, '0402', '其他赔偿案件[赔他]', NULL);
+INSERT INTO ed_case_type VALUES (43, '0403', '司法救助案件', NULL);
+INSERT INTO ed_case_type VALUES (44, '0404', '其他司法救助案件[司救他]', NULL);
+INSERT INTO ed_case_type VALUES (45, '0500', '认可与执行申请审查案件', NULL);
+INSERT INTO ed_case_type VALUES (46, '0501', '送达文书案件', NULL);
+INSERT INTO ed_case_type VALUES (47, '0502', '调查取证案件', NULL);
+INSERT INTO ed_case_type VALUES (48, '0503', '被判刑人移管案件', NULL);
+INSERT INTO ed_case_type VALUES (49, '0504', '罪赃移交案件', NULL);
+INSERT INTO ed_case_type VALUES (50, '0600', '承认与执行申请审查案件', NULL);
+INSERT INTO ed_case_type VALUES (51, '0601', '送达文书案件', NULL);
+INSERT INTO ed_case_type VALUES (52, '0602', '调查取证案件', NULL);
+INSERT INTO ed_case_type VALUES (53, '0603', '被判刑人移管案件', NULL);
+INSERT INTO ed_case_type VALUES (54, '0604', '引渡案件', NULL);
+INSERT INTO ed_case_type VALUES (55, '0700', '司法制裁审查案件', NULL);
+INSERT INTO ed_case_type VALUES (56, '0701', '司法制裁复议案件[司惩复]', NULL);
+INSERT INTO ed_case_type VALUES (57, '0800', '非诉财产保全审查案件[财保]', NULL);
+INSERT INTO ed_case_type VALUES (58, '0801', '非诉行为保全审查案件[行保]', NULL);
+INSERT INTO ed_case_type VALUES (59, '0802', '非诉行为保全复议案件[行保复]', NULL);
+INSERT INTO ed_case_type VALUES (60, '0803', '非诉证据保全审查案件[证保]', NULL);
+INSERT INTO ed_case_type VALUES (61, '0900', '执行实施类案件', NULL);
+INSERT INTO ed_case_type VALUES (62, '0901', '执行审查类案件', NULL);
+INSERT INTO ed_case_type VALUES (63, '0902', '其他执行案件[执他]', NULL);
+INSERT INTO ed_case_type VALUES (64, '000000', '刑事提级管辖案件[刑辖]', NULL);
+INSERT INTO ed_case_type VALUES (65, '000001', '刑事指定管辖案件[刑辖]', NULL);
+INSERT INTO ed_case_type VALUES (66, '000100', '民事提级管辖案件[民辖]', NULL);
+INSERT INTO ed_case_type VALUES (67, '000101', '民事指定管辖案件[民辖]', NULL);
+INSERT INTO ed_case_type VALUES (68, '000102', '民事移交管辖审批案件[民辖]', NULL);
+INSERT INTO ed_case_type VALUES (69, '000103', '民事管辖协商案件[民辖]', NULL);
+INSERT INTO ed_case_type VALUES (70, '000104', '民事管辖上诉案件[民辖终]', NULL);
+INSERT INTO ed_case_type VALUES (71, '000105', '民事管辖监督案件[民辖监]', NULL);
+INSERT INTO ed_case_type VALUES (72, '000200', '行政提级管辖案件[行辖]', NULL);
+INSERT INTO ed_case_type VALUES (73, '000201', '行政指定管辖案件[行辖]', NULL);
+INSERT INTO ed_case_type VALUES (74, '000202', '行政管辖上诉案件[行辖终]', NULL);
+INSERT INTO ed_case_type VALUES (75, '000300', '行政赔偿指定管辖案件[赔辖]', NULL);
+INSERT INTO ed_case_type VALUES (76, '000301', '行政赔偿管辖协商案件[赔辖]', NULL);
+INSERT INTO ed_case_type VALUES (77, '000302', '行政赔偿管辖上诉案件[赔辖终]', NULL);
+INSERT INTO ed_case_type VALUES (78, '010200', '刑事依职权再审审查案件[刑监]', NULL);
+INSERT INTO ed_case_type VALUES (79, '010201', '刑事申诉再审审查案件[刑申]', NULL);
+INSERT INTO ed_case_type VALUES (80, '010202', '刑事抗诉再审审查案件[刑抗]', NULL);
+INSERT INTO ed_case_type VALUES (81, '010202', '刑事再审案件[刑再]', NULL);
+INSERT INTO ed_case_type VALUES (82, '010400', '死刑复核案件[刑核]', NULL);
+INSERT INTO ed_case_type VALUES (83, '010401', '法定刑以下判处刑罚复核案件[刑核]', NULL);
+INSERT INTO ed_case_type VALUES (84, '010402', '特殊假释复核案件[刑核]', NULL);
+INSERT INTO ed_case_type VALUES (85, '010500', '申请强制医疗审查案件[刑医]', NULL);
+INSERT INTO ed_case_type VALUES (86, '010501', '解除强制医疗审查案件[刑医解]', NULL);
+INSERT INTO ed_case_type VALUES (87, '010502', '强制医疗复议案件[刑医复]', NULL);
+INSERT INTO ed_case_type VALUES (88, '010503', '强制医疗监督案件[刑医监]', NULL);
+INSERT INTO ed_case_type VALUES (89, '010600', '停止执行死刑请求审查案件[刑止]', NULL);
+INSERT INTO ed_case_type VALUES (90, '010601', '依职权停止执行死刑案件[刑止]', NULL);
+INSERT INTO ed_case_type VALUES (91, '010602', '停止执行死刑调查案件[刑止调]', NULL);
+INSERT INTO ed_case_type VALUES (92, '010603', '停止执行死刑调查审核案件[刑止核]', NULL);
+INSERT INTO ed_case_type VALUES (93, '010700', '刑罚与执行变更审查案件[刑更]', NULL);
+INSERT INTO ed_case_type VALUES (94, '010701', '刑罚与执行变更监督案件[刑更监]', NULL);
+INSERT INTO ed_case_type VALUES (95, '010702', '刑罚与执行变更备案案件[刑更备]', NULL);
+INSERT INTO ed_case_type VALUES (96, '020200', '民事依职权再审审查案件[民监]', NULL);
+INSERT INTO ed_case_type VALUES (97, '020201', '民事申请再审审查案件[民申]', NULL);
+INSERT INTO ed_case_type VALUES (98, '020202', '民事抗诉再审审查案件[民抗]', NULL);
+INSERT INTO ed_case_type VALUES (99, '020203', '民事再审案件[民再]', NULL);
+INSERT INTO ed_case_type VALUES (100, '020400', '选民资格案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (101, '020401', '宣告失踪、死亡案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (102, '020402', '财产代管人申请变更代管案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (103, '020403', '行为能力认定案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (104, '020404', '监护人指定异议案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (105, '020405', '监护关系变更案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (106, '020406', '财产无主认定案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (107, '020407', '实现担保物权案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (108, '020408', '调解协议司法确认案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (109, '020409', '设立海事赔偿责任限制基金案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (110, '020410', '海事债权登记与受偿案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (111, '020411', '撤销仲裁裁决案件[民特]', NULL);
+INSERT INTO ed_case_type VALUES (112, '020412', '民事特别程序监督案件[民特监]', NULL);
+INSERT INTO ed_case_type VALUES (113, '020500', '船舶优先权催告案件[民催]', NULL);
+INSERT INTO ed_case_type VALUES (114, '020501', '公示催告案件[民催]', NULL);
+INSERT INTO ed_case_type VALUES (115, '020600', '申请支付令审查案件[民督]', NULL);
+INSERT INTO ed_case_type VALUES (116, '020601', '支付令监督案件[民督监]', NULL);
+INSERT INTO ed_case_type VALUES (117, '020700', '破产清算案件[民破]', NULL);
+INSERT INTO ed_case_type VALUES (118, '020701', '破产重整案件[民破]', NULL);
+INSERT INTO ed_case_type VALUES (119, '020702', '破产和解案件[民破]', NULL);
+INSERT INTO ed_case_type VALUES (120, '030200', '行政依职权再审审查案件[行监]', NULL);
+INSERT INTO ed_case_type VALUES (121, '030201', '行政申请再审审查案件[行申]', NULL);
+INSERT INTO ed_case_type VALUES (122, '030202', '行政抗诉再审审查案件[行抗]', NULL);
+INSERT INTO ed_case_type VALUES (123, '030203', '行政再审案件[行再]', NULL);
+INSERT INTO ed_case_type VALUES (124, '030300', '非诉行政行为申请执行审查案件[行审]', NULL);
+INSERT INTO ed_case_type VALUES (125, '030301', '非诉行政行为申请执行审查复议案件[行审复]', NULL);
+INSERT INTO ed_case_type VALUES (126, '040000', '行政赔偿一审案件[行赔初]', NULL);
+INSERT INTO ed_case_type VALUES (127, '040001', '行政赔偿二审案件[行赔终]', NULL);
+INSERT INTO ed_case_type VALUES (128, '040002', '行政赔偿依职权再审审查案件[行赔监]', NULL);
+INSERT INTO ed_case_type VALUES (129, '040003', '行政赔偿申请再审审查案件[行赔申]', NULL);
+INSERT INTO ed_case_type VALUES (130, '040004', '行政赔偿抗诉再审审查案件[行赔抗]', NULL);
+INSERT INTO ed_case_type VALUES (131, '040005', '行政赔偿再审案件[行赔再]', NULL);
+INSERT INTO ed_case_type VALUES (132, '040100', '法院作为赔偿义务机关自赔案件[法赔]', NULL);
+INSERT INTO ed_case_type VALUES (133, '040101', '赔偿委员会审理赔偿案件[委赔]', NULL);
+INSERT INTO ed_case_type VALUES (134, '040102', '司法赔偿监督审查案件[委赔监]', NULL);
+INSERT INTO ed_case_type VALUES (135, '040103', '司法赔偿监督上级法院赔偿委员会[委赔提]', NULL);
+INSERT INTO ed_case_type VALUES (136, '040103', '司法赔偿监督本院赔偿委员会重审案件[委赔再]', NULL);
+INSERT INTO ed_case_type VALUES (137, '040300', '刑事司法救助案件[司救刑]', NULL);
+INSERT INTO ed_case_type VALUES (138, '040301', '民事司法救助案件[司救民]', NULL);
+INSERT INTO ed_case_type VALUES (139, '040302', '行政司法救助案件[司救行]', NULL);
+INSERT INTO ed_case_type VALUES (140, '040303', '国家赔偿司法救助案件[司救赔]', NULL);
+INSERT INTO ed_case_type VALUES (141, '040304', '执行司法救助案件[司救执]', NULL);
+INSERT INTO ed_case_type VALUES (142, '040305', '涉诉信访司法救助案件[司救访]', NULL);
+INSERT INTO ed_case_type VALUES (143, '050000', '认可与执行台湾地区法院裁判审查[认台]', NULL);
+INSERT INTO ed_case_type VALUES (144, '050001', '认可与执行台湾地区仲裁裁决审查案件[认台]', NULL);
+INSERT INTO ed_case_type VALUES (145, '050002', '认可与执行香港特区法院裁判审查案件[认港]', NULL);
+INSERT INTO ed_case_type VALUES (146, '050003', '认可与执行香港特区仲裁裁决审查案件[认港]', NULL);
+INSERT INTO ed_case_type VALUES (147, '050004', '认可与执行澳门特区法院裁判审查案件[认澳]', NULL);
+INSERT INTO ed_case_type VALUES (148, '050005', '认可与执行澳门特区仲裁裁决审查案件认可与执行澳门特区仲裁裁决审查案件[认澳]', NULL);
+INSERT INTO ed_case_type VALUES (149, '050006', '认可与执行审查复议案件[认复]', NULL);
+INSERT INTO ed_case_type VALUES (150, '050007', '认可与执行审查其他案件[认他]', NULL);
+INSERT INTO ed_case_type VALUES (151, '050100', '请求台湾地区法院送达文书审查案件[请台送]', NULL);
+INSERT INTO ed_case_type VALUES (152, '050101', '请求香港特区法院送达文书审查案件[请港送]', NULL);
+INSERT INTO ed_case_type VALUES (153, '050102', '请求澳门特区法院送达文书审查案件[请澳送]', NULL);
+INSERT INTO ed_case_type VALUES (154, '050103', '台湾地区法院请求送达文书审查案件[台请送]', NULL);
+INSERT INTO ed_case_type VALUES (155, '050104', '协助台湾地区法院送达文书案件[台请送]', NULL);
+INSERT INTO ed_case_type VALUES (156, '050105', '香港特区法院请求送达文书审查案件[港请送]', NULL);
+INSERT INTO ed_case_type VALUES (157, '050106', '协助香港特区法院送达文书案件[港请送]', NULL);
+INSERT INTO ed_case_type VALUES (158, '050107', '澳门特区法院请求送达文书审查案件[澳请送]', NULL);
+INSERT INTO ed_case_type VALUES (159, '050108', '协助澳门特区法院送达文书案件[澳请送]', NULL);
+INSERT INTO ed_case_type VALUES (160, '050200', '请求台湾地区法院调查取证审查案件[请台调]', NULL);
+INSERT INTO ed_case_type VALUES (161, '050201', '请求香港特区法院调查取证审查案件[请港调]', NULL);
+INSERT INTO ed_case_type VALUES (162, '050202', '请求澳门特区法院调查取证审查案件[请澳调]', NULL);
+INSERT INTO ed_case_type VALUES (163, '050203', '台湾地区法院请求调查取证审查案件[台请调]', NULL);
+INSERT INTO ed_case_type VALUES (164, '050204', '协助台湾地区法院调查取证案件[台请调]', NULL);
+INSERT INTO ed_case_type VALUES (165, '050205', '香港特区法院请求调查取证审查案件[港请调]', NULL);
+INSERT INTO ed_case_type VALUES (166, '050206', '协助香港特区法院调查取证案件[港请调]', NULL);
+INSERT INTO ed_case_type VALUES (167, '050207', '澳门特区法院请求调查取证审查案件[澳请调]', NULL);
+INSERT INTO ed_case_type VALUES (168, '050208', '协助澳门特区法院调查取证案件[澳请调]', NULL);
+INSERT INTO ed_case_type VALUES (169, '050300', '接收台湾地区移交罪赃案件[请移赃]', NULL);
+INSERT INTO ed_case_type VALUES (170, '050301', '向台湾地区移交罪赃案件[助移赃]', NULL);
+INSERT INTO ed_case_type VALUES (171, '060000', '承认与执行外国法院裁判审查案件[协外认]', NULL);
+INSERT INTO ed_case_type VALUES (172, '060001', '承认与执行国外仲裁裁决审查案件[协外认]', NULL);
+INSERT INTO ed_case_type VALUES (173, '060002', '承认与执行审查其他案件[协他]', NULL);
+INSERT INTO ed_case_type VALUES (174, '060100', '外国法院请求送达文书审查案件[协外送]', NULL);
+INSERT INTO ed_case_type VALUES (175, '060101', '送达外国法院文书案件[协外送]', NULL);
+INSERT INTO ed_case_type VALUES (176, '060102', '请求外国法院送达文书审查案件[请外送]', NULL);
+INSERT INTO ed_case_type VALUES (177, '060200', '外国法院请求调查取证审查案件[协外调]', NULL);
+INSERT INTO ed_case_type VALUES (178, '060201', '外国法院请求调查取证实施案件[协外调]', NULL);
+INSERT INTO ed_case_type VALUES (179, '060202', '请求外国法院调查取证审查案件[请外调]', NULL);
+INSERT INTO ed_case_type VALUES (180, '060300', '接收在外国被判刑人案件[请外移]', NULL);
+INSERT INTO ed_case_type VALUES (181, '060301', '向外国移管被判刑人案件[协外移]', NULL);
+INSERT INTO ed_case_type VALUES (182, '060400', '请求外国引渡案件[请外引]', NULL);
+INSERT INTO ed_case_type VALUES (183, '060401', '协助外国引渡案件[协外引]', NULL);
+INSERT INTO ed_case_type VALUES (184, '070000', '司法拘留案件[司惩]', NULL);
+INSERT INTO ed_case_type VALUES (185, '070001', '司法罚款案件[司惩]', NULL);
+INSERT INTO ed_case_type VALUES (186, '090000', '首次执行案件[执]', NULL);
+INSERT INTO ed_case_type VALUES (187, '090001', '恢复执行案件[执恢]', NULL);
+INSERT INTO ed_case_type VALUES (188, '090002', '财产保全执行案件[执保]', NULL);
+INSERT INTO ed_case_type VALUES (189, '090000', '执行异议案件[执异]', NULL);
+INSERT INTO ed_case_type VALUES (190, '090001', '执行复议案件[执复]', NULL);
+INSERT INTO ed_case_type VALUES (191, '090002', '执行监督案件[执监]', NULL);
+INSERT INTO ed_case_type VALUES (192, '090003', '执行协调案件[执协]', NULL);
+
+INSERT INTO ed_separate_template VALUES (1, '11000', '诉讼文书卷', 1, '01', 1,1);
+INSERT INTO ed_separate_template VALUES (2, '12000', '诉讼证据卷', 2, '01', 0,2);
+INSERT INTO ed_separate_template VALUES (3, '13000', '补充侦查卷', 3, '01', 0,3);
+INSERT INTO ed_separate_template VALUES (4, '14000', '侦查工作卷', 4, '01', 0,4);
+
+INSERT INTO ed_separate_template VALUES (5, '21000', '行政处罚卷', 1, '03', 1,1);
+INSERT INTO ed_separate_template VALUES (7, '22000', '刑事案件卷', 3, '03', 0,3);
+INSERT INTO ed_separate_template VALUES (9, '23000', '行政诉讼卷', 3, '03', 0,3);
+INSERT INTO ed_separate_template VALUES (6, '24000', '行政复议卷', 2, '03', 0,2);
+
+INSERT INTO ed_separate_template VALUES (8, '30001', '警情材料', 1, '010', 1,1);
+
+
+
+alter table ed_dossier_separate add third_code varchar2(255);
+
+
+commit;
+
+
+-- 3.3.0
+
+-- 增加文书卷宗来源
+ALTER TABLE ed_file ADD (writ_source NUMBER(11));
+COMMENT ON COLUMN ed_file.writ_source IS '文书来源 1 警综 ；2 检察院；3 法院';
+-- 增加是否是文书
+ALTER TABLE ed_file ADD (is_writ NUMBER(11));
+COMMENT ON COLUMN ed_file.is_writ IS '是否是文书 0 否 卷宗材料 ；1 是 文书材料';
+
+-- 制卷模式
+ALTER TABLE ed_dossier ADD (dossier_model varchar2(25));
+COMMENT ON COLUMN ed_dossier.dossier_model IS '制卷模式 1 随案; 2 集中';
+
+-- 3.3.1
+
+ALTER TABLE ed_dossier ADD (parent_no varchar2(255));
+COMMENT ON COLUMN ed_dossier.parent_no IS '主案号(串并案)';
+
+ALTER TABLE ed_file ADD (origin_id varchar2(255));
+COMMENT ON COLUMN ed_file.origin_id IS '原始id(串并案、分案)';
+
+-- 3.3.1制卷监控
+ALTER TABLE ED_FILE ADD FILING_TIME TIMESTAMP ;
+ALTER TABLE ED_FILE ADD OPERATION_USER_NAME varchar(128) ;
+ALTER TABLE ED_FILE ADD OPERATION_USER_CARD varchar(128) ;
+
+comment on column ED_FILE.FILING_TIME is '文书入卷时间';
+
+comment on column ED_FILE.OPERATION_USER_NAME is '操作人姓名';
+
+comment on column ED_FILE.OPERATION_USER_CARD is '操作人身份证号';
+
+
+
+-- 卷宗上传类型
+ALTER TABLE ed_file ADD (upload_type NUMBER(11));
+COMMENT ON COLUMN ed_file.upload_type IS '卷宗上传类型 1 本地上传 ；2 扫描上传';
+
+commit;

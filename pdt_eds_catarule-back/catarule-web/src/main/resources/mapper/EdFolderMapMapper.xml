@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.rule.mapper.EdFolderMapMapper">
+	<resultMap id="BaseResultMap"
+		type="com.iflytek.rule.entity.EdFolderMap">
+		<!-- WARNING - @mbg.generated -->
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="maping_name" jdbcType="VARCHAR"
+			property="mapingName" />
+		<result column="folder_name" jdbcType="VARCHAR"
+			property="folderName" />
+		<result column="is_main" jdbcType="INTEGER" property="isMain" />
+		<result column="case_type" jdbcType="VARCHAR"
+			property="caseType" />
+		<result column="sort" jdbcType="INTEGER" property="sort" />
+	</resultMap>
+
+	<select id="findEdFolderMapByCaseAndIsMain"
+		resultMap="BaseResultMap">
+		select id, trim(maping_name) maping_name,trim(folder_name)
+		folder_name,is_main,trim(case_type),sort from ed_dic_folder_mapping
+		where case_type=#{caseType} AND is_main=#{isMain}
+		<if test="keyword!=null and keyword!=''">
+			and maping_name like '%${keyword}%'
+		</if>
+		ORDER BY id,sort
+	</select>
+</mapper>

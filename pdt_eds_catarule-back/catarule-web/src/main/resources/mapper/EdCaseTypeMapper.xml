@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.rule.mapper.EdCaseTypeMapper">
+  <resultMap id="BaseResultMap" type="com.iflytek.rule.entity.EdCaseType">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+
+  <select id="findInfoAll" resultType="map" resultMap="BaseResultMap">
+    select * from ed_case_type where 1=1
+    <if test="name!=null and name!=''">
+      and name like '%${name}%'
+    </if>
+    <if test="code!=null and code!=''">
+      and code like '%${code}%'
+    </if>
+    ORDER BY id
+  </select>
+
+  <select id="findCodeByDossierId" resultType="java.lang.String">
+    SELECT code FROM ed_case_type WHERE third_code = (SELECT case_type FROM ed_dossier WHERE id = #{dossierId,jdbcType=VARCHAR})
+  </select>
+
+  <select id="findThirdCaseType" resultType="java.lang.String">
+    SELECT third_code FROM ed_case_type WHERE third_code is not null
+  </select>
+</mapper>

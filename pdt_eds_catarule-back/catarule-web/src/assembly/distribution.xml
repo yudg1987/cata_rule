@@ -1,0 +1,114 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/mavenassembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>distribution</id>
+	<formats>
+		<format>dir</format>
+		<format>tar.gz</format>
+	</formats>
+	<moduleSets>
+		<moduleSet>
+			<sources>
+				<excludes>
+					<exclude>src/main/resources/*.yml</exclude>
+					<exclude>src/main/resources/*.properties</exclude>
+				</excludes>
+			</sources>
+		</moduleSet>
+	</moduleSets>
+	<fileSets>
+		<!-- <fileSet>
+			<outputDirectory>/</outputDirectory>
+			<directory>.</directory>
+			<includes>
+				<include>*.md</include>
+			</includes>
+		</fileSet> -->
+		<fileSet>
+			<outputDirectory>/doc</outputDirectory>
+			<directory>doc</directory>
+			<includes>
+				<include>*.md</include>
+				<include>*.doc</include>
+				<include>*.docx</include>
+				<include>*.txt</include>
+			</includes>
+			<excludes>
+				<exclude>outline</exclude>
+				<exclude>SPECS.md</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>/script</outputDirectory>
+			<directory>target/classes/script</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>/logs</outputDirectory>
+			<directory>.</directory>
+			<excludes>
+				<exclude>**/*</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>/run</outputDirectory>
+			<directory>.</directory>
+			<excludes>
+				<exclude>**/*</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>/data</outputDirectory>
+			<directory>.</directory>
+			<excludes>
+				<exclude>**/*</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>/lib</outputDirectory>
+			<directory>target</directory>
+			<includes>
+				<include>*-with-dependencies.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>/bin</outputDirectory>
+			<directory>target/classes/bin</directory>
+			<excludes>
+				<exclude>ci.sh</exclude>
+			</excludes>
+			<!--换行符格式，windows是\r\n，unix是\n等-->
+			<lineEnding>unix</lineEnding>
+			<fileMode>0744</fileMode>
+		</fileSet>
+		<fileSet>
+			<outputDirectory>conf</outputDirectory>
+			<directory>target/classes</directory>
+			<includes>
+				<include>*.yaml</include>
+				<include>*.yml</include>
+				<!-- <include>*.properties</include> -->
+				<include>*.json</include>
+				<include>logback*.xml</include>
+			</includes>
+			<excludes>
+				<exclude>application-dev.yml</exclude>
+				<exclude>application-test.yml</exclude>
+				<exclude>application-dev.properties</exclude>
+				<exclude>application-test.properties</exclude>
+			</excludes>
+		</fileSet>
+		
+		<!-- <fileSet>
+			<outputDirectory>directory</outputDirectory>
+			<directory>target/classes/directory</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet> -->
+		
+	</fileSets>
+</assembly>

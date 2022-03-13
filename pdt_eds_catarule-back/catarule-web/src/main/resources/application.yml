@@ -1,0 +1,127 @@
+server:
+  servlet:
+     context-path: /eds-catarule
+  #归目规则库后台服务端口（必须与前端配置的后台服务为同一个端口）
+  port: 8010
+  session:
+    timeout: 7200
+
+spring:
+  #设置激活的环境 dev
+  profiles:
+    active: dev
+  datasource:
+    #数据库用户名
+    password: iflytek
+    #数据库密码
+    username: root
+    url: jdbc:mysql://172.31.169.140:3306/scs_jx_dev?useUnicode=true&useSSL=false&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useTimezone=true&serverTimezone=GMT%2B8
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      #druid 数据源专有配置
+      # 初始化大小，最小，最大
+      initial-size: 10
+      min-idle: 10
+      max-active: 100
+      #获取连接时最大等待时间，单位毫秒
+      max-wait: 60000
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      #既作为检测的间隔时间又作为testWhileIdel执行的依据
+      time-between-eviction-runs-millis: 60000
+      #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      min-evictable-idle-time-millis: 30000
+      #用来检测连接是否有效的sql 必须是一个查询语句
+      #mysql中为 select 'x'
+      #oracle中为 select 1 from dual
+      validation-query: select 'x'
+      #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-borrow: false
+      #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false
+      # 是否缓存preparedStatement
+      # pool-prepared-statements: true
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+      #max-pool-prepared-statement-per-connection-size: 50
+
+      # 配置监控统计拦截的filters，stat:监控统计、slf4j：日志记录、wall：防御sql注入
+      filters: stat,wall,slf4j
+      filter:
+        slf4j:
+          enabled: true
+          result-set-log-enabled: false
+          statement-log-enabled: true
+          statement-executable-sql-log-enable: true
+          statement-log-error-enabled: true
+          statement-prepare-after-log-enabled: false
+          statement-parameter-set-log-enabled: false
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  aop:
+    auto: true
+  servlet:
+    multipart:
+      # 上传文件大小限制，不配置，默认为1M 配置成1000MB
+      max-file-size: 1048576000
+      max-request-size: 1048576000
+  jackson:
+    #jackson时间序列化
+    date-format: yyyy-MM-dd HH:mm:ss
+    #jackson时间序列化时区 中国时区
+    time-zone: GMT+8
+  jmx:
+    #spring boot中使用FdfsConnectionPool注册bean名冲突，如果不用jmx就设置参数 
+    enabled: false
+  mvc:
+    favicon:
+      enabled: false
+
+#mysql和达梦配mysql，oracle配oracle
+mybatis:
+  configuration:
+    database-id: mysql
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.iflytek.rule.entity
+
+mapper:
+  identity: MYSQL
+  #mappers 多个接口时逗号隔开
+  mappers: com.iflytek.rule.common.BaseMapper
+  not-empty: false
+pagehelper:
+  helperDialect: ${mybatis.configuration.database-id}
+  params: count=countSql
+  reasonable: true
+  supportMethodsArguments: true
+
+#--------------------------------------restTemplate超时配置（单位：s）
+restConnectTimeout: 300
+restReadTimeout: 300
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

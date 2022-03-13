@@ -1,0 +1,4 @@
+#jar外部配置logback.xml
+logging:
+  config: src/main/resources/logback-spring.xml
+  #config: ../conf/logback-spring.xml

@@ -1,0 +1,41 @@
+﻿###################### 
+# 解决java产生文件 
+###################### 
+*.class 
+
+# Package Files # 
+*.jar 
+*.war 
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml 
+hs_err_pid* 
+
+
+###################### 
+# 解决各类编辑器自动产生的文件 
+###################### 
+*.iml 
+
+
+## Directory-based project format: 
+.idea/ 
+
+
+# IntelliJ
+/out/
+/target/
+*/target/
+
+# svn
+.svn
+
+# Eclipse project files  
+.classpath  
+.project  
+.DS_Store
+/.settings/ 
+
+#doc
+doc/
+logs/
+

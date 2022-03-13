@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.rule.mapper.EdDicFolderMapper">
+	<resultMap id="BaseResultMap"
+		type="com.iflytek.rule.entity.EdDicFolder">
+		<!-- WARNING - @mbg.generated -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="sort" jdbcType="INTEGER" property="sort" />
+		<result column="level" jdbcType="INTEGER" property="level" />
+		<result column="parent_code" jdbcType="VARCHAR"
+			property="parentCode" />
+		<result column="case_type" jdbcType="VARCHAR"
+			property="caseType" />
+		<result column="dossier_id" jdbcType="INTEGER"
+			property="dossierId" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+	</resultMap>
+
+	<select id="findDicsByCaseType"	resultMap="BaseResultMap">
+		SELECT * FROM ed_dic_folder WHERE case_type=#{caseType} and
+		parent_code is not null AND parent_code !=''
+		<if test="keyword!=null and keyword!=''">
+			and name like '%${keyword}%'
+		</if>
+		ORDER BY sort
+	</select>
+
+</mapper>

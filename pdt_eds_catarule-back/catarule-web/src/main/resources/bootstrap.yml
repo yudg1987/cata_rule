@@ -1,0 +1,28 @@
+spring:
+   #设置激活的环境 dev
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        enabled: false
+        ext-config:
+        - dataId: ${spring.application.name}-share-config.properties
+          group: ${spring.application.name}
+          refresh: false
+        file-extension: yml
+        group: ${spring.application.name}
+        namespace: ${spring.cloud.nacos.namespace}
+        refreshable-dataids: share-config-${spring.profiles.active}.properties
+        shared-dataids: share-config-${spring.profiles.active}.properties
+      discovery:
+        enabled: false
+        group: ${spring.profiles.active}
+        heart-beat-interval: 5000
+        heart-beat-timeout: 15000
+        ip-delete-timeout: 25000
+        namespace: ${spring.cloud.nacos.namespace}
+      namespace: ys_test_xt_v2_3
+      server-addr: 172.31.169.140:8848
+  application:
+    name: eds-catarule
