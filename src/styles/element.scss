@@ -1,0 +1,160 @@
+
+/* 改变主题色变量 */
+$--color-primary: #4771d4;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+// 下拉框样式
+.head-select, .dialog-select {
+  font-size: 14px;
+  height: 30px;
+  text-align: left;
+  .el-input__inner {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 0px;
+    border-color: #CCD7ED;
+    background-color: #fff;
+    color: #71777B;
+    font-size: 14px;
+    padding-left: 12px;
+  }
+  .el-input__inner:focus, .el-input.is-focus .el-input__inner {
+    border-color: #CCD7ED;
+  }
+  .el-input__icon {
+    height: 30px;
+    line-height: 30px;
+  }
+  .el-input .el-select__caret {
+    color: #71777B;
+  }
+  /deep/.el-select-dropdown {
+    margin-top: -17px;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    border: 1px solid #CCD7ED;
+    .el-select-dropdown__list {
+      padding: 0px;
+      background-color: #fff;
+      .el-select-dropdown__item {
+        height: 28px;
+        line-height: 28px;
+        margin: 4px 0px;
+        padding: 0 12px;
+      }
+      .el-select-dropdown__item:hover, .el-select-dropdown__item.selected {
+        background-color: #1B74E5;
+        color: #fff;
+        font-weight: normal;
+      }
+    }
+    .popper__arrow {
+      display: none;
+    }
+  }
+}
+
+.head-select.el-select:hover .el-input__inner {
+  border-color: #CCD7ED;
+}
+
+
+// 搜索框
+.search-input {
+  .el-input__inner {
+    border-radius: 0px;
+    border-color: #CCD7ED;
+    padding-right: 45px;
+  }
+}
+
+// 证据复用弹框
+.evidence-copy {
+  .el-dialog__body {
+    text-align: center;
+    .el-form {
+      padding: 0 99px;
+      .el-form-item__label {
+        font-size: 16px;
+        color: #71777B;
+      }
+      .dialog-select /deep/.el-select-dropdown {
+        margin-top: -2px;
+      }
+    }
+  }
+  .el-dialog__footer {
+    text-align: center;
+    .el-button--small {
+      padding: 12px 34px;
+      border: 1px solid #1B74E5;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #1B74E5;
+    }
+    .el-button--primary {
+      color: #fff0ff; 
+      background-color: #1B74E5;
+    }
+  }
+}
+
+// 风险提示框
+.el-message-box {
+  width: 514px;
+  border: none;
+  border-radius: 0;
+  padding-bottom: 30px;
+  .el-message-box__header {
+    background-color: #1B74E5;
+    color: #fff;
+    padding: 15px;
+    .el-message-box__title {
+      color: #fff;
+    }
+    .el-message-box__close.el-icon-close {
+      color: #fff;
+      font-size: 22px;
+    }
+  }
+  .el-message-box__container {
+    text-align: center;
+    .el-message-box__status {
+      display: inline-block;
+    }
+    .el-icon-warning {
+      width: 34px;
+      height: 30px;
+      background: url(../assets/warning-icon.png) no-repeat;
+    }
+    .el-icon-warning:before {
+      content: none;
+    }
+    .el-message-box__message {
+      display: inline-block;
+      padding-top: 32px;
+      padding-bottom: 32px;
+      font-size: 16px;
+      margin-left: 19px;
+    }
+  }
+  .el-message-box__btns {
+    text-align: center;
+    .el-button--small {
+      padding: 12px 33px;;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .el-button--primary {
+      background-color: #1B74E5;
+      border-color: #1B74E5;
+    }
+    button:nth-child(2) {
+      margin-left: 24px;
+    }
+  }
+}
